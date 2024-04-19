@@ -5,10 +5,10 @@ public class Spieler {
     private String spielerName;
 	private int zusatzArmee;
 
-    public Spieler(String name, int i, int j, Object object){
-        this.spielerName = spielerName;
-		this.spielerId = spielerId;
-		this.zusatzArmee = zusatzArmee;
+    public Spieler(String name, int id, int armee, Object object){
+        this.spielerName = name;
+		this.spielerId = id;
+		this.zusatzArmee = armee;
     }
     
     public int getSpielerID(){
@@ -26,7 +26,7 @@ public class Spieler {
     }
 
     public int zusatzArmee(){
-        return spielerId;
+        return zusatzArmee;
     }
     public void zusatzArmeeD(int zusatzArmee){
         this.zusatzArmee = zusatzArmee;
