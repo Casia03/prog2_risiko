@@ -12,6 +12,8 @@ public class SpielerVerwaltung {
         Spieler spieler = new Spieler(name, getAnzahlSpieler(), 30, null);
         if (!spielerListe.contains(spieler)) {
             spielerListe.add(spieler);
+        }else{
+            //Spieler existiert schon exception
         }
     }
 
@@ -19,8 +21,8 @@ public class SpielerVerwaltung {
         return spielerListe.size();
     }
 
-    public Spieler returnSpieler(int i) {
-        return spielerListe.get(i);
+    public Spieler returnSpieler(int spielerID) {
+        return spielerListe.get(spielerID);
     }
 
     public List<Spieler> getSpieler() {
