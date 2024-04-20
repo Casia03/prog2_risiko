@@ -7,6 +7,9 @@ import risiko.local.entities.Spieler;
 
 public class SpielerVerwaltung {
     private List<Spieler> spielerListe = new ArrayList<>();
+    public SpielerVerwaltung(){
+        
+    }
 
     public void spielerHinzufuegen(String name) {
         Spieler spieler = new Spieler(name, getAnzahlSpieler(), 30, null);
@@ -28,4 +31,5 @@ public class SpielerVerwaltung {
     public List<Spieler> getSpieler() {
         return new ArrayList<>(spielerListe);
     }
+
 }

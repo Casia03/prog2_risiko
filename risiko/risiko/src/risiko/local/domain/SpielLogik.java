@@ -12,7 +12,7 @@ public class SpielLogik {
 
         int[] resultat = wurfel(vonLand,nachLand);
 
-        if(resultat != 0){
+        if(resultat.length != 0){
 
         }
 
