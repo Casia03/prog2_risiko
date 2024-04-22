@@ -3,7 +3,7 @@ package risiko.local.domain;
 import java.io.FileNotFoundException;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -17,7 +17,12 @@ public class Weltverwaltung {
     public Weltverwaltung(){
 
     }
-
+    /*
+     *
+     * THis shit rocks!!
+     * 
+     * 
+     */
     public void initialisiereWelt() {
         try {
             // Der Pfad wird an Scanner uebergeben
@@ -46,10 +51,29 @@ public class Weltverwaltung {
         }
     }
 
-    public void verteileLander(List<Spieler> spielerListe){
+    public void verteileLaender(List<Spieler> spieler) {
 
-        List<Land> laenderShuffel = new ArrayList<>(lander);
-        Collection.shuffle(laenderShuffel);
+        List<Land> countries = new ArrayList<>(lander);
+        Collections.shuffle(countries); // Kopie Vermischen
+
+        int anzahlSpieler = spieler.size(); // anzahl spieler
+        int anzahlLaender = countries.size(); // anzahl laender
+
+        int currentSpielerIndex = 0;
+
+        for (int i = 0; i < anzahlLaender; i++) {
+
+            int currentCountry = countries.get(i).getTrueIndex() - 1;
+
+            lander.get(currentCountry).setEigenommen(currentSpielerIndex); // Laender der Original Liste
+                                                                                         // an den spieler verteilen
+
+            currentSpielerIndex = (currentSpielerIndex + 1) % anzahlSpieler;
+
+            // System.out.println("Spieler: " + currentSpieler.getName() + " Land: " +
+            // initialCountriesList.get(currentCountry));
+        }
+
     }
     
 }

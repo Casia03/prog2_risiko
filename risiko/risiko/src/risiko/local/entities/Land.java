@@ -22,7 +22,6 @@ public class Land {
         this.colour = colour;
     }
 
-    // Getter methods
     public String getName() {
         return name;
     }
@@ -35,10 +34,21 @@ public class Land {
         return kuerzel;
     }
 
+    public void addArmee(int a) {
+        for (int i = 0; i < a; i++) {
+            anzahlArmeen++;
+        }
+    }
+    public void setArmee(int a){
+        this.anzahlArmeen = a;
+    }
     public int getArmee() {
         return anzahlArmeen;
     }
-
+   
+    public void setEigenommen(int n) {
+        this.eingenommen = n;
+    }
     public int getEingenommenVon() {
         return eingenommen;
     }
@@ -47,23 +57,8 @@ public class Land {
         return kontinent;
     }
 
-    // Setter methods
-    public void setEigenommen(int n) {
-        this.eingenommen = n;
-    }
-
-    public void addArmee(int a) {
-        for (int i = 0; i < a; i++) {
-            anzahlArmeen++;
-        }
-    }
-
     public void setKontinent(String kontint) {
         kontinent = kontint;
-    }
-
-    public void setArmee(int i) {
-        this.anzahlArmeen = i;
     }
 
     @Override

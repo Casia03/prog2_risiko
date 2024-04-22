@@ -1,6 +1,7 @@
 package risiko.local.domain;
 
 import risiko.local.entities.Land;
+import risiko.local.entities.Spieler;
 
 public class SpielLogik {
     public SpielLogik(){
@@ -58,8 +59,8 @@ public class SpielLogik {
 
     private boolean angriffMoeglich(Land vonLand, Land nachLand){ //Methode zum pruefen ob der Angreifer sein eigenes Land angreift
         boolean angriffmoeglich = false;
-        int angreifer = vonLand.getSpielerID();
-        int verteidiger = nachLand.getSpielerID();
+        int angreifer = vonLand.getEingenommenVon();
+        int verteidiger = nachLand.getEingenommenVon();
 
         if(angreifer != verteidiger){
             return true;
@@ -68,5 +69,19 @@ public class SpielLogik {
         }
 
         
+    }
+    private boolean istAngreifer(Land angreiferLand, Spieler spieler){
+        boolean istAngreifer = false;
+        if(angreiferLand.getEingenommenVon() == spieler.getSpielerID()){
+            istAngreifer = true;
+        }
+        return istAngreifer;
+    }
+    private boolean istVerteidiger(Land verteidigerLand, Spieler spieler){
+        boolean istVerteidiger = false;
+        if(verteidigerLand.getEingenommenVon() == spieler.getSpielerID()){
+            istVerteidiger = true;
+        }
+        return istVerteidiger;
     }
 }
