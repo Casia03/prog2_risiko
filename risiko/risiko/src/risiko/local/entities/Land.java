@@ -1,58 +1,77 @@
 package risiko.local.entities;
 
 public class Land {
-    private int id;
-    private int spielerId;
-    private int armee;
-    private String farbe;
+
+    private String name;
+    private int trueIndex;
+    private String kuerzel;
+    private int anzahlArmeen;
+    private int eingenommen;
     private String kontinent;
-        
-    public Land(int id, int spielerId, int armee, String farbe, String kontinent){
-        this.id = id;
-        this.spielerId = spielerId;
-        this.armee = armee;
-        this.farbe = farbe;
+    private String colour;
+    public String getColour;
+
+    // Constructor
+    public Land(String name, int trueIndex, String kuerzel, String kontinent, int anzahlArmeen, int eingenommen, String colour) {
+        this.name = name;
+        this.trueIndex = trueIndex;
+        this.kuerzel = kuerzel;
+        this.anzahlArmeen = anzahlArmeen;
+        this.eingenommen = eingenommen;
         this.kontinent = kontinent;
+        this.colour = colour;
     }
 
-    public void setID(int id){
-        this.id = id;
-    }
-    public int getID(){
-        return id;
+    // Getter methods
+    public String getName() {
+        return name;
     }
 
-    public void setSpielerID(int spielerId){
-        this.spielerId = spielerId;
-    }
-    public int getSpielerID(){
-        return spielerId;
+    public int getTrueIndex() {
+        return trueIndex;
     }
 
-    public void setArmee(int armee){
-        this.armee = armee;
-    }
-    public int getArmee(){
-        return armee;
+    public String getKuerzel() {
+        return kuerzel;
     }
 
-    public void setFarbe(String farbe){
-        this.farbe = farbe;
-    }
-    public String getFarbe(){
-        return farbe;
+    public int getArmee() {
+        return anzahlArmeen;
     }
 
-    public void setKontinent(String kontinent){
-        this.kontinent = kontinent;
+    public int getEingenommenVon() {
+        return eingenommen;
     }
-    public String getKontinent(){
+
+    public String getKontinent() {
         return kontinent;
     }
 
-    
-    
-    
-    
+    // Setter methods
+    public void setEigenommen(int n) {
+        this.eingenommen = n;
+    }
 
+    public void addArmee(int a) {
+        for (int i = 0; i < a; i++) {
+            anzahlArmeen++;
+        }
+    }
+
+    public void setKontinent(String kontint) {
+        kontinent = kontint;
+    }
+
+    public void setArmee(int i) {
+        this.anzahlArmeen = i;
+    }
+
+    @Override
+    public String toString() {
+        return " Index: "+ trueIndex + " / Name: " + name + " / Armee: " + anzahlArmeen + " \n ";
+    }
+
+    public String getColour() {
+        return colour;
+    }
 }

@@ -7,14 +7,17 @@ import risiko.local.entities.Spieler;
 import risiko.local.persistance.SaveLoadManager;
 
 public class Risiko {
-    private Weltverwaltung weltverwaltung;
+    private Weltverwaltung weltVerwaltung;
     private SpielerVerwaltung spielerVerwaltung;
     private SpielLogik spielLogik;
     private SaveLoadManager saveloadmanager;
 
     public Risiko(){
-        
-        
+        weltVerwaltung = new Weltverwaltung();
+        spielerVerwaltung = new SpielerVerwaltung();
+        // Spieler initialisieren
+
+        weltVerwaltung.initialisiereWelt();
         
     }
 

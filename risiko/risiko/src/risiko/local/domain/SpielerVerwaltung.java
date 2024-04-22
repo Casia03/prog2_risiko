@@ -12,7 +12,7 @@ public class SpielerVerwaltung {
     }
 
     public void spielerHinzufuegen(String name) {
-        Spieler spieler = new Spieler(name, getAnzahlSpieler(), 30, null);
+        Spieler spieler = new Spieler(name, getAnzahlSpieler(), 30, 0);
         if (!spielerListe.contains(spieler)) {
             spielerListe.add(spieler);
         }else{
