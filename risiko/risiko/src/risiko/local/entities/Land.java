@@ -1,45 +1,72 @@
 package risiko.local.entities;
 
 public class Land {
-    private int id;
-    private int spielerId;
-    private int armee;
-    private String farbe;
+
+    private String name;
+    private int trueIndex;
+    private String kuerzel;
+    private int anzahlArmeen;
+    private int eingenommen;
     private String kontinent;
-        
-    public Land(){
-        
+    private String colour;
+    public String getColour;
+
+    // Constructor
+    public Land(String name, int trueIndex, String kuerzel, String kontinent, int anzahlArmeen, int eingenommen, String colour) {
+        this.name = name;
+        this.trueIndex = trueIndex;
+        this.kuerzel = kuerzel;
+        this.anzahlArmeen = anzahlArmeen;
+        this.eingenommen = eingenommen;
+        this.kontinent = kontinent;
+        this.colour = colour;
     }
 
-    public int getID(){
-        return id;
+    public String getName() {
+        return name;
     }
-    public int getSpielerID(){
-        return spielerId;
+
+    public int getTrueIndex() {
+        return trueIndex;
     }
-    public int getArmee(){
-        return armee;
+
+    public String getKuerzel() {
+        return kuerzel;
     }
-    public String getFarbe(){
-        return farbe;
+
+    public void addArmee(int a) {
+        for (int i = 0; i < a; i++) {
+            anzahlArmeen++;
+        }
     }
-    public String getKontinent(){
+    public void setArmee(int a){
+        this.anzahlArmeen = a;
+    }
+    public int getArmee() {
+        return anzahlArmeen;
+    }
+   
+    public void setEigenommen(int n) {
+        this.eingenommen = n;
+    }
+    public int getEingenommenVon() {
+        return eingenommen;
+    }
+
+    public String getKontinent() {
         return kontinent;
     }
 
-    public void setID(int id){
-        this.id = id;
+    public void setKontinent(String kontint) {
+        kontinent = kontint;
     }
-    public void setSpielerID(int spielerId){
-        this.spielerId = spielerId;
+
+    @Override
+    public String toString() {
+        return " Index: "+ trueIndex + " / Name: " + name + " / Armee: " + anzahlArmeen + " \n ";
     }
-    public void setArmee(int armee){
-        this.armee = armee;
-    }
-    public void setFarbe(String farbe){
-        this.farbe = farbe;
-    }
-    public void setKontinent(String kontinent){
-        this.kontinent = kontinent;
+
+    public String getColour() {
+        return colour;
     }
 }

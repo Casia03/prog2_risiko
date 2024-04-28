@@ -1,52 +1,87 @@
 package risiko.local.domain;
 
+import risiko.local.entities.Land;
+import risiko.local.entities.Spieler;
+
 public class SpielLogik {
+    public SpielLogik(){
+
+    }
     
-    void neueEinheitenVerteilen(){
-        /*
-         * Der Spieler erhält zu Beginn jeder Runde neue Einheiten basierend auf den von ihm besetzten Ländern und Kontinenten.
-         * Diese Einheiten müssen vom Spieler auf seine Länder verteilt werden.
-         */
+    public void attack(Land vonLand, Land nachLand, int[] wurfel){ 
         
-    }  
 
-    void angreifen(){
-        /*
-         * Der Spieler gibt ein, mit welcher Teilarmee von welchem eigenen Land aus welches andere Land angegriffen wird.
-         * Der Spieler kann mit maximal drei Einheiten zurzeit angreifen.
-         * Mindestens eine Einheit muss im eigenen Land verbleiben und darf nicht für den Angriff genutzt werden.
-         */
+        int[] resultat = wurfel(vonLand,nachLand);
+
+        if(resultat.length != 0){
+
+        }
+
     }
 
-    void verteidigen(){
-        /*
-         * Der Spieler gibt ein, mit welcher Teilarmee das angegriffene Land verteidigt wird.
-         * Der Spieler kann sein Land mit maximal zwei Einheiten zurzeit verteidigen.
-         */
+    private int[] wurfel(Land vonLand, Land nachLand){ //Methode zur erzeugubg von zufaeliger wurfelnergebnissen
+        if (angriffMoeglich(vonLand, nachLand)){
+            
+            int[] wurfel= new int[5]; // Wuerfel wird ein Array sein der aus 5 Zellen bestehen wird, die erste Drei fur den Angreifer und die letztee Zwei fur den Verteidiger
+            int maxAttackArmee = vonLand.getArmee(); // wieviele Armee stehen fur den Angriff zur verfuegung
+            int maxDefendArmee = nachLand.getArmee(); // wieviele Armee steht fur die Verteidigung zur verfuegung ffff
+            int a = 0;
+            //oder 
+
+            //int attackWuerfel[x]; // wobei x und y die groesse des wurfel arrays darstellen wird, 
+            //int defenceWuerfel[y];
+
+            if(maxAttackArmee <= 1){
+            //kann nicht von hier angreifen exception, weil zu wenig Armee
+                return wurfel;   
+            }
+
+            if(maxAttackArmee >= 4){         //Angreifen mit 3 Armeen, 3 wurfel
+
+            }else if (maxAttackArmee >= 3){  //Angreifen mit 2 Armeen, 2 wurfel
+
+            }else if (maxAttackArmee == 2){  //Angreifen mit 1 Armee, 1 wurfel
+
+            }
+
+            if(maxDefendArmee >=2){
+
+            }else{
+
+            }
+        
+        }else{
+            //kann nicht sein eigenes land angreifen exception
+        }
+
+        return wurfel;
     }
 
-    void auswertungVonKaempfen(){
-        /*
-         * Der Angreifer würfelt mit der Anzahl von Würfeln, die der Anzahl seiner Angriffseinheiten entspricht (max. drei).
-         * Der Verteidiger würfelt mit der Anzahl von Würfeln, die der Anzahl seiner Verteidigungseinheiten entspricht (max. zwei).
-         * Die Würfel von Angreifer und Verteidiger werden verglichen, und die entsprechenden Einheiten werden basierend auf den Ergebnissen entfernt.
-         */
-    }
+    private boolean angriffMoeglich(Land vonLand, Land nachLand){ //Methode zum pruefen ob der Angreifer sein eigenes Land angreift
+        boolean angriffmoeglich = false;
+        int angreifer = vonLand.getEingenommenVon();
+        int verteidiger = nachLand.getEingenommenVon();
 
-    void einruecken(){
-        /*
-         * Wenn die Verteidigungsarmee vernichtet ist, rückt der Angreifer mit den Einheiten, die er beim letzten Angriff eingesetzt und nicht im Kampf verloren hat, 
-         * in das eroberte Land ein.
-         * Weitere Einheiten können nachgezogen werden, aber mindestens eine Einheit muss im Land des Angreifers verbleiben.
-         */
-    }
+        if(angreifer != verteidiger){
+            return true;
+        }else{
+            return false;
+        }
 
-    void einheitenVerschieben(){
-        /*
-         * Der Spieler gibt ein, wie viele bisher unbeteiligte Einheiten von welchem eigenen Land in welches eigene Nachbarland verschoben werden sollen.
-         * Dabei muss immer mindestens eine Einheit in dem Land zurückbleiben.
-         * Eine Einheit darf nur einmal pro Runde verschoben werden.
-         */
+        
     }
-
+    private boolean istAngreifer(Land angreiferLand, Spieler spieler){
+        boolean istAngreifer = false;
+        if(angreiferLand.getEingenommenVon() == spieler.getSpielerID()){
+            istAngreifer = true;
+        }
+        return istAngreifer;
+    }
+    private boolean istVerteidiger(Land verteidigerLand, Spieler spieler){
+        boolean istVerteidiger = false;
+        if(verteidigerLand.getEingenommenVon() == spieler.getSpielerID()){
+            istVerteidiger = true;
+        }
+        return istVerteidiger;
+    }
 }

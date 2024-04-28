@@ -7,11 +7,16 @@ import risiko.local.entities.Spieler;
 
 public class SpielerVerwaltung {
     private List<Spieler> spielerListe = new ArrayList<>();
+    public SpielerVerwaltung(){
+        
+    }
 
     public void spielerHinzufuegen(String name) {
-        Spieler spieler = new Spieler(name, getAnzahlSpieler(), 30, null);
+        Spieler spieler = new Spieler(name, getAnzahlSpieler(), 30, 0);
         if (!spielerListe.contains(spieler)) {
             spielerListe.add(spieler);
+        }else{
+            //Spieler existiert schon exception
         }
     }
 
@@ -19,11 +24,12 @@ public class SpielerVerwaltung {
         return spielerListe.size();
     }
 
-    public Spieler returnSpieler(int i) {
-        return spielerListe.get(i);
+    public Spieler returnSpieler(int spielerID) {
+        return spielerListe.get(spielerID);
     }
 
     public List<Spieler> getSpieler() {
         return new ArrayList<>(spielerListe);
     }
+
 }

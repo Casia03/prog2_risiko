@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 import risiko.local.domain.Risiko;
 
-public class CLI {
+public class CUI {
     public static void main(String[] args) {
         Risiko risiko = new Risiko();
         Scanner scanner = new Scanner(System.in);
