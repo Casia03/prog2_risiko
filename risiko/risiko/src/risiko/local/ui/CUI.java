@@ -22,13 +22,15 @@ public class CUI {
                     System.out.println("You have chosen a new game!");
                     System.out.println("Please add a player!");
 
+                    System.out.println("Select your name:");
+                    String name = scanner.next();
+                    risiko.spielerHinzufuegen(name);
+
                     boolean startGame = false;
 
                     while (!startGame) {
                        
-                        System.out.println("Select your name:");
-                        String name = scanner.next();
-                        risiko.spielerHinzufuegen(name);
+                        
 
                         System.out.println("\n1. Would you like to start?");
                         System.out.println("2. Or would you like to add more players? (Current number of players: " + risiko.getAnzahlSpieler() + ")");
@@ -50,6 +52,11 @@ public class CUI {
                                 
                                 break;
                             case 2:
+
+                                System.out.println("Select your name:");
+                                name = scanner.next();
+                                risiko.spielerHinzufuegen(name);    
+
                                 break;
                             case 3:
                              
