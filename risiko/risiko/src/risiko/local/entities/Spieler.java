@@ -31,7 +31,7 @@ public class Spieler {
         this.zusatzArmee = zusatzArmee;
     }
     public int getZusatzArmee(){
-        return spielerId;
+        return zusatzArmee;
     }
 
     public void setMissionId(int missionId){
@@ -41,4 +41,9 @@ public class Spieler {
         return missionId;
     }
     
+    @Override
+    public String toString(){
+        return 
+            "Spieler-Name= " + spielerName + '\'';
+    }
 }
