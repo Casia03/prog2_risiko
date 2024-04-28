@@ -75,5 +75,8 @@ public class Weltverwaltung {
         }
 
     }
+    public ArrayList<Land> getlaeder() {
+        return lander;
+    }
     
 }

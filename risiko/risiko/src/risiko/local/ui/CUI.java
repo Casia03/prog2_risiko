@@ -39,12 +39,12 @@ public class CUI {
 
                         switch (auswahlMenuSpielvorbereitung) {
                             case 1:
-                            /*
+                            
                                 if (risiko.getAnzahlSpieler() < 2) {
                                     System.out.println("You need at least 2 players to start the game!");
                                     break;
                                 }
-                                */
+                                
                                 System.out.println("The Game Starts!");
                                 startGame = true;
                                 
@@ -63,7 +63,7 @@ public class CUI {
                     }
                     break;
                 case 2:
-                   // risiko.loadGame();
+                   //risiko.loadGame();
                     // Spiel Laden, kommt spaeter
                     break;
                 case 3:
