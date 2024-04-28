@@ -21,10 +21,10 @@ public class SpielLogik {
 
     private int[] wurfel(Land vonLand, Land nachLand){ //Methode zur erzeugubg von zufaeliger wurfelnergebnissen
         if (angriffMoeglich(vonLand, nachLand)){
-            
             int[] wurfel= new int[5]; // Wuerfel wird ein Array sein der aus 5 Zellen bestehen wird, die erste Drei fur den Angreifer und die letztee Zwei fur den Verteidiger
             int maxAttackArmee = vonLand.getArmee(); // wieviele Armee stehen fur den Angriff zur verfuegung
             int maxDefendArmee = nachLand.getArmee(); // wieviele Armee steht fur die Verteidigung zur verfuegung ffff
+            
             int a = 0;
             //oder 
 
