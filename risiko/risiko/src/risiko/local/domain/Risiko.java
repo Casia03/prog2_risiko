@@ -44,7 +44,7 @@ public class Risiko {
     }
     */
     public ArrayList<Land> getLaender() {
-        return weltVerwaltung.getlaeder();
+        return weltVerwaltung.getLaeder();
         
     }
 }

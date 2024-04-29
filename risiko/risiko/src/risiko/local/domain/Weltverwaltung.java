@@ -13,7 +13,7 @@ import risiko.local.entities.Spieler;
 
 public class Weltverwaltung {
     Exceptions Exceptions = new Exceptions();
-    
+
     private ArrayList<Land> lander = new ArrayList<Land>();
     public Weltverwaltung(){
 
@@ -76,7 +76,8 @@ public class Weltverwaltung {
         }
 
     }
-    public ArrayList<Land> getlaeder() {
+    
+    public ArrayList<Land> getLaeder() {
         return lander;
     }
     

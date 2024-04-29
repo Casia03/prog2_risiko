@@ -8,55 +8,41 @@ public class SpielLogik {
 
     }
     
-    public void attack(Land vonLand, Land nachLand, int[] wurfel){ 
-        
-
-        int[] resultat = wurfel(vonLand,nachLand);
-
-        if(resultat.length != 0){
-
-        }
-
-    }
-
-    private int[] wurfel(Land vonLand, Land nachLand){ //Methode zur erzeugubg von zufaeliger wurfelnergebnissen
-        int[] wurfel= new int[5]; // Wuerfel wird ein Array sein der aus 5 Zellen bestehen wird, die erste Drei fur den Angreifer und die letztee Zwei fur den Verteidiger
+    public void attack(Land vonLand, Land nachLand, int attackArmeeNumber, int defendArmeeNumber){ 
         if (angriffMoeglich(vonLand, nachLand)){
+            int attackArmee;
+            int defendArmee; 
 
-            int maxAttackArmee = vonLand.getArmee(); // wieviele Armee stehen fur den Angriff zur verfuegung
-            int maxDefendArmee = nachLand.getArmee(); // wieviele Armee steht fur die Verteidigung zur verfuegung ffff
+            int[] resultat = wurfel(attackArmee, defendArmee);
             
-            int a = 0;
-            //oder 
 
-            //int attackWuerfel[x]; // wobei x und y die groesse des wurfel arrays darstellen wird, 
-            //int defenceWuerfel[y];
-
-            if(maxAttackArmee <= 1){
-            //kann nicht von hier angreifen exception, weil zu wenig Armee
-                return wurfel;   
-            }
-
-            if(maxAttackArmee >= 4){         //Angreifen mit 3 Armeen, 3 wurfel
-
-            }else if (maxAttackArmee >= 3){  //Angreifen mit 2 Armeen, 2 wurfel
-
-            }else if (maxAttackArmee == 2){  //Angreifen mit 1 Armee, 1 wurfel
+            if(resultat.length != 0){
 
             }
-
-            if(maxDefendArmee >=2){
-
-            }else{
-
-            }
-        
         }else{
-            //kann nicht sein eigenes land angreifen exception
+            //angriff nicht moeglich exception
         }
-
-        return wurfel;
     }
+
+    private int[] wurfel(int attackArmeeNumber, int defendArmeeNumber){ //Methode zur erzeugubg von zufaeliger wurfelnergebnissen
+        int[] wurfel= new int[5]; // Wuerfel wird ein Array sein der aus 5 Zellen bestehen wird, die erste Drei fur den Angreifer und die letztee Zwei fur den Verteidiger
+
+        switch (attackArmeeNumber){
+            case 1:
+                break;
+            case 2:
+                break;
+
+        }
+            // Auswahl von attack und defend armee anzahl, also mit wieviele mochtest du angreifen / verteidigen
+
+            int a = 0;
+           
+
+            return wurfel;
+    }
+
+        
 
     private boolean angriffMoeglich(Land vonLand, Land nachLand){ //Methode zum pruefen ob der Angreifer sein eigenes Land angreift
         boolean angriffmoeglich = false;
@@ -64,12 +50,15 @@ public class SpielLogik {
         int verteidiger = nachLand.getEingenommenVon();
 
         if(angreifer != verteidiger){
-            return true;
+            if(vonLand.getArmee() >= 2){
+                return true;
+            }
+            else{
+                return false; //throw nicht genur armee
+            }    
         }else{
-            return false;
-        }
-
-        
+            return false; //throw eigenes land
+        }  
     }
     private boolean istAngreifer(Land angreiferLand, Spieler spieler){
         boolean istAngreifer = false;
@@ -86,5 +75,10 @@ public class SpielLogik {
         return istVerteidiger;
     }
 
-    
+    public int choosenAttackArmeeNumber(){
+        int attackArmeeNumber = 0;
+
+
+        return attackArmeeNumber;
+    }
 }
