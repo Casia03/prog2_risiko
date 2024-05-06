@@ -1,4 +1,5 @@
 package risiko.local.domain;
+import java.util.Arrays;
 import java.util.Random;
 import risiko.local.entities.Land;
 import risiko.local.entities.Spieler;
@@ -16,8 +17,27 @@ public class SpielLogik {
                 int[] wurfelResultat = wurfel(attackArmeeNumber, defendArmeeNumber);
                 //wurfel Anzeigen
                 //angriffAuswertung(wurfelResultat);
+                Arrays.sort(wurfelResultat,0,2);
+                Arrays.sort(wurfelResultat,3,4);
 
+                int highestAttack = wurfelResultat[2];
+                int secondHighestAttack = wurfelResultat[1];
 
+                int highestDefence = wurfelResultat[4];
+                int secondHighestDefence = wurfelResultat[3];
+
+                if(highestAttack <= highestDefence){ //wenn attackWurfel kleiner Gleich defendWurfel, dann gewinnt defend 
+                    // AttackArmee - 1
+                }else{ //gewinnt  Angreifer
+                    // Defend Armee - 1
+                }
+                if(secondHighestDefence != 0){
+                    if(secondHighestAttack <= secondHighestDefence){ //gewinnt defender
+                        //AttackArmee - 1
+                    }else{ //gewinnt angreifer
+                        //DefendArmee - 1 
+                    }
+                }
                 
             }
             

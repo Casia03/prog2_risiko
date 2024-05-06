@@ -4,47 +4,54 @@ import java.util.List;
 
 public class Turn {
 
+    // public enum Phase {
+    //     NEUE_EINHEITEN_VERTEILEN,
+    //     ANGRIFF,
+    //     VERTEIDIGUNG,
+    //     AUSWERTUNG_VON_KAEMPFEN,
+    //     EINRUECKEN,
+    //     VERSCHIEBEN_VON_EINHEITEN
+    // }
+
+    // Verteilen nach dem erhalt der Zusatzarmeen, 
+    // Angreifen je nach wahl des Spielers,
+    // Verschieben der auf dem Brett schon plazierter Armeen
     public enum Phase {
-        NEUE_EINHEITEN_VERTEILEN,
-        ANGRIFF,
-        VERTEIDIGUNG,
-        AUSWERTUNG_VON_KAEMPFEN,
-        EINRUECKEN,
-        VERSCHIEBEN_VON_EINHEITEN
+        VERTEILEN,
+        ANGREIFFEN,
+        VERSCHIEBEN
     }
+
     private Phase phase;
     private int turnNumber; // Track the current turn
     private List<Spieler> spielerListe;
-    private int spielerIndex;
+    private int spielerId;
 
     public Turn(List<Spieler> spielerListe) {
         this.spielerListe = spielerListe;
-        phase = Phase.NEUE_EINHEITEN_VERTEILEN;
+        phase = Phase.VERTEILEN;
         turnNumber = 0; // Initialize the turn number to 0
-        spielerIndex = 0; // Initialize the player index to 0
+        spielerId = 0; // Initialize the player index to 0
     }
     
     public Phase getPhase() {
         return phase;
     }
 
-    public void setPlayerIndex(int newSpielerIndex){
-        spielerIndex = newSpielerIndex;
+    public void setPlayerIndex(int newspielerId){
+        spielerId = newspielerId;
     }
 
-    public int getPlayerIndex(){
-        return spielerIndex;
-    }
 
     public int getSpieler() {
-        return spielerIndex;
+        return spielerId;
     }
 
     public void nextPlayer() {
-        spielerIndex++;
+        spielerId++;
 
-        if(spielerIndex >= spielerListe.size()){
-            spielerIndex = 0;
+        if(spielerId >= spielerListe.size()){
+            spielerId = 0;
         }
         
     }
@@ -54,28 +61,17 @@ public class Turn {
     }
     public void nextPhase() {
         switch (phase) {
-            case NEUE_EINHEITEN_VERTEILEN:
-                phase = Phase.ANGRIFF;
+            case VERTEILEN:
+                phase = Phase.ANGREIFFEN;
                 nextPlayer();
                 break;
-            case ANGRIFF:
-                phase = Phase.VERTEIDIGUNG;
-                break;
-            case VERTEIDIGUNG:
-                phase = Phase.AUSWERTUNG_VON_KAEMPFEN;
-                break;
-            case AUSWERTUNG_VON_KAEMPFEN:
-                phase = Phase.EINRUECKEN;
-                break;
-            case EINRUECKEN:
-                phase = Phase.VERSCHIEBEN_VON_EINHEITEN;
-                break;
-            case VERSCHIEBEN_VON_EINHEITEN:
-                phase = Phase.NEUE_EINHEITEN_VERTEILEN;
+            case ANGREIFFEN:
+                phase = Phase.VERSCHIEBEN;
+            case VERSCHIEBEN:
+                phase = Phase.VERTEILEN;
                 nextPlayer(); // Move to the next player for the next turn
-
                 // Check if we have completed a full cycle of players and increment the turn number
-                if (spielerIndex == 0) {
+                if (spielerId == 0) {
                     turnNumber++;
                 }
                 break;
@@ -84,9 +80,5 @@ public class Turn {
 
     public int getTurnNumber() {
         return turnNumber;
-    }
-
-    public Spieler getPlayer() {
-        return spielerListe.get(spielerIndex);
     }
 }
