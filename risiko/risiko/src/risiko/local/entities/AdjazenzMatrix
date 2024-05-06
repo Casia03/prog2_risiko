@@ -1,6 +1,5 @@
 package risiko.local.entities;
 
-
 import java.util.List;
 
 import risiko.local.domain.WeltVerwaltung;

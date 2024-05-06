@@ -62,8 +62,10 @@ public class Risiko {
         Land vonLand = weltVerwaltung.getLand(vonLandID);
         spielLogik.angreifen(vonLand, nachLand, angreifeAnzahl, verteidigerAnzahl); // Exceptions noetig
     } 
-    public void verschieben(int vonLand, int nachLand, int anzahl){
-
+    public void verschieben(int vonLandID, int nachLandID, int anzahl){
+        Land nachLand = weltVerwaltung.getLand(nachLandID);
+        Land vonLand = weltVerwaltung.getLand(vonLandID);
+        
         //adjazenz pruefen
         //verschiebe azahl pruefen und dann verschieben
     }

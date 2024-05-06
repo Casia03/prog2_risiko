@@ -5,8 +5,10 @@ import risiko.local.entities.Land;
 import risiko.local.entities.Spieler;
 
 public class SpielLogik {
+    private AdjazenzMatrix adj;
+    
     public SpielLogik(){
-
+        AdjazenzMatrix adj = new AdjazenzMatrix();
     }
     public void verteilen(Spieler spieler, Land land, int anzahl){
         int armee = land.getArmee();
