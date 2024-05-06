@@ -8,8 +8,19 @@ public class SpielLogik {
     public SpielLogik(){
 
     }
-    
-    public void attack(Land vonLand, Land nachLand, int attackArmeeNumber, int defendArmeeNumber){ 
+    public void verteilen(Spieler spieler, Land land, int anzahl){
+        int armee = land.getArmee();
+        int zusatzArmee = spieler.getZusatzArmee();
+        
+        land.setArmee(armee + anzahl); // Armee hinzufuegen auf das Land, da wir set benutzen, nehmen wir die alte zahl und daddieren die neue
+
+        if(zusatzArmee < anzahl){ // mit exceptions ersetzen
+            //verteilt mehr als er hat, zuruckschieken den idiot 
+        }else{ // verteilte zusatzarmee substrahieren
+            spieler.setZusatzArmee(zusatzArmee - anzahl);
+        }
+    }
+    public void angreifen(Land vonLand, Land nachLand, int attackArmeeNumber, int defendArmeeNumber){ 
         if (angriffMoeglich(vonLand, nachLand)){ // prüfft 
             if(!attackNumberStimmt(vonLand,attackArmeeNumber) && !defendNumberStimmt(nachLand,defendArmeeNumber)){
                 return; //Exception, neue Auswahl von Angaben, also !!nicht!! return 
@@ -47,14 +58,35 @@ public class SpielLogik {
         }
     }
 
-    private void angriffAuswertung(int[] wurfelResultat) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'wurfelAuswertung'");
+    public void einruecken(Land vonLand, Land nachLand, int armee){ //Funktion zum einruecken von Armeen nach ne erfolgreiche eroberung eines Landes,
+        nachLand.setArmee(1); // Eine Einheit automatisch rueberziehen
+        vonLand.setArmee(vonLand.getArmee() - 1);
+
+        if (vonLand.getArmee() <= armee || armee >= 0){ // wenn man alle armeen einruecken moechte fehler, oder negative zahlen
+           //fehlermeldung
+        }else{
+            nachLand.setArmee(armee + 1);  //armee einruecken
+            vonLand.setArmee(vonLand.getArmee() - armee); // eingerueckte armee entfernen
+        }
+    }
+
+    public void verschieben(Land vonLand, Land nachLand, int armee){
+        
+
+    }
+
+    public boolean landErobert(Spieler angreifer, Land nachLand) {
+        if(nachLand.getArmee() == 0){
+            nachLand.setEigenommen(angreifer.getSpielerID());
+            return true;
+        }else{
+            return false;
+        }
     }
 
     private boolean defendNumberStimmt(Land nachLand, int defendArmeeNumber) {
         int landArmee = nachLand.getArmee();
-        if (landArmee < defendArmeeNumber && defendArmeeNumber > 2 || defendArmeeNumber < 1){
+        if (landArmee < defendArmeeNumber && defendArmeeNumber > 2 || defendArmeeNumber < 1){ // wenn ausgewehlte armee groesser ist als existierende, und auserhalb der geregelte anzahl liegt, fehler
             return false; // Exception mit erklaerung des Fehlers
         }
         else{
@@ -65,7 +97,7 @@ public class SpielLogik {
 
     private boolean attackNumberStimmt(Land vonLand, int attackArmeeNumber) {
         int landArmee = vonLand.getArmee();
-        if (landArmee < attackArmeeNumber && attackArmeeNumber > 3 || attackArmeeNumber < 1){
+        if (landArmee < attackArmeeNumber && attackArmeeNumber > 3 || attackArmeeNumber < 1){ // wenn ausgewehlte armee grosser ist als existierendee, und auserhalb der mit Regele festgestellten bereiches liegt, fehler
             return false; // Exception mit erklaerung des Fehlers
         }
         else{

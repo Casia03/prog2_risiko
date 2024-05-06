@@ -1,4 +1,4 @@
-package risiko.local.persistence;
+package risiko.local.persistance;
 
 import java.io.*;
 import java.util.ArrayList;

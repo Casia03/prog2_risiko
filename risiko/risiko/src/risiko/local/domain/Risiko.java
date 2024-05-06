@@ -16,6 +16,7 @@ public class Risiko {
     public Risiko(){
         weltVerwaltung = new Weltverwaltung();
         spielerVerwaltung = new SpielerVerwaltung();
+        spielLogik = new SpielLogik();
         // Spieler initialisieren
 
         weltVerwaltung.initialisiereWelt();
@@ -46,5 +47,24 @@ public class Risiko {
     public ArrayList<Land> getLaender() {
         return weltVerwaltung.getLaeder();
         
+    }
+    public void rewardsCheck(int spielerID){
+        Spieler spieler = spielerVerwaltung.returnSpieler(spielerID);
+        // konditionen zum zusatzermee erhalt checken, aber das alles in der logik
+    }
+    public void verteilen(int spielerID, int landID, int amree){
+        Spieler spieler = spielerVerwaltung.returnSpieler(spielerID);
+        Land land = weltVerwaltung.getLand(landID);
+        spielLogik.verteilen(spieler, land, amree);
+    }
+    public void angreifen(int vonLandID, int nachLandID, int angreifeAnzahl, int verteidigerAnzahl){
+        Land nachLand = weltVerwaltung.getLand(nachLandID);
+        Land vonLand = weltVerwaltung.getLand(vonLandID);
+        spielLogik.angreifen(vonLand, nachLand, angreifeAnzahl, verteidigerAnzahl); // Exceptions noetig
+    } 
+    public void verschieben(int vonLand, int nachLand, int anzahl){
+
+        //adjazenz pruefen
+        //verschiebe azahl pruefen und dann verschieben
     }
 }
