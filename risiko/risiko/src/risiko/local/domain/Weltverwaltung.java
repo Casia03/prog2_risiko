@@ -11,11 +11,11 @@ import risiko.local.persistance.Exceptions;
 import risiko.local.entities.Land;
 import risiko.local.entities.Spieler;
 
-public class Weltverwaltung {
+public class WeltVerwaltung {
     Exceptions Exceptions = new Exceptions();
 
     private ArrayList<Land> lander = new ArrayList<Land>();
-    public Weltverwaltung(){
+    public WeltVerwaltung(){
 
     }
     /*

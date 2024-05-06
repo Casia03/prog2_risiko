@@ -3,13 +3,14 @@ import java.util.Arrays;
 import java.util.Random;
 import risiko.local.entities.Land;
 import risiko.local.entities.Spieler;
-
+import risiko.local.entities.AdjazenzMatrix;
 public class SpielLogik {
     private AdjazenzMatrix adj;
     
-    public SpielLogik(){
-        AdjazenzMatrix adj = new AdjazenzMatrix();
+    public SpielLogik(WeltVerwaltung wv){
+        AdjazenzMatrix adj = new AdjazenzMatrix(wv);
     }
+    
     public void verteilen(Spieler spieler, Land land, int anzahl){
         int armee = land.getArmee();
         int zusatzArmee = spieler.getZusatzArmee();

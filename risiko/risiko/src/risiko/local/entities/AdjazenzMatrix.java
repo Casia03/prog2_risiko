@@ -14,11 +14,11 @@ public class AdjazenzMatrix {
 
     public AdjazenzMatrix(WeltVerwaltung wv) {
         this.wv = wv;   
-        countries = wv.getInitialListCountries();
+        countries = wv.getLaeder();
         //    adjazenzMatrix matrix = new adjazenzMatrix();
         
         
-        
+
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 adjazenzmatrix[i][j] = 0;
@@ -290,7 +290,7 @@ public class AdjazenzMatrix {
             ausgabe.append("Nachbarn von ").append(countries.get(verteilungsLand)).append(":\n");
 
             for (int i = 0; i < n; i++) {
-                if (sindNachbar(verteilungsLand, i) && countries.get(i).getEingenommenVon() == spieler.getSpielerNummer()) {
+                if (sindNachbar(verteilungsLand, i) && countries.get(i).getEingenommenVon() == spieler.getSpielerID()) {
                     ausgabe.append(i).append(" ").append(countries.get(i)).append("\n");
 
                     // System.out.println("INDEX: " + (i+1) + " Name : " + countries.get(i).getName() + " Armee : " + countries.get(i).getArmee());
@@ -310,7 +310,7 @@ public class AdjazenzMatrix {
            // nachbarn.add("Nachbarn von " + countries.get(angreifeLand) + ":");
 
             for (int i = 0; i < n; i++) {
-                if (sindNachbar(angreifeLand, i) && (countries.get(i).getEingenommenVon() != spieler.getSpielerNummer())) {
+                if (sindNachbar(angreifeLand, i) && (countries.get(i).getEingenommenVon() != spieler.getSpielerID())) {
                     
                     //nachbarn.add(i + " " +  countries.get(i));
                     // System.out.println("TRUEIndex: "+ countries.get(i).getTrueIndex() + " Name : " + countries.get(i).getName() + " Armee : " + countries.get(i).getArmee());
