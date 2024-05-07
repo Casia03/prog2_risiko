@@ -52,7 +52,6 @@ public class CUI {
                                 
                                 break;
                             case 2:
-
                                 System.out.println("Select your name:");
                                 name = scanner.next();
                                 risiko.spielerHinzufuegen(name);    

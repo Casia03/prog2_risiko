@@ -17,6 +17,7 @@ public class Turn {
     // Angreifen je nach wahl des Spielers,
     // Verschieben der auf dem Brett schon plazierter Armeen
     public enum Phase {
+        ERSTVERTEILEN,
         VERTEILEN,
         ANGREIFFEN,
         VERSCHIEBEN
@@ -61,6 +62,9 @@ public class Turn {
     }
     public void nextPhase() {
         switch (phase) {
+            case ERSTVERTEILEN:
+                phase = Phase.ANGREIFFEN;
+                break;
             case VERTEILEN:
                 phase = Phase.ANGREIFFEN;
                 nextPlayer();

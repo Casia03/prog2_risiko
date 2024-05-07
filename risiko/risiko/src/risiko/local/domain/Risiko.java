@@ -20,18 +20,17 @@ public class Risiko {
         spielerVerwaltung = new SpielerVerwaltung();
         spielLogik = new SpielLogik(weltVerwaltung);
         //Entweder hier muss das gemacht werden oer in Start game methode. 
-        List<Spieler> spielerListe = spielerVerwaltung.getSpieler();
-        turn = new Turn(spielerListe);
         
-        // Spieler initialisieren
-
-        weltVerwaltung.initialisiereWelt();
     //    SaveLoadGameManager = new SaveLoadGameManager();
         
     }
 
-    public void game(Risiko risiko){
-        
+    public void startGame(Risiko risiko){
+        List<Spieler> spielerListe = spielerVerwaltung.getSpieler();
+        weltVerwaltung.initialisiereWelt();
+        turn = new Turn(spielerListe);
+        weltVerwaltung.verteileLaender(spielerListe);
+        //werltverwaltung verteile missionen
     }
 
     public int getAnzahlSpieler() {

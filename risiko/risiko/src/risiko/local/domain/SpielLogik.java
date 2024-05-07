@@ -24,7 +24,7 @@ public class SpielLogik {
         }
     }
     public void angreifen(Land vonLand, Land nachLand, int attackArmeeNumber, int defendArmeeNumber){ 
-        if (angriffMoeglich(vonLand, nachLand)){ // prüfft 
+        if (angriffMoeglich(vonLand, nachLand) || adj.sindNachbar(vonLand.getTrueIndex(), nachLand.getTrueIndex())){ // prüfft 
             if(!attackNumberStimmt(vonLand,attackArmeeNumber) && !defendNumberStimmt(nachLand,defendArmeeNumber)){
                 return; //Exception, neue Auswahl von Angaben, also !!nicht!! return 
             }else{
@@ -45,7 +45,7 @@ public class SpielLogik {
 
                 }else{ //gewinnt  Angreifer
                     // Defend Armee - 1
-                    
+
                 }
                 if(secondHighestDefence != 0){
                     if(secondHighestAttack <= secondHighestDefence){ //gewinnt defender
@@ -76,7 +76,16 @@ public class SpielLogik {
     }
 
     public void verschieben(Land vonLand, Land nachLand, int armee){
-        
+        if(!adj.sindNachbar(vonLand.getTrueIndex(), nachLand.getTrueIndex())){
+            //exception nicht nachbar kanns nicht verschieben
+        }
+        if(vonLand.getArmee() - armee < 1 || armee <= 0){
+            // verschiebung kann nicht durchgefuhrt werden, Armee anzahl falsch\zu gross
+        }else{
+            //verschiebe Armee
+            vonLand.setArmee(vonLand.getArmee() - armee);
+            nachLand.setArmee(nachLand.getArmee() + armee);
+        }
 
     }
 
