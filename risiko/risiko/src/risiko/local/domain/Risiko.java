@@ -46,6 +46,9 @@ public class Risiko {
     public List<Spieler> getSpielerListe(){
         return new ArrayList<>(spielerVerwaltung.getSpieler());
     }
+    public int getTurn(){
+        return turn.getTurn();
+    }
     /* 
     public void loadGame() {
         SaveLoadManager.loadGame();

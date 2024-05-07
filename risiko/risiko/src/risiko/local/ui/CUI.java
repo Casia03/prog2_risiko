@@ -31,7 +31,7 @@ public class CUI {
                     while (!startGame) {
                        
                         
-
+                        
                         System.out.println("\n1. Would you like to start?");
                         System.out.println("2. Or would you like to add more players? (Current number of players: " + risiko.getAnzahlSpieler() + ")");
                         System.out.println("3. You could also look at the list of the current players!");
@@ -46,10 +46,25 @@ public class CUI {
                                     System.out.println("You need at least 2 players to start the game!");
                                     break;
                                 }
-                                
+                               
+                                    
                                 System.out.println("The Game Starts!");
                                 startGame = true;
                                 
+                                switch (risiko.getTurn()) {
+                                    case 1: //Anfangsverteil
+                                            //
+                                        break;
+                                
+                                    case 2: //Verteilen
+                                        break;
+
+                                    case 3: //Angreifen
+                                        break;
+                                    
+                                    case 4: //Verschieben
+                                        break;
+                                }
                                 break;
                             case 2:
                                 System.out.println("Select your name:");

@@ -30,7 +30,7 @@ public class Turn {
 
     public Turn(List<Spieler> spielerListe) {
         this.spielerListe = spielerListe;
-        phase = Phase.VERTEILEN;
+        phase = Phase.ERSTVERTEILEN;
         turnNumber = 0; // Initialize the turn number to 0
         spielerId = 0; // Initialize the player index to 0
     }
