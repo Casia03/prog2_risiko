@@ -42,8 +42,10 @@ public class SpielLogik {
 
                 if(highestAttack <= highestDefence){ //wenn attackWurfel kleiner Gleich defendWurfel, dann gewinnt defend 
                     // AttackArmee - 1
+
                 }else{ //gewinnt  Angreifer
                     // Defend Armee - 1
+                    
                 }
                 if(secondHighestDefence != 0){
                     if(secondHighestAttack <= secondHighestDefence){ //gewinnt defender

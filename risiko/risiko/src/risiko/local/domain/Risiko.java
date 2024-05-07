@@ -6,17 +6,23 @@ import java.util.List;
 import risiko.local.entities.Land;
 import risiko.local.entities.Spieler;
 //import risiko.local.persistance.SaveLoadManager;
+import risiko.local.entities.Turn;
 
 public class Risiko {
     private WeltVerwaltung weltVerwaltung;
     private SpielerVerwaltung spielerVerwaltung;
     private SpielLogik spielLogik;
+    private Turn turn;
   //  private SaveLoadManager saveloadmanager;
 
     public Risiko(){
         weltVerwaltung = new WeltVerwaltung();
         spielerVerwaltung = new SpielerVerwaltung();
-        spielLogik = new SpielLogik();
+        spielLogik = new SpielLogik(weltVerwaltung);
+        //Entweder hier muss das gemacht werden oer in Start game methode. 
+        List<Spieler> spielerListe = spielerVerwaltung.getSpieler();
+        turn = new Turn(spielerListe);
+        
         // Spieler initialisieren
 
         weltVerwaltung.initialisiereWelt();
