@@ -42,16 +42,21 @@ public class SpielLogik {
 
                 if(highestAttack <= highestDefence){ //wenn attackWurfel kleiner Gleich defendWurfel, dann gewinnt defend 
                     // AttackArmee - 1
+                    vonLand.setArmee(vonLand.getArmee() - 1);
 
                 }else{ //gewinnt  Angreifer
                     // Defend Armee - 1
+                    nachLand.setArmee(nachLand.getArmee() - 1);
 
                 }
                 if(secondHighestDefence != 0){
                     if(secondHighestAttack <= secondHighestDefence){ //gewinnt defender
-                        //AttackArmee - 1
-                    }else{ //gewinnt angreifer
-                        //DefendArmee - 1 
+                        // AttackArmee - 1
+                        vonLand.setArmee(vonLand.getArmee() - 1);
+
+                    }else{ //gewinnt  Angreifer
+                    // Defend Armee - 1
+                        nachLand.setArmee(nachLand.getArmee() - 1);
                     }
                 }
                 

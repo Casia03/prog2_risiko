@@ -24,6 +24,9 @@ public class Risiko {
         
     }
 
+    public int currentSpieler(){
+        return turn.getSpieler();
+    }
     public void startGame(Risiko risiko){
         List<Spieler> spielerListe = spielerVerwaltung.getSpieler();
         weltVerwaltung.initialisiereWelt();
@@ -74,3 +77,13 @@ public class Risiko {
         //verschiebe azahl pruefen und dann verschieben
     }
 }
+
+// StartGame
+// --> Anfangsverteilephase soweit alle noch zusatzarmee haben
+// ----> Angreifephase fur der ersten spieler, sollange er angreifen moeche/kann
+// -------> Verschiebephase fur der Ersten spieler, wenn er moechte/kann
+// ----------> Naechster spieler
+// ------> Angreifephase fur spieler 2, wenn er moechte/...
+// --------> ...
+// ----> Wenn wieder Spieler 1, dann rewardscheck, zusatzarmee geben.
+// ------> Verteilfephase Spieler 1.
