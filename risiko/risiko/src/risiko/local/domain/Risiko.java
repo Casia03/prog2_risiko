@@ -66,24 +66,28 @@ public class Risiko {
         // konditionen zum zusatzermee erhalt checken, aber das alles in der logik
     }
 
-    public void erstVerteilen(int spielerID, int landID, int armee, Turn turn){
+    public void erstVerteilen(int spielerID, int landID, int armee){
         verteilen(spielerID,landID,armee);
         if(spielerVerwaltung.returnSpieler(spielerID).getZusatzArmee()!=0){
             turn.nextPlayer();
+        }else{
+            turn.nextPhase();
         }
-        turn.nextPhase();
+        
     }
 
     public void verteilen(int spielerID, int landID, int armee){
         Spieler spieler = spielerVerwaltung.returnSpieler(spielerID);
         Land land = weltVerwaltung.getLand(landID);
         spielLogik.verteilen(spieler, land, armee);
+
     }
 
     public void angreifen(int vonLandID, int nachLandID, int angreifeAnzahl, int verteidigerAnzahl){
         Land nachLand = weltVerwaltung.getLand(nachLandID);
         Land vonLand = weltVerwaltung.getLand(vonLandID);
         spielLogik.angreifen(vonLand, nachLand, angreifeAnzahl, verteidigerAnzahl); // Exceptions noetig
+        
     } 
 
     public void verschieben(int vonLandID, int nachLandID, int anzahl){

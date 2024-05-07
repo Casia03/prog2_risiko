@@ -53,13 +53,15 @@ public class CUI {
                                 
                                 switch (risiko.getTurn()) {
                                     case 1: //Anfangsverteil
-                                            //
+                                            risiko.erstVerteilen(auswahlMenuSpielvorbereitung, auswahlHauptmenu, auswahlMenuSpielvorbereitung);
                                         break;
                                 
                                     case 2: //Verteilen
+                                            risiko.verteilen(auswahlMenuSpielvorbereitung, auswahlHauptmenu, auswahlMenuSpielvorbereitung);
                                         break;
 
                                     case 3: //Angreifen
+                                            
                                         break;
                                     
                                     case 4: //Verschieben
