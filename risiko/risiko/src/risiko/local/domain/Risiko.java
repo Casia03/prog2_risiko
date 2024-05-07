@@ -43,29 +43,43 @@ public class Risiko {
     public List<Spieler> getSpielerListe(){
         return new ArrayList<>(spielerVerwaltung.getSpieler());
     }
+
     /* 
     public void loadGame() {
         SaveLoadManager.loadGame();
     }
     */
+
     public ArrayList<Land> getLaender() {
         return weltVerwaltung.getLaeder();
         
     }
+
     public void rewardsCheck(int spielerID){
         Spieler spieler = spielerVerwaltung.returnSpieler(spielerID);
         // konditionen zum zusatzermee erhalt checken, aber das alles in der logik
     }
-    public void verteilen(int spielerID, int landID, int amree){
+
+    public void erstVerteilen(int spielerID, int landID, int armee, Turn turn){
+        verteilen(spielerID,landID,armee);
+        if(spielerVerwaltung.returnSpieler(spielerID).getZusatzArmee()!=0){
+            turn.nextPlayer();
+        }
+        turn.nextPhase();
+    }
+
+    public void verteilen(int spielerID, int landID, int armee){
         Spieler spieler = spielerVerwaltung.returnSpieler(spielerID);
         Land land = weltVerwaltung.getLand(landID);
-        spielLogik.verteilen(spieler, land, amree);
+        spielLogik.verteilen(spieler, land, armee);
     }
+
     public void angreifen(int vonLandID, int nachLandID, int angreifeAnzahl, int verteidigerAnzahl){
         Land nachLand = weltVerwaltung.getLand(nachLandID);
         Land vonLand = weltVerwaltung.getLand(vonLandID);
         spielLogik.angreifen(vonLand, nachLand, angreifeAnzahl, verteidigerAnzahl); // Exceptions noetig
     } 
+
     public void verschieben(int vonLandID, int nachLandID, int anzahl){
         Land nachLand = weltVerwaltung.getLand(nachLandID);
         Land vonLand = weltVerwaltung.getLand(vonLandID);
