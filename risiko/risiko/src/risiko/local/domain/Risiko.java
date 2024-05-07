@@ -20,7 +20,6 @@ public class Risiko {
         spielerVerwaltung = new SpielerVerwaltung();
         spielLogik = new SpielLogik(weltVerwaltung);
         //Entweder hier muss das gemacht werden oer in Start game methode. 
-        
     //    SaveLoadGameManager = new SaveLoadGameManager();
         
     }
