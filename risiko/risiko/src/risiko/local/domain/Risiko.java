@@ -32,6 +32,11 @@ public class Risiko {
 
     public void game(Risiko risiko){
         
+        switch(turn.getPhase()){
+            case VERTEILEN:
+                
+        }
+
     }
 
     public int getAnzahlSpieler() {
