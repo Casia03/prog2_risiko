@@ -43,7 +43,6 @@ public class Turn {
         spielerId = newspielerId;
     }
 
-
     public int getSpieler() {
         return spielerId;
     }
