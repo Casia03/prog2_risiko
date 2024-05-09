@@ -61,11 +61,12 @@ public class CUI {
 
 
                                     case ERSTVERTEILEN: //Anfangsverteil
-                                            System.out.println(risiko.getJetzigerSpielerName() + "ist am zug" + risiko.getTurn());
+                                            System.out.println(risiko.getJetzigerSpielerName() + " ist am zug" + "Erstverteilerphase");
                                             risiko.erstVerteilen(auswahlMenuSpielvorbereitung, auswahlHauptmenu, auswahlMenuSpielvorbereitung);
                                         break;
                                 
                                     case VERTEILEN: //Verteilen
+                                            System.out.println(risiko.getJetzigerSpielerName() + " ist am zug" + "Verteilerphase");
                                             risiko.verteilen(auswahlMenuSpielvorbereitung, auswahlHauptmenu, auswahlMenuSpielvorbereitung);
                                         break;
 

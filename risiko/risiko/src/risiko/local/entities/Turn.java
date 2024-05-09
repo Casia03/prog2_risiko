@@ -84,4 +84,9 @@ public class Turn {
     public int getTurnNumber() {
         return turnNumber;
     }
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }
