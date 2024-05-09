@@ -7,12 +7,14 @@ import risiko.local.entities.Land;
 import risiko.local.entities.Spieler;
 //import risiko.local.persistance.SaveLoadManager;
 import risiko.local.entities.Turn;
+import risiko.local.entities.Turn.Phase;
 
 public class Risiko {
     private WeltVerwaltung weltVerwaltung;
     private SpielerVerwaltung spielerVerwaltung;
     private SpielLogik spielLogik;
     private Turn turn;
+    private Spieler spieler;
   //  private SaveLoadManager saveloadmanager;
 
     public Risiko(){
@@ -49,8 +51,19 @@ public class Risiko {
     public int getTurn(){
         return turn.getTurn();
     }
-    
+    public String getSpielerName(){
+        return spieler.getSpielerName();
+    }
 
+    public void nextPhase(){
+        turn.nextPhase();
+        return ;
+
+    }
+
+    public Phase getPhase(){
+        return turn.getPhase();
+    } 
     /* 
     public void loadGame() {
         SaveLoadManager.loadGame();
