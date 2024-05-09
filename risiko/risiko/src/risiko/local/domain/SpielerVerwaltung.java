@@ -32,4 +32,8 @@ public class SpielerVerwaltung {
         return new ArrayList<>(spielerListe);
     }
 
+    public Spieler getJetzigerSpieler(int spielerID){
+        return spielerListe.get(spielerID);
+    }
+
 }

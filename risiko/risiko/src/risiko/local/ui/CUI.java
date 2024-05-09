@@ -27,10 +27,10 @@ public class CUI {
                     risiko.spielerHinzufuegen(name);
 
 
-                    int vonLand;
-                    int nachLand;
-                    int anzahlArmee;
-                    
+                    // int vonLand;
+                    // int nachLand;
+                    // int anzahlArmee;
+
 
                     boolean startGame = false;
 
@@ -58,8 +58,10 @@ public class CUI {
                                 startGame = true;
                                 risiko.startGame(risiko);
                                 switch (risiko.getPhase()) {
+
+
                                     case ERSTVERTEILEN: //Anfangsverteil
-                                        System.out.println(risiko.getSpielerName() + "ist am zug" + risiko.getTurn());
+                                            System.out.println(risiko.getJetzigerSpielerName() + "ist am zug" + risiko.getTurn());
                                             risiko.erstVerteilen(auswahlMenuSpielvorbereitung, auswahlHauptmenu, auswahlMenuSpielvorbereitung);
                                         break;
                                 

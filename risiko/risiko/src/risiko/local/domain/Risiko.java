@@ -51,7 +51,8 @@ public class Risiko {
     public int getTurn(){
         return turn.getTurn();
     }
-    public String getSpielerName(){
+    public String getJetzigerSpielerName(){
+        spieler = spielerVerwaltung.getJetzigerSpieler(turn.getSpieler());
         return spieler.getSpielerName();
     }
 
@@ -75,10 +76,10 @@ public class Risiko {
         
     }
 
-    public void rewardsCheck(int spielerID){
-        Spieler spieler = spielerVerwaltung.returnSpieler(spielerID);
-        // konditionen zum zusatzermee erhalt checken, aber das alles in der logik
-    }
+    // public void rewardsCheck(int spielerID){
+    //     Spieler spieler = spielerVerwaltung.returnSpieler(spielerID);
+    //     // konditionen zum zusatzermee erhalt checken, aber das alles in der logik
+    // }
 
     public void erstVerteilen(int spielerID, int landID, int armee){
         verteilen(spielerID,landID,armee);
@@ -104,13 +105,13 @@ public class Risiko {
         
     } 
 
-    public void verschieben(int vonLandID, int nachLandID, int anzahl){
-        Land nachLand = weltVerwaltung.getLand(nachLandID);
-        Land vonLand = weltVerwaltung.getLand(vonLandID);
+    // public void verschieben(int vonLandID, int nachLandID, int anzahl){
+    //     Land nachLand = weltVerwaltung.getLand(nachLandID);
+    //     Land vonLand = weltVerwaltung.getLand(vonLandID);
         
-        //adjazenz pruefen
-        //verschiebe azahl pruefen und dann verschieben
-    }
+    //     //adjazenz pruefen
+    //     //verschiebe azahl pruefen und dann verschieben
+    // }
 
 
 }
