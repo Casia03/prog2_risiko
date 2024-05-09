@@ -50,21 +50,25 @@ public class CUI {
                                     
                                 System.out.println("The Game Starts!");
                                 startGame = true;
-                                
-                                switch (risiko.getTurn()) {
-                                    case 1: //Anfangsverteil
+                                risiko.startGame(risiko);
+                                switch (risiko.getPhase()) {
+                                    case ERSTVERTEILEN: //Anfangsverteil
+                                        System.out.println(risiko.getSpielerName() + "ist am zug" + risiko.getTurn());
                                             risiko.erstVerteilen(auswahlMenuSpielvorbereitung, auswahlHauptmenu, auswahlMenuSpielvorbereitung);
                                         break;
                                 
-                                    case 2: //Verteilen
+                                    case VERTEILEN: //Verteilen
                                             risiko.verteilen(auswahlMenuSpielvorbereitung, auswahlHauptmenu, auswahlMenuSpielvorbereitung);
                                         break;
 
-                                    case 3: //Angreifen
-                                            
+                                    case ANGREIFFEN: //Angreifen
+
+                                            //wollen sie angreifen
+                                            //risiko.angreifen(auswahlMenuSpielvorbereitung, auswahlHauptmenu, auswahlMenuSpielvorbereitung);
                                         break;
                                     
-                                    case 4: //Verschieben
+                                    case VERSCHIEBEN: //Verschieben
+                                            //1risiko.verschieben();
                                         break;
                                 }
                                 break;
