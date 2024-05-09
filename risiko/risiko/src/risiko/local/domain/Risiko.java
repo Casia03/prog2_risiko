@@ -49,6 +49,7 @@ public class Risiko {
     public int getTurn(){
         return turn.getTurn();
     }
+    
 
     /* 
     public void loadGame() {
@@ -97,6 +98,8 @@ public class Risiko {
         //adjazenz pruefen
         //verschiebe azahl pruefen und dann verschieben
     }
+
+
 }
 
 // StartGame

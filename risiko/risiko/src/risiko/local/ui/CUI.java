@@ -26,6 +26,12 @@ public class CUI {
                     String name = scanner.next();
                     risiko.spielerHinzufuegen(name);
 
+
+                    int vonLand;
+                    int nachLand;
+                    int anzahlArmee;
+                    
+
                     boolean startGame = false;
 
                     while (!startGame) {
