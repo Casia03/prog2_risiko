@@ -26,12 +26,6 @@ public class CUI {
                     String name = scanner.next();
                     risiko.spielerHinzufuegen(name);
 
-
-                    // int vonLand;
-                    // int nachLand;
-                    // int anzahlArmee;
-
-
                     boolean startGame = false;
 
                     while (!startGame) {
@@ -58,26 +52,47 @@ public class CUI {
                                 startGame = true;
                                 risiko.startGame(risiko);
                                 switch (risiko.getPhase()) {
-
-
                                     case ERSTVERTEILEN: //Anfangsverteil
-                                            System.out.println(risiko.getJetzigerSpielerName() + " ist am zug" + "Erstverteilerphase");
-                                            risiko.erstVerteilen(auswahlMenuSpielvorbereitung, auswahlHauptmenu, auswahlMenuSpielvorbereitung);
+                                    //for(int i = 0;i <)
+                                    System.out.println(risiko.getJetzigerSpielerName() + " es ist gerade die Verteilphase");
+                                        risiko.erstVerteilen(auswahlMenuSpielvorbereitung, auswahlHauptmenu, auswahlMenuSpielvorbereitung);
+                                        System.out.println("Das sind die länder die du bekommen hast");
+                                        //hier soll eine wiedergabe aller länder die der spieler besitzt wiedergegeben werden
+                                        System.out.println("nun verteile deine zusatz armen auf deine länder");
+                                        System.out.println("zurzeit zusatz armen in besitzt:");
+                                        //hier breuchte ich eine funktion zur wiedergabe und verteil der zusatzarmen
+                                        System.out.println();
+                                        risiko.nextPhase();
                                         break;
                                 
                                     case VERTEILEN: //Verteilen
-                                            System.out.println(risiko.getJetzigerSpielerName() + " ist am zug" + "Verteilerphase");
+                                    System.out.println("Runde:" + risiko.getTurn());
+                                    auswahlHauptmenu = scanner.nextInt();
+                                    System.out.println(risiko.getJetzigerSpielerName() + " es ist gerade die Verteilphase");
+                                            System.out.println("nun verteile deine zusatz armen auf deine länder");
+                                            System.out.println("zurzeit zusatz armen in besitzt:");
+                                            //hier breuchte ich eine funktion zur wiedergabe und verteil der zusatzarmen
                                             risiko.verteilen(auswahlMenuSpielvorbereitung, auswahlHauptmenu, auswahlMenuSpielvorbereitung);
+                                            risiko.nextPhase();
                                         break;
 
                                     case ANGREIFFEN: //Angreifen
-
+                                    System.out.println(risiko.getJetzigerSpielerName() + " es ist gerade die Verteilphase");
                                             //wollen sie angreifen
+                                            System.out.println("wollen sie angreifen");
+                                            System.out.println("wällen sie ein land aus mit dem sie angreifen wollen");
+                                            System.out.println("mit wie vielen einheiten wollen sie angreifen");
                                             //risiko.angreifen(auswahlMenuSpielvorbereitung, auswahlHauptmenu, auswahlMenuSpielvorbereitung);
+                                            risiko.nextPhase();
                                         break;
                                     
                                     case VERSCHIEBEN: //Verschieben
+                                    System.out.println(risiko.getJetzigerSpielerName() + " es ist gerade die Verteilphase");
                                             //1risiko.verschieben();
+                                            System.out.println("wollen sie einheiten verscheiben");
+                                            
+                                            System.out.println("wählen sie ein land");
+                                            risiko.nextPhase();
                                         break;
                                 }
                                 break;
