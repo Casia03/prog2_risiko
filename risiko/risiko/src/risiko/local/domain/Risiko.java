@@ -63,8 +63,10 @@ public class Risiko {
     }
     public void nextPhase(){
         turn.nextPhase();
-        return ;
+    }
 
+    public void nextPlayer(){
+        turn.nextPlayer();
     }
 
     public Phase getPhase(){
@@ -86,9 +88,10 @@ public class Risiko {
     //     // konditionen zum zusatzermee erhalt checken, aber das alles in der logik
     // }
 
-    public void erstVerteilen(int spielerID, int landID, int armee){
-        verteilen(spielerID,landID,armee);
-        if(spielerVerwaltung.returnSpieler(spielerID).getZusatzArmee()!=0){
+    public void erstVerteilen(int landID, int armee){
+        spieler = getJetzigerSpieler();
+        verteilen(landID,armee);
+        if(spieler.getZusatzArmee()!=0){
             turn.nextPlayer();
         }else{
             turn.nextPhase();
@@ -96,8 +99,8 @@ public class Risiko {
         
     }
 
-    public void verteilen(int spielerID, int landID, int armee){
-        Spieler spieler = spielerVerwaltung.returnSpieler(spielerID);
+    public void verteilen(int landID, int armee){
+        spieler = getJetzigerSpieler();
         Land land = weltVerwaltung.getLand(landID);
         spielLogik.verteilen(spieler, land, armee);
 
@@ -146,6 +149,21 @@ public class Risiko {
     public void waehleVerschiebeZiel(int vonLand){
         spieler = getJetzigerSpieler();
         adj.getAlleEigeneNachbars(vonLand, spieler);
+    }
+
+    public String getJetzigerSpielerZusatzArmee() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getJetzigerSpielerZusatzArmee'");
+    }
+
+    public boolean currentSpielerHatZusatzarmee() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'currentSpielerHatZusatzarmee'");
+    }
+
+    public String getLand(int nachLand) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getLand'");
     }
     
 

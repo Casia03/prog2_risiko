@@ -54,15 +54,32 @@ public class CUI {
                                 switch (risiko.getPhase()) {
                                     case ERSTVERTEILEN: //Anfangsverteil
                                     //for(int i = 0;i <)
-                                    System.out.println(risiko.getJetzigerSpielerName() + " es ist gerade die Verteilphase");
-                                        risiko.erstVerteilen(auswahlMenuSpielvorbereitung, auswahlHauptmenu, auswahlMenuSpielvorbereitung);
-                                        System.out.println("Das sind die länder die du bekommen hast");
-                                        //hier soll eine wiedergabe aller länder die der spieler besitzt wiedergegeben werden
-                                        System.out.println("nun verteile deine zusatz armen auf deine länder");
-                                        System.out.println("zurzeit zusatz armen in besitzt:");
-                                        //hier breuchte ich eine funktion zur wiedergabe und verteil der zusatzarmen
-                                        System.out.println();
-                                        risiko.nextPhase();
+                                        int i = 0;
+
+                                        while(risiko.currentSpielerHatZusatzarmee()){ // Solange dirnne bleiben bis der Jetzige Spieler alle armeen verteilt hat
+                                            System.out.println(risiko.getJetzigerSpielerName() + ": es ist gerade die Verteilphase");
+
+                                                risiko.erstVerteilen(auswahlHauptmenu, auswahlMenuSpielvorbereitung);
+
+                                            System.out.println("Deine Länder: ");
+
+                                                risiko.getCurrentSpielerLaender(); // muss noch geaendert werden
+
+                                            System.out.println("zurzeit zusatz armen in besitzt: " + risiko.getJetzigerSpielerZusatzArmee());
+                                            System.out.println("Du musst deine Zusatzarmeen verteilen. \nWaehle dazu ein Land auf dem du deine Zusatzarmeen verteilen möchtest.");
+
+                                                int nachLand = scanner.nextInt();
+
+                                            System.out.println("Wie viele Einheiten möchtest du auf das Land " + risiko.getLand(nachLand) + " platzieren?");
+
+                                                risiko.verteilen(nachLand, nachLand);
+                                        }
+                                        i+=1;
+                                        risiko.nextPlayer(); // Naechster spieler 
+                                        if(i == risiko.getAnzahlSpieler()){ // wenn alle spieler zusatzarmee verteilt haben dann ab in die naechste phase 
+                                            risiko.nextPhase();
+                                        }
+                                            
                                         break;
                                 
                                     case VERTEILEN: //Verteilen

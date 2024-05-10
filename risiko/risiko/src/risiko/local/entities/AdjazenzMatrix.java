@@ -1,5 +1,6 @@
 package risiko.local.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import risiko.local.domain.WeltVerwaltung;
@@ -281,7 +282,8 @@ public class AdjazenzMatrix {
         return adjazenzmatrix;
     }
 
-    public void /* String */ getAlleEigeneNachbars(int verteilungsLand, Spieler spieler) {
+    public void /* String */ getAlleEigeneNachbars(int verteilungsLand, Spieler spieler) {  //ZURZEIT GEBEN DIE ZWEI GEGNER- NACHBAR METHODEN JEWEILS EIN STRING FUR JEDES DAS DEN IF BEDINGUNG STIMMENDES LAND EIN STING, 
+                                                                                            // muss zur ne string weitergabe werden die dann Risiko verarbeiten wird.
         
         
         StringBuilder ausgabe = new StringBuilder();
@@ -293,7 +295,7 @@ public class AdjazenzMatrix {
                 if (sindNachbar(verteilungsLand, i) && countries.get(i).getEingenommenVon() == spieler.getSpielerID()) {
                     ausgabe.append(i).append(" ").append(countries.get(i)).append("\n");
 
-                    // System.out.println("INDEX: " + (i+1) + " Name : " + countries.get(i).getName() + " Armee : " + countries.get(i).getArmee());
+                    System.out.println("INDEX: " + (i+1) + " Name : " + countries.get(i).getName() + " Armee : " + countries.get(i).getArmee());
                 }
             }
         } else {
@@ -304,7 +306,7 @@ public class AdjazenzMatrix {
 
     public  void /* List<String> */ getAlleGegnerNachbar(int angreifeLand, Spieler spieler) {
         
-        //List<String> nachbarn = new ArrayList<>();
+        List<String> nachbarn = new ArrayList<>();
 
         if (angreifeLand >= 0 && angreifeLand < n) {
            // nachbarn.add("Nachbarn von " + countries.get(angreifeLand) + ":");
@@ -312,8 +314,8 @@ public class AdjazenzMatrix {
             for (int i = 0; i < n; i++) {
                 if (sindNachbar(angreifeLand, i) && (countries.get(i).getEingenommenVon() != spieler.getSpielerID())) {
                     
-                    //nachbarn.add(i + " " +  countries.get(i));
-                    // System.out.println("TRUEIndex: "+ countries.get(i).getTrueIndex() + " Name : " + countries.get(i).getName() + " Armee : " + countries.get(i).getArmee());
+                    nachbarn.add(i + " " +  countries.get(i));
+                    System.out.println("TRUEIndex: "+ countries.get(i).getTrueIndex() + " Name : " + countries.get(i).getName() + " Armee : " + countries.get(i).getArmee());
                 }
             }
         } else {

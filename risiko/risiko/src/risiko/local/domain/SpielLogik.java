@@ -10,11 +10,9 @@ import risiko.local.entities.AdjazenzMatrix;
 public class SpielLogik {
 
     private AdjazenzMatrix adj;
-    private WeltVerwaltung weltVerwaltung;
-    
+
     public SpielLogik(WeltVerwaltung wv){
         AdjazenzMatrix adj = new AdjazenzMatrix(wv);
-        weltVerwaltung = wv;
     }
     
     public void verteilen(Spieler spieler, Land land, int anzahl){
@@ -30,7 +28,7 @@ public class SpielLogik {
         }
     }
     public void angreifen(Land vonLand, Land nachLand, int attackArmeeNumber, int defendArmeeNumber){ 
-        if (angriffMoeglich(vonLand, nachLand) || adj.sindNachbar(vonLand.getTrueIndex(), nachLand.getTrueIndex())){ // prüfft 
+        if (angriffMoeglich(vonLand, nachLand) || adj.sindNachbar(vonLand.getTrueIndex(), nachLand.getTrueIndex())){ // prüfft Kommt wahrscheinlich weg, hmm gucken wir mal, ich mein die "kann man das uberhaupt auswaehlen" bedingungen werden meistens durch die adj matrix, weltverwaltung und dann auch von risiko verabeitet. Ich denke es wird fur die GUI spaeter notig haha, also bleibt es erstmal hier, stort doch bestimmt niemanden, hoffentlich
             if(!attackNumberStimmt(vonLand,attackArmeeNumber) && !defendNumberStimmt(nachLand,defendArmeeNumber)){
                 return; //Exception, neue Auswahl von Angaben, also !!nicht!! return 
             }else{
