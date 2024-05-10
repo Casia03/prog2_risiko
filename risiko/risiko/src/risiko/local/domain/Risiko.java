@@ -3,6 +3,7 @@ package risiko.local.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import risiko.local.entities.AdjazenzMatrix;
 import risiko.local.entities.Land;
 import risiko.local.entities.Spieler;
 //import risiko.local.persistance.SaveLoadManager;
@@ -15,12 +16,14 @@ public class Risiko {
     private SpielLogik spielLogik;
     private Turn turn;
     private Spieler spieler;
+    private AdjazenzMatrix adj;
   //  private SaveLoadManager saveloadmanager;
 
     public Risiko(){
         weltVerwaltung = new WeltVerwaltung();
         spielerVerwaltung = new SpielerVerwaltung();
         spielLogik = new SpielLogik(weltVerwaltung);
+        adj = new AdjazenzMatrix(weltVerwaltung);
         //Entweder hier muss das gemacht werden oer in Start game methode. 
     //    SaveLoadGameManager = new SaveLoadGameManager();
         
@@ -104,39 +107,46 @@ public class Risiko {
         Land nachLand = weltVerwaltung.getLand(nachLandID);
         Land vonLand = weltVerwaltung.getLand(vonLandID);
         spielLogik.angreifen(vonLand, nachLand, angreifeAnzahl, verteidigerAnzahl); // Exceptions noetig
-        
     } 
 
     public void verschieben(int vonLandID, int nachLandID, int anzahl){
         Land nachLand = weltVerwaltung.getLand(nachLandID);
         Land vonLand = weltVerwaltung.getLand(vonLandID);
-        
+
+        spielLogik.verschieben(vonLand, nachLand, anzahl);
+
+        //String erfolg ausgabe
         //adjazenz pruefen
         //verschiebe azahl pruefen und dann verschieben
     }
 
     public void getCurrentSpielerLaender(){
         spieler = getJetzigerSpieler();
-        List<Land> laender = weltVerwaltung.getSpielerLaender(spieler);
+        List<Land> laender = weltVerwaltung.getSpielerLaender(spieler); // wird zur ne string ausgabe geaendert 
         //code zum anzeigen der laender, wahrscheinlich ein String return??
 
     }
 
     public void getAngriffbereiteLaender(){
         spieler = getJetzigerSpieler();
-        List<Land> laender = weltVerwaltung.getSpielerAngriffsbereiteLaender(spieler);
+        List<Land> laender = weltVerwaltung.getSpielerAngriffsbereiteLaender(spieler); // wird zur ne string ausgabe geaendert 
+
     }
 
-    public void getAngriffMoeglicheLaender(int vonLand){
+    public void getAngriffGegnerLaender(int vonLand){
         spieler = getJetzigerSpieler();
-        List<Land> laender = weltVerwaltung.getAngriffsmoeglichelaender(spieler, vonLand);
+        adj.getAlleGegnerNachbar(vonLand, spieler);
     }
 
-    public void getVerschiebeBereiteLaender(){
-
+    public void getVerschiebebereiteLaender(){
+        spieler = getJetzigerSpieler();
+        List<Land> laender = weltVerwaltung.getSpielerAngriffsbereiteLaender(spieler); // wird zur ne string ausgabe geaendert 
     }
 
-
+    public void waehleVerschiebeZiel(int vonLand){
+        spieler = getJetzigerSpieler();
+        adj.getAlleEigeneNachbars(vonLand, spieler);
+    }
     
 
 

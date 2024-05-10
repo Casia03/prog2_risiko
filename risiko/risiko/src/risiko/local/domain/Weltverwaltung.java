@@ -17,7 +17,7 @@ public class WeltVerwaltung {
 
     private ArrayList<Land> lander = new ArrayList<Land>();
     public WeltVerwaltung(){
-
+        
     }
     /*
      *

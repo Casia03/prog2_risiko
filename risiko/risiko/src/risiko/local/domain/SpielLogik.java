@@ -6,12 +6,15 @@ import java.util.Random;
 import risiko.local.entities.Land;
 import risiko.local.entities.Spieler;
 import risiko.local.entities.AdjazenzMatrix;
+
 public class SpielLogik {
+
     private AdjazenzMatrix adj;
+    private WeltVerwaltung weltVerwaltung;
     
     public SpielLogik(WeltVerwaltung wv){
         AdjazenzMatrix adj = new AdjazenzMatrix(wv);
-
+        weltVerwaltung = wv;
     }
     
     public void verteilen(Spieler spieler, Land land, int anzahl){
@@ -194,40 +197,5 @@ public class SpielLogik {
         return istVerteidiger;
     }
 
-    public int choosenAttackArmeeNumber(int attackArmeeNumber){
-        // Soll Eingabe von attackArmeeNumber erlauben, durch scanner fur CUI. 
-        attackArmeeNumber = attackArmeeNumber;
-
-
-        return attackArmeeNumber;
-    }
-
-    public List<Land> getSpielerLaender(Spieler spieler){
-        List<Land> spielerLaender = new ArrayList<Land>();
-        for( int i = 0; i < lander.size(); i++){
-            if(getLand(i).getEingenommenVon() == spieler.getSpielerID()){
-                spielerLaender.add(getLand(i));
-            }
-        }
-        return spielerLaender;
-    }
-    public List<Land> getSpielerAngriffsbereiteLaender(Spieler spieler) {
-        List<Land> spielerLaender = new ArrayList<Land>();
-        for( int i = 0; i < lander.size(); i++){
-            if(getLand(i).getEingenommenVon() == spieler.getSpielerID() && getLand(i).getArmee() > 1){
-                spielerLaender.add(getLand(i));
-            }
-        }
-        return spielerLaender;
-    }
-    public List<Land> getAngriffsmoeglichelaender(Spieler spieler, int vonLand) {
-        List<Land> spielerLaender = new ArrayList<Land>();
-        for( int i = 0; i < lander.size(); i++){
-            if(getLand(i).getEingenommenVon() == spieler.getSpielerID() && getLand(i).getArmee() > 1){
-                spielerLaender.add(getLand(i));
-            }
-        }
-        return spielerLaender;
-    }
 }
 
