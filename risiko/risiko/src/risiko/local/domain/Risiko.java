@@ -55,7 +55,9 @@ public class Risiko {
         spieler = spielerVerwaltung.getJetzigerSpieler(turn.getSpieler());
         return spieler.getSpielerName();
     }
-
+    public Spieler getJetzigerSpieler(){
+        return spielerVerwaltung.getJetzigerSpieler(turn.getSpieler());
+    }
     public void nextPhase(){
         turn.nextPhase();
         return ;
@@ -105,13 +107,37 @@ public class Risiko {
         
     } 
 
-    // public void verschieben(int vonLandID, int nachLandID, int anzahl){
-    //     Land nachLand = weltVerwaltung.getLand(nachLandID);
-    //     Land vonLand = weltVerwaltung.getLand(vonLandID);
+    public void verschieben(int vonLandID, int nachLandID, int anzahl){
+        Land nachLand = weltVerwaltung.getLand(nachLandID);
+        Land vonLand = weltVerwaltung.getLand(vonLandID);
         
-    //     //adjazenz pruefen
-    //     //verschiebe azahl pruefen und dann verschieben
-    // }
+        //adjazenz pruefen
+        //verschiebe azahl pruefen und dann verschieben
+    }
+
+    public void getCurrentSpielerLaender(){
+        spieler = getJetzigerSpieler();
+        List<Land> laender = weltVerwaltung.getSpielerLaender(spieler);
+        //code zum anzeigen der laender, wahrscheinlich ein String return??
+
+    }
+
+    public void getAngriffbereiteLaender(){
+        spieler = getJetzigerSpieler();
+        List<Land> laender = weltVerwaltung.getSpielerAngriffsbereiteLaender(spieler);
+    }
+
+    public void getAngriffMoeglicheLaender(int vonLand){
+        spieler = getJetzigerSpieler();
+        List<Land> laender = weltVerwaltung.getAngriffsmoeglichelaender(spieler, vonLand);
+    }
+
+    public void getVerschiebeBereiteLaender(){
+
+    }
+
+
+    
 
 
 }

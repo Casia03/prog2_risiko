@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import risiko.local.persistance.Exceptions;
+import risiko.local.entities.AdjazenzMatrix;
 import risiko.local.entities.Land;
 import risiko.local.entities.Spieler;
 
@@ -85,4 +86,31 @@ public class WeltVerwaltung {
         return lander.get(landID - 1); // minus 1 weill spieler laender 1 bis 42 auswaehlen koennen und nicht 0 vis 41 aber in der liste hat das erste emelent (Alaska) den Index 0 nicht 1, an sich hat alaska index 1 ja aber nur als objekt aber nicht als listen element 
     }
     
+    public List<Land> getSpielerLaender(Spieler spieler){
+        List<Land> spielerLaender = new ArrayList<Land>();
+        for( int i = 0; i < lander.size(); i++){
+            if(getLand(i).getEingenommenVon() == spieler.getSpielerID()){
+                spielerLaender.add(getLand(i));
+            }
+        }
+        return spielerLaender;
+    }
+    public List<Land> getSpielerAngriffsbereiteLaender(Spieler spieler) {
+        List<Land> spielerLaender = new ArrayList<Land>();
+        for( int i = 0; i < lander.size(); i++){
+            if(getLand(i).getEingenommenVon() == spieler.getSpielerID() && getLand(i).getArmee() > 1){
+                spielerLaender.add(getLand(i));
+            }
+        }
+        return spielerLaender;
+    }
+    public List<Land> getAngriffsmoeglichelaender(Spieler spieler, int vonLand) {
+        List<Land> spielerLaender = new ArrayList<Land>();
+        for( int i = 0; i < lander.size(); i++){
+            if(getLand(i).getEingenommenVon() == spieler.getSpielerID() && getLand(i).getArmee() > 1){
+                spielerLaender.add(getLand(i));
+            }
+        }
+        return spielerLaender;
+    }
 }
