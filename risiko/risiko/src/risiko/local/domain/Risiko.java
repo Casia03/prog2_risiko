@@ -17,27 +17,28 @@ public class Risiko {
     private Turn turn;
     private Spieler spieler;
     private AdjazenzMatrix adj;
-  //  private SaveLoadManager saveloadmanager;
+    // private SaveLoadManager saveloadmanager;
 
-    public Risiko(){
+    public Risiko() {
         weltVerwaltung = new WeltVerwaltung();
         spielerVerwaltung = new SpielerVerwaltung();
         spielLogik = new SpielLogik(weltVerwaltung);
         adj = new AdjazenzMatrix(weltVerwaltung);
-        //Entweder hier muss das gemacht werden oer in Start game methode. 
-    //    SaveLoadGameManager = new SaveLoadGameManager();
-        
+        // Entweder hier muss das gemacht werden oer in Start game methode.
+        // SaveLoadGameManager = new SaveLoadGameManager();
+
     }
 
-    public int currentSpieler(){
+    public int currentSpieler() {
         return turn.getSpieler();
     }
-    public void startGame(Risiko risiko){
+
+    public void startGame(Risiko risiko) {
         List<Spieler> spielerListe = spielerVerwaltung.getSpieler();
         weltVerwaltung.initialisiereWelt();
         turn = new Turn(spielerListe);
         weltVerwaltung.verteileLaender(spielerListe);
-        //werltverwaltung verteile missionen
+        // werltverwaltung verteile missionen
     }
 
     public int getAnzahlSpieler() {
@@ -48,105 +49,111 @@ public class Risiko {
         spielerVerwaltung.spielerHinzufuegen(name);
     }
 
-    public List<Spieler> getSpielerListe(){
+    public List<Spieler> getSpielerListe() {
         return new ArrayList<>(spielerVerwaltung.getSpieler());
     }
-    public int getTurn(){
+
+    public int getTurn() {
         return turn.getTurn();
     }
-    public String getJetzigerSpielerName(){
+
+    public String getJetzigerSpielerName() {
         spieler = spielerVerwaltung.getJetzigerSpieler(turn.getSpieler());
         return spieler.getSpielerName();
     }
-    public Spieler getJetzigerSpieler(){
+
+    public Spieler getJetzigerSpieler() {
         return spielerVerwaltung.getJetzigerSpieler(turn.getSpieler());
     }
-    public void nextPhase(){
+
+    public void nextPhase() {
         turn.nextPhase();
     }
 
-    public void nextPlayer(){
+    public void nextPlayer() {
         turn.nextPlayer();
     }
 
-    public Phase getPhase(){
+    public Phase getPhase() {
         return turn.getPhase();
-    } 
-    /* 
-    public void loadGame() {
-        SaveLoadManager.loadGame();
     }
-    */
+    /*
+     * public void loadGame() {
+     * SaveLoadManager.loadGame();
+     * }
+     */
 
     public ArrayList<Land> getLaender() {
         return weltVerwaltung.getLaeder();
-        
+
     }
 
     // public void rewardsCheck(int spielerID){
-    //     Spieler spieler = spielerVerwaltung.returnSpieler(spielerID);
-    //     // konditionen zum zusatzermee erhalt checken, aber das alles in der logik
+    // Spieler spieler = spielerVerwaltung.returnSpieler(spielerID);
+    // // konditionen zum zusatzermee erhalt checken, aber das alles in der logik
     // }
 
-    public void erstVerteilen(int landID, int armee){
+    public void erstVerteilen(int landID, int armee) {
         spieler = getJetzigerSpieler();
-        verteilen(landID,armee);
-        if(spieler.getZusatzArmee()!=0){
+        verteilen(landID, armee);
+        if (spieler.getZusatzArmee() != 0) {
             turn.nextPlayer();
-        }else{
+        } else {
             turn.nextPhase();
         }
-        
+
     }
 
-    public void verteilen(int landID, int armee){
+    public void verteilen(int landID, int armee) {
         spieler = getJetzigerSpieler();
         Land land = weltVerwaltung.getLand(landID);
         spielLogik.verteilen(spieler, land, armee);
 
     }
 
-    public void angreifen(int vonLandID, int nachLandID, int angreifeAnzahl){
+    public void angreifen(int vonLandID, int nachLandID, int angreifeAnzahl) {
         Land nachLand = weltVerwaltung.getLand(nachLandID);
         Land vonLand = weltVerwaltung.getLand(vonLandID);
         spielLogik.angreifen(vonLand, nachLand, angreifeAnzahl); // Exceptions noetig
-    } 
+    }
 
-    public void verschieben(int vonLandID, int nachLandID, int anzahl){
+    public void verschieben(int vonLandID, int nachLandID, int anzahl) {
         Land nachLand = weltVerwaltung.getLand(nachLandID);
         Land vonLand = weltVerwaltung.getLand(vonLandID);
 
         spielLogik.verschieben(vonLand, nachLand, anzahl);
 
-        //String erfolg ausgabe
-        //adjazenz pruefen
-        //verschiebe azahl pruefen und dann verschieben
+        // String erfolg ausgabe
+        // adjazenz pruefen
+        // verschiebe azahl pruefen und dann verschieben
     }
 
-    public void getCurrentSpielerLaender(){
+    public void getCurrentSpielerLaender() {
         spieler = getJetzigerSpieler();
-        List<Land> laender = weltVerwaltung.getSpielerLaender(spieler); // wird zur ne string ausgabe geaendert 
-        //code zum anzeigen der laender, wahrscheinlich ein String return??
+        List<Land> laender = weltVerwaltung.getSpielerLaender(spieler); // wird zur ne string ausgabe geaendert
+        // code zum anzeigen der laender, wahrscheinlich ein String return??
 
     }
 
-    public void getAngriffbereiteLaender(){
+    public void getAngriffbereiteLaender() {
         spieler = getJetzigerSpieler();
-        List<Land> laender = weltVerwaltung.getSpielerAngriffsbereiteLaender(spieler); // wird zur ne string ausgabe geaendert 
+        List<Land> laender = weltVerwaltung.getSpielerAngriffsbereiteLaender(spieler); // wird zur ne string ausgabe
+                                                                                       // geaendert
 
     }
 
-    public void getAngriffGegnerLaender(int vonLand){
+    public void getAngriffGegnerLaender(int vonLand) {
         spieler = getJetzigerSpieler();
         adj.getAlleGegnerNachbar(vonLand, spieler);
     }
 
-    public void getVerschiebebereiteLaender(){
+    public void getVerschiebebereiteLaender() {
         spieler = getJetzigerSpieler();
-        List<Land> laender = weltVerwaltung.getSpielerAngriffsbereiteLaender(spieler); // wird zur ne string ausgabe geaendert 
+        List<Land> laender = weltVerwaltung.getSpielerAngriffsbereiteLaender(spieler); // wird zur ne string ausgabe
+                                                                                       // geaendert
     }
 
-    public void waehleVerschiebeZiel(int vonLand){
+    public void waehleVerschiebeZiel(int vonLand) {
         spieler = getJetzigerSpieler();
         adj.getAlleEigeneNachbars(vonLand, spieler);
     }
@@ -180,8 +187,6 @@ public class Risiko {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getAngriffResult'");
     }
-    
-
 
 }
 
