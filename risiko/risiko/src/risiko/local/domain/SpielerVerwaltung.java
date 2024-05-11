@@ -7,7 +7,8 @@ import risiko.local.entities.Spieler;
 
 public class SpielerVerwaltung {
     private List<Spieler> spielerListe = new ArrayList<>();
-    public SpielerVerwaltung(){
+
+    public SpielerVerwaltung() {
         
     }
 
@@ -15,8 +16,8 @@ public class SpielerVerwaltung {
         Spieler spieler = new Spieler(name, getAnzahlSpieler(), 30, 0);
         if (!spielerListe.contains(spieler)) {
             spielerListe.add(spieler);
-        }else{
-            //Spieler existiert schon exception
+        } else {
+            // Spieler existiert schon exception
         }
     }
 
@@ -32,7 +33,11 @@ public class SpielerVerwaltung {
         return new ArrayList<>(spielerListe);
     }
 
+<<<<<<< HEAD
     public Spieler getSpielerByID(int spielerID){
+=======
+    public Spieler getJetzigerSpieler(int spielerID) {
+>>>>>>> be95d6b692f3cdcb4dc8b0946a0403df9a5cf535
         return spielerListe.get(spielerID);
     }
 
