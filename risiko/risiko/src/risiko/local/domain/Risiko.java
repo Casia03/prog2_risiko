@@ -106,10 +106,10 @@ public class Risiko {
 
     }
 
-    public void angreifen(int vonLandID, int nachLandID, int angreifeAnzahl, int verteidigerAnzahl){
+    public void angreifen(int vonLandID, int nachLandID, int angreifeAnzahl){
         Land nachLand = weltVerwaltung.getLand(nachLandID);
         Land vonLand = weltVerwaltung.getLand(vonLandID);
-        spielLogik.angreifen(vonLand, nachLand, angreifeAnzahl, verteidigerAnzahl); // Exceptions noetig
+        spielLogik.angreifen(vonLand, nachLand, angreifeAnzahl); // Exceptions noetig
     } 
 
     public void verschieben(int vonLandID, int nachLandID, int anzahl){
@@ -164,6 +164,16 @@ public class Risiko {
     public String getLand(int nachLand) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getLand'");
+    }
+
+    public String getMaxAttackNumber(int vonLand) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getMaxAttackNumber'");
+    }
+
+    public String getAngriffslandArmee(int vonLand) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getAngriffslandArmee'");
     }
     
 

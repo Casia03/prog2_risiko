@@ -58,9 +58,6 @@ public class CUI {
 
                                         while(risiko.currentSpielerHatZusatzarmee()){ // Solange dirnne bleiben bis der Jetzige Spieler alle armeen verteilt hat
                                             System.out.println(risiko.getJetzigerSpielerName() + ": es ist gerade die Verteilphase");
-
-                                                risiko.erstVerteilen(auswahlHauptmenu, auswahlMenuSpielvorbereitung);
-
                                             System.out.println("Deine Länder: ");
 
                                                 risiko.getCurrentSpielerLaender(); // muss noch geaendert werden
@@ -70,9 +67,10 @@ public class CUI {
 
                                                 int nachLand = scanner.nextInt();
 
-                                            System.out.println("Wie viele Einheiten möchtest du auf das Land " + risiko.getLand(nachLand) + " platzieren?");
-
-                                                risiko.verteilen(nachLand, nachLand);
+                                            System.out.println("Wie viele Einheiten möchtest du auf das Land " + risiko.getLand(nachLand) + " platzieren? \n zu verfügung stehen dir noch " + risiko.getJetzigerSpielerZusatzArmee() + " Einheiten." );
+                                                
+                                                int anzahlArmee = scanner.nextInt();
+                                                risiko.verteilen(nachLand, anzahlArmee);
                                         }
                                         i+=1;
                                         risiko.nextPlayer(); // Naechster spieler 
@@ -83,23 +81,63 @@ public class CUI {
                                         break;
                                 
                                     case VERTEILEN: //Verteilen
-                                    System.out.println("Runde:" + risiko.getTurn());
-                                    auswahlHauptmenu = scanner.nextInt();
-                                    System.out.println(risiko.getJetzigerSpielerName() + " es ist gerade die Verteilphase");
-                                            System.out.println("nun verteile deine zusatz armen auf deine länder");
-                                            System.out.println("zurzeit zusatz armen in besitzt:");
-                                            //hier breuchte ich eine funktion zur wiedergabe und verteil der zusatzarmen
-                                            risiko.verteilen(auswahlMenuSpielvorbereitung, auswahlHauptmenu, auswahlMenuSpielvorbereitung);
-                                            risiko.nextPhase();
+                                        while(risiko.currentSpielerHatZusatzarmee()){
+                                            System.out.println("Spieler " + risiko.getJetzigerSpielerName()  + ", es ist gerade die Verteilephase \nBitte verteile deine Zusatzarmeen.");
+                                            System.out.println("Deine Länder: ");
+
+                                                risiko.getCurrentSpielerLaender();
+
+                                            System.out.println("zurzeit zusatz armen in besitzt: " + risiko.getJetzigerSpielerZusatzArmee());
+                                            System.out.println("Du musst deine Zusatzarmeen verteilen. \nWaehle dazu ein Land auf dem du deine Zusatzarmeen verteilen möchtest.");
+
+                                                int nachLand = scanner.nextInt();
+
+                                            System.out.println("Wie viele Einheiten möchtest du auf das Land " + risiko.getLand(nachLand) + " platzieren? \n zu verfügung stehen dir noch " + risiko.getJetzigerSpielerZusatzArmee() + " Einheiten." );
+                                                
+                                                int anzahlArmee = scanner.nextInt();
+                                                risiko.verteilen(nachLand, anzahlArmee);
+                                        }
+                                                risiko.nextPhase();
                                         break;
 
                                     case ANGREIFFEN: //Angreifen
-                                    System.out.println(risiko.getJetzigerSpielerName() + " es ist gerade die Verteilphase");
-                                            //wollen sie angreifen
-                                            System.out.println("wollen sie angreifen");
-                                            System.out.println("wällen sie ein land aus mit dem sie angreifen wollen");
+                                        int spielerWillAngreifen = 1;
+                                        System.out.println("Spieler " + risiko.getJetzigerSpielerName() + ", gerade bist du in die Angreiffenphase ");
+                                        System.out.println("Möchtest du die Angreiffephase übespringen? \nTippe: \n'1' für Nein\n'2' für Ja");
+                                        
+                                        spielerWillAngreifen = scanner.nextInt();
+                                        while(spielerWillAngreifen == 1){
+
+                                            System.out.println("wällen sie ein land aus dem sie Angreiffen wollen");
+                                            risiko.getAngriffbereiteLaender(); // Ausgabe der agnriffsbereiten laender 
+
+                                            System.out.println("Bitte gib die Nummer des Angrifflandes.");
+
+                                            int vonLand = scanner.nextInt(); // Eingabe der Angriffslandes 
+
+                                            System.out.println("Von das Land: " + risiko.getLand(vonLand) + " können die Folgende gegnerische Länder angegriffen werden: ");
+
+                                            risiko.getAngriffGegnerLaender(vonLand); // Ausgabe der Adjazierenden genger laender
+
+                                            System.out.println("Bitte gib die Nummer des zum Angreiffendes landes ein.");
+
+                                            int nachLand = scanner.nextInt(); // Eingabe der Verteidigungslandes 
+
+                                            System.out.println("Du hasst " + risiko.getAngriffslandArmee(vonLand) + " Einheiten auf dein Land, und kannst somit mit höhstens " + risiko.getMaxAttackNumber(vonLand) + " Einheiten Angreifen. \n Geben sie jetzt an, wie viele Einheiten sollen für den Angriff benutzt werden sollen.");
+
+
+                                            int armeeAnzahl = scanner.nextInt(); // Eingabe der Agriffs armee anzahl
+
+                                            risiko.angreifen(vonLand,nachLand,armeeAnzahl);
+
+
+                                            
+                                            System.out.println("");
+
                                             System.out.println("mit wie vielen einheiten wollen sie angreifen");
-                                            //risiko.angreifen(auswahlMenuSpielvorbereitung, auswahlHauptmenu, auswahlMenuSpielvorbereitung);
+                                            //risiko.angreifen(auswahlHauptmenu, auswahlMenuSpielvorbereitung);
+                                        }
+                                        
                                             risiko.nextPhase();
                                         break;
                                     

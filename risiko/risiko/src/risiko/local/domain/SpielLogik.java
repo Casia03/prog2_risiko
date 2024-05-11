@@ -27,7 +27,13 @@ public class SpielLogik {
             spieler.setZusatzArmee(zusatzArmee - anzahl);
         }
     }
-    public void angreifen(Land vonLand, Land nachLand, int attackArmeeNumber, int defendArmeeNumber){ 
+    public void angreifen(Land vonLand, Land nachLand, int attackArmeeNumber){ 
+        int defendArmeeNumber = 1;
+        if(nachLand.getArmee() >= 2){
+            defendArmeeNumber = 2;
+        }else if (nachLand.getArmee() == 1){
+            defendArmeeNumber = 1;
+        }
         if (angriffMoeglich(vonLand, nachLand) || adj.sindNachbar(vonLand.getTrueIndex(), nachLand.getTrueIndex())){ // prüfft Kommt wahrscheinlich weg, hmm gucken wir mal, ich mein die "kann man das uberhaupt auswaehlen" bedingungen werden meistens durch die adj matrix, weltverwaltung und dann auch von risiko verabeitet. Ich denke es wird fur die GUI spaeter notig haha, also bleibt es erstmal hier, stort doch bestimmt niemanden, hoffentlich
             if(!attackNumberStimmt(vonLand,attackArmeeNumber) && !defendNumberStimmt(nachLand,defendArmeeNumber)){
                 return; //Exception, neue Auswahl von Angaben, also !!nicht!! return 
