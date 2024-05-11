@@ -83,8 +83,6 @@ public class WeltVerwaltung {
     public ArrayList<Land> getLaeder(){
         return lander;
     } 
-                                       // aber in der li ste hat das erste emelent (Alaska) den Index 0 nicht 1, an sich
-                                       // hat alaska index 1 ja aber nur als objekt aber nicht als listen element
 
     public Land getLand(int landID){
         return lander.get(landID - 1); // minus 1 weill spieler laender 1 bis 42 auswaehlen koennen und nicht 0 vis 41 aber in der liste hat das erste emelent (Alaska) den Index 0 nicht 1, an sich hat alaska index 1 ja aber nur als objekt aber nicht als listen element 

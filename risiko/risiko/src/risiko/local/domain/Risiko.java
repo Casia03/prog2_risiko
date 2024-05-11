@@ -30,7 +30,7 @@ public class Risiko {
     }
 
     public void startGame(Risiko risiko){
-        List<Spieler> spielerListe = spielerVerwaltung.getSpieler();
+        List<Spieler> spielerListe = getSpielerListe();
         weltVerwaltung.initialisiereWelt();
         turn = new Turn(spielerListe);
         weltVerwaltung.verteileLaender(spielerListe);
@@ -46,7 +46,7 @@ public class Risiko {
     }
 
     public List<Spieler> getSpielerListe(){
-        return new ArrayList<>(spielerVerwaltung.getSpieler());
+        return new ArrayList<>(spielerVerwaltung.getSpielerListe());
     }
     
     public int getTurn(){
