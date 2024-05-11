@@ -9,7 +9,7 @@ public class SpielerVerwaltung {
     private List<Spieler> spielerListe = new ArrayList<>();
 
     public SpielerVerwaltung() {
-        
+
     }
 
     public void spielerHinzufuegen(String name) {

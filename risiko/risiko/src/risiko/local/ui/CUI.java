@@ -15,7 +15,7 @@ public class CUI {
             System.out.println("1. New Game");
             System.out.println("2. Load Game");
             System.out.println("3. Quit");
-            
+
             auswahlHauptmenu = scanner.nextInt();
 
             switch (auswahlHauptmenu) {
@@ -31,7 +31,7 @@ public class CUI {
                     boolean startGame = false;
 
                     while (!startGame) {
-                        
+
                         System.out.println("\n1. Would you like to start?");
                         System.out.println("2. Or would you like to add more players? (Current number of players: "
                                 + risiko.getAnzahlSpieler() + ")");
@@ -42,29 +42,29 @@ public class CUI {
 
                         switch (auswahlMenuSpielvorbereitung) {
                             case 1:
-                            
+
                                 if (risiko.getAnzahlSpieler() < 2) {
                                     System.out.println("You need at least 2 players to start the game!");
                                     break;
                                 }
-                                    
+
                                 System.out.println("The Game Starts!");
                                 startGame = true;
                                 risiko.startGame(risiko);
                                 boolean spielende = false;
                                 while (!spielende) {
 
-                                switch (risiko.getPhase()) {
+                                    switch (risiko.getPhase()) {
                                         case ERSTVERTEILEN: // Anfangsverteil
                                             // for(int i = 0;i <)
-                                        int i = 0;
+                                            int i = 0;
 
                                             while (risiko.currentSpielerHatZusatzarmee()) { // Wird abgespielt bis
                                                                                             // der Jetzige Spieler alle
                                                                                             // armeen verteilt hat
                                                 System.out.println(risiko.getJetzigerSpielerName()
                                                         + ": es ist gerade die Verteilphase");
-                                            System.out.println("Deine Länder: ");
+                                                System.out.println("Deine Länder: ");
 
                                                 risiko.getCurrentSpielerLaender(); // muss noch geaendert werden
 
@@ -79,27 +79,27 @@ public class CUI {
                                                         + risiko.getLand(nachLand)
                                                         + " platzieren? \n zu verfügung stehen dir noch "
                                                         + risiko.getJetzigerSpielerZusatzArmee() + " Einheiten.");
-                                                
+
                                                 int anzahlArmee = scanner.nextInt();
                                                 risiko.verteilen(nachLand, anzahlArmee);
-                                        }
+                                            }
                                             i += 1;
-                                        risiko.nextPlayer(); // Naechster spieler 
+                                            risiko.nextPlayer(); // Naechster spieler
                                             if (i == risiko.getAnzahlSpieler()) { // wenn alle spieler zusatzarmee
                                                                                   // verteilt
                                                                                   // haben dann gehts in die naechste
                                                                                   // phase
-                                            risiko.nextPhase();
-                                        }
-                                            
-                                        break;
-                                
+                                                risiko.nextPhase();
+                                            }
+
+                                            break;
+
                                         case VERTEILEN: // Verteilen
 
                                             while (risiko.currentSpielerHatZusatzarmee()) {
                                                 System.out.println(risiko.getJetzigerSpielerName()
                                                         + ", es ist gerade die Verteilephase \nBitte verteile deine Zusatzarmeen.");
-                                            System.out.println("Deine Länder: ");
+                                                System.out.println("Deine Länder: ");
 
                                                 risiko.getCurrentSpielerLaender();
 
@@ -114,7 +114,7 @@ public class CUI {
                                                         + risiko.getLand(nachLand)
                                                         + " platzieren? \n zu verfügung stehen dir noch "
                                                         + risiko.getJetzigerSpielerZusatzArmee() + " Einheiten.");
-                                                
+
                                                 int anzahlArmee = scanner.nextInt();
                                                 risiko.verteilen(nachLand, anzahlArmee);
 
@@ -265,7 +265,7 @@ public class CUI {
                                             }
 
                                             risiko.nextPhase();
-                                        break;
+                                            break;
                                         // 1. Fragen ob man Verteilen möchte. Bei nein: Nächste Phase
                                         // 2. Ein Land wählen welches mehr als eine Einheit besitzt und dem Spieler
                                         // gehört
@@ -279,13 +279,13 @@ public class CUI {
                             case 2:
                                 System.out.println("Select your name:");
                                 name = scanner.next();
-                                risiko.spielerHinzufuegen(name);    
+                                risiko.spielerHinzufuegen(name);
 
                                 break;
                             case 3:
-                             
+
                                 System.out.println(risiko.getSpielerListe());
-                                
+
                                 break;
                             default:
                                 System.out.println("Invalid choice!");
@@ -309,7 +309,7 @@ public class CUI {
                     System.out.println("Invalid choice!");
                     break;
             }
-        } 
+        }
         scanner.close();
     }
 }
