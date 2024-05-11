@@ -175,6 +175,11 @@ public class Risiko {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getAngriffslandArmee'");
     }
+
+    public String getAngriffResult() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getAngriffResult'");
+    }
     
 
 

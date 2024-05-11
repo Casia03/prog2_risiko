@@ -72,6 +72,8 @@ public class CUI {
                                                 int anzahlArmee = scanner.nextInt();
                                                 risiko.verteilen(nachLand, anzahlArmee);
                                         }
+
+
                                         i+=1;
                                         risiko.nextPlayer(); // Naechster spieler 
                                         if(i == risiko.getAnzahlSpieler()){ // wenn alle spieler zusatzarmee verteilt haben dann ab in die naechste phase 
@@ -106,9 +108,10 @@ public class CUI {
                                         System.out.println("Möchtest du die Angreiffephase übespringen? \nTippe: \n'1' für Nein\n'2' für Ja");
                                         
                                         spielerWillAngreifen = scanner.nextInt();
-                                        while(spielerWillAngreifen == 1){
 
-                                            System.out.println("wällen sie ein land aus dem sie Angreiffen wollen");
+                                        while(spielerWillAngreifen == 1){
+                                            
+                                            System.out.println("Du hast dich fur den Angriff entschieden \nWälle ein land aus dem sie Angreiffen wollen");
                                             risiko.getAngriffbereiteLaender(); // Ausgabe der agnriffsbereiten laender 
 
                                             System.out.println("Bitte gib die Nummer des Angrifflandes.");
@@ -129,13 +132,13 @@ public class CUI {
                                             int armeeAnzahl = scanner.nextInt(); // Eingabe der Agriffs armee anzahl
 
                                             risiko.angreifen(vonLand,nachLand,armeeAnzahl);
-
-
                                             
-                                            System.out.println("");
-
-                                            System.out.println("mit wie vielen einheiten wollen sie angreifen");
-                                            //risiko.angreifen(auswahlHauptmenu, auswahlMenuSpielvorbereitung);
+                                            System.out.println("Resultat : " + risiko.getAngriffResult());
+                                            
+                                            System.out.println("Möchtest du nochmal Angreifen? \nTippe: \n'1' für Nein\n '2' für Ja");
+                                             
+                                            spielerWillAngreifen = scanner.nextInt();
+                                            
                                         }
                                         
                                             risiko.nextPhase();
