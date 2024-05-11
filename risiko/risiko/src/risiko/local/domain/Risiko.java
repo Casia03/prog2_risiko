@@ -159,6 +159,15 @@ public class Risiko {
        return spieler.getZusatzArmee();
     }
 
+    public boolean jetzigerSpielerHatZusatzarmee(){
+        Spieler spieler = getJetzigerSpieler();
+        if(spieler.getZusatzArmee() > 0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     public String getJetzigerSpielerMission(){
         return null;
     }
@@ -214,6 +223,10 @@ public class Risiko {
         return spielerName;
     }
 
+    public int getLandArmee(int landID) {
+        int landArmee = getLand(landID).getArmee();
+        return landArmee;
+    }
 
 
 
@@ -226,15 +239,14 @@ public class Risiko {
     
     /*      AUSWERTUNGS METHODEN        */
 
-    public String getMaxAttackNumber(int vonLand) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getMaxAttackNumber'");
+    public int getMaxAttackNumber(int vonLand) {
+        int landArmee = getLand(vonLand).getArmee();
+        int maxAttack = spielLogik.getMaxAttackNumber(landArmee);
+        return maxAttack;
     }
 
-    public String getAngriffslandArmee(int vonLand) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAngriffslandArmee'");
-    }
+
+    
 
     public String getAngriffResult() {
         // TODO Auto-generated method stub

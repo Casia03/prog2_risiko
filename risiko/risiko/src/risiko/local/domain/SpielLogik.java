@@ -27,6 +27,7 @@ public class SpielLogik {
             spieler.setZusatzArmee(zusatzArmee - anzahl);
         }
     }
+    
     public void angreifen(Land vonLand, Land nachLand, int attackArmeeNumber){ 
         int defendArmeeNumber = 1;
         if(nachLand.getArmee() >= 2){
@@ -186,6 +187,7 @@ public class SpielLogik {
             return false; //throw eigenes land
         }  
     }
+    
     private boolean istAngreifer(Land angreiferLand, Spieler spieler){
         boolean istAngreifer = false;
         if(angreiferLand.getEingenommenVon() == spieler.getSpielerID()){
@@ -193,12 +195,25 @@ public class SpielLogik {
         }
         return istAngreifer;
     }
+    
     private boolean istVerteidiger(Land verteidigerLand, Spieler spieler){
         boolean istVerteidiger = false;
         if(verteidigerLand.getEingenommenVon() == spieler.getSpielerID()){
             istVerteidiger = true;
         }
         return istVerteidiger;
+    }
+
+    public int getMaxAttackNumber(int armeeAnzahl) {
+        if(armeeAnzahl >= 4){
+            return 3;
+        }else if (armeeAnzahl == 3){
+            return 2;
+        }else if (armeeAnzahl == 2 ){
+            return 1;
+        }else{
+            return 0;
+        }
     }
 
 }
