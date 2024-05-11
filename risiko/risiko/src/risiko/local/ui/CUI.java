@@ -118,64 +118,6 @@ public class CUI {
                                                 int anzahlArmee = scanner.nextInt();
                                                 risiko.verteilen(nachLand, anzahlArmee);
 
-<<<<<<< HEAD
-                                    case ANGREIFFEN: //Angreifen
-                                        int spielerWillAngreifen = 1;
-                                        System.out.println("Spieler " + risiko.getJetzigerSpielerName() + ", gerade bist du in die Angreiffenphase ");
-                                        System.out.println("Möchtest du die Angreiffephase übespringen? \nTippe: \n'1' für Nein\n'2' für Ja");
-                                        
-                                        spielerWillAngreifen = scanner.nextInt();
-                                        boolean hatAngriffmoeglichkeiten = risiko.hatAngriffMoeglichkeiten(risiko.getAngriffbereiteLaender());
-
-                                        while(spielerWillAngreifen == 1 || hatAngriffmoeglichkeiten){
-                                            
-                                            System.out.println("Du hast dich fur den Angriff entschieden \nWälle ein land aus dem sie Angreiffen wollen");
-                                            risiko.getAngriffbereiteLaender(); // Ausgabe der agnriffsbereiten laender 
-                                            
-                                            System.out.println("Bitte gib die Nummer des Angrifflandes.");
-
-                                            int vonLand = scanner.nextInt(); // Eingabe der Angriffslandes 
-
-                                            System.out.println("Von das Land: " + risiko.getLand(vonLand) + " können die Folgende gegnerische Länder angegriffen werden: ");
-
-                                            risiko.getAngriffGegnerLaender(vonLand); // Ausgabe der Adjazierenden genger laender
-
-                                            System.out.println("Bitte gib die Nummer des zum Angreiffendes landes ein.");
-
-                                            int nachLand = scanner.nextInt(); // Eingabe der Verteidigungslandes 
-
-                                            System.out.println("Du hast " + risiko.getAngriffslandArmee(vonLand) + " Einheiten auf dein Land, und kannst somit mit höhstens " + risiko.getMaxAttackNumber(vonLand) + " Einheiten Angreifen. \n Geben sie jetzt an, wie viele Einheiten sollen für den Angriff benutzt werden sollen.");
-
-                                            // EINRUCKEN MUSST EINGEBAUT WERDEN
-                                            int armeeAnzahl = scanner.nextInt(); // Eingabe der Agriffs armee anzahl
-
-                                            risiko.angreifen(vonLand,nachLand,armeeAnzahl);
-                                            
-                                            System.out.println("Resultat : " + risiko.getAngriffResult());
-                                            
-                                            System.out.println("Möchtest du nochmal Angreifen? \nTippe: \n'1' für Nein\n '2' für Ja");
-                                            
-                                            spielerWillAngreifen = scanner.nextInt();
-
-                                            if( risiko.hatAngriffmoeglichkeiten(risiko.getAngriffbereiteLaender())){
-                                                System.out.println("No possible attack");
-                                            }else{
-                                                break;
-                                            }
-
-                                        }
-                                        
-                                            risiko.nextPhase();
-                                        break;
-                                    
-                                    case VERSCHIEBEN: //Verschieben
-                                        
-                                            System.out.println(risiko.getJetzigerSpielerName() + " es ist gerade die Verteilphase");
-                                            //1risiko.verschieben();
-                                            System.out.println("wollen sie einheiten verscheiben");
-                                            
-                                            System.out.println("wählen sie ein land");
-=======
                                                 System.out.println("Die Einheiten wurden effolgreich verteilt.\n");
                                             }
                                             risiko.nextPhase();
@@ -221,7 +163,6 @@ public class CUI {
                                                 spielerWillAngreifen = scanner.next().trim().equalsIgnoreCase("j")? true: false;
                                             }
 
->>>>>>> be95d6b692f3cdcb4dc8b0946a0403df9a5cf535
                                             risiko.nextPhase();
                                             break;
 
@@ -294,11 +235,7 @@ public class CUI {
                     }
                     break;
                 case 2:
-<<<<<<< HEAD
-                    //risiko.loadGame();
-=======
                     // risiko.loadGame();
->>>>>>> be95d6b692f3cdcb4dc8b0946a0403df9a5cf535
                     // Spiel Laden, kommt spaeter
                     break;
                 case 3:

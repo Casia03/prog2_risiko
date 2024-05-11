@@ -17,12 +17,9 @@ public class WeltVerwaltung {
 
     private ArrayList<Land> lander = new ArrayList<Land>();
 
-     
-
-    
+    public WeltVerwaltung(){
 
     }
-
     /*
      *
      * THis shit rocks!!
@@ -80,39 +77,37 @@ public class WeltVerwaltung {
             // initialCountriesList.get(currentCountry));
      
 
-    }
+        }
+    }   
 
-    public ArrayList<Land> getLaeder() {
+    public ArrayList<Land> getLaeder(){
         return lander;
     } 
-
-                                       // 
-                                       // 
-    p
-
                                        // aber in der li ste hat das erste emelent (Alaska) den Index 0 nicht 1, an sich
                                        // hat alaska index 1 ja aber nur als objekt aber nicht als listen element
-    }  
+
+    public Land getLand(int landID){
+        return lander.get(landID - 1); // minus 1 weill spieler laender 1 bis 42 auswaehlen koennen und nicht 0 vis 41 aber in der liste hat das erste emelent (Alaska) den Index 0 nicht 1, an sich hat alaska index 1 ja aber nur als objekt aber nicht als listen element 
+    }
   
     public List<Land> getSpielerLaender(Spieler spieler) {
         List<Land> spielerLaender = new ArrayList<Land>();
         for (int i = 0; i < lander.size(); i++) {
             if (getLand(i).getEingenommenVon() == spieler.getSpielerID()) {
-     
-
+                spielerLaender.add(getLand(i));
             }
         }
-        ret un spielerLaender; 
+        return spielerLaender; 
     }  
 
     public List<Land> getSpielerAngriffsbereiteLaender(Spieler spieler) {
         List<Land> spielerLaender = new ArrayList<Land>();
         for (int i = 0; i < lander.size(); i++) {
-     
+            if(getLand(i).getEingenommenVon() == spieler.getSpielerID() && getLand(i).getArmee() > 1){
 
                 spielerLaender.add(getLand(i));
-            }
-        }  
+            } 
+        }
         return  spielerLaender; 
     }
 
@@ -124,5 +119,7 @@ public class WeltVerwaltung {
             }
         }
         return spielerLaender;
+    
     }
 }
+
