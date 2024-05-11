@@ -28,11 +28,11 @@ public class SpielerVerwaltung {
         return spielerListe.get(spielerID);
     }
 
-    public List<Spieler> getSpieler() {
+    public List<Spieler> getSpielerListe() {
         return new ArrayList<>(spielerListe);
     }
 
-    public Spieler getJetzigerSpieler(int spielerID){
+    public Spieler getSpielerByID(int spielerID){
         return spielerListe.get(spielerID);
     }
 

@@ -108,12 +108,13 @@ public class CUI {
                                         System.out.println("Möchtest du die Angreiffephase übespringen? \nTippe: \n'1' für Nein\n'2' für Ja");
                                         
                                         spielerWillAngreifen = scanner.nextInt();
+                                        boolean hatAngriffmoeglichkeiten = risiko.hatAngriffMoeglichkeiten(risiko.getAngriffbereiteLaender());
 
-                                        while(spielerWillAngreifen == 1){
+                                        while(spielerWillAngreifen == 1 || hatAngriffmoeglichkeiten){
                                             
                                             System.out.println("Du hast dich fur den Angriff entschieden \nWälle ein land aus dem sie Angreiffen wollen");
                                             risiko.getAngriffbereiteLaender(); // Ausgabe der agnriffsbereiten laender 
-
+                                            
                                             System.out.println("Bitte gib die Nummer des Angrifflandes.");
 
                                             int vonLand = scanner.nextInt(); // Eingabe der Angriffslandes 
@@ -126,9 +127,9 @@ public class CUI {
 
                                             int nachLand = scanner.nextInt(); // Eingabe der Verteidigungslandes 
 
-                                            System.out.println("Du hasst " + risiko.getAngriffslandArmee(vonLand) + " Einheiten auf dein Land, und kannst somit mit höhstens " + risiko.getMaxAttackNumber(vonLand) + " Einheiten Angreifen. \n Geben sie jetzt an, wie viele Einheiten sollen für den Angriff benutzt werden sollen.");
+                                            System.out.println("Du hast " + risiko.getAngriffslandArmee(vonLand) + " Einheiten auf dein Land, und kannst somit mit höhstens " + risiko.getMaxAttackNumber(vonLand) + " Einheiten Angreifen. \n Geben sie jetzt an, wie viele Einheiten sollen für den Angriff benutzt werden sollen.");
 
-
+                                            // EINRUCKEN MUSST EINGEBAUT WERDEN
                                             int armeeAnzahl = scanner.nextInt(); // Eingabe der Agriffs armee anzahl
 
                                             risiko.angreifen(vonLand,nachLand,armeeAnzahl);
@@ -136,16 +137,23 @@ public class CUI {
                                             System.out.println("Resultat : " + risiko.getAngriffResult());
                                             
                                             System.out.println("Möchtest du nochmal Angreifen? \nTippe: \n'1' für Nein\n '2' für Ja");
-                                             
-                                            spielerWillAngreifen = scanner.nextInt();
                                             
+                                            spielerWillAngreifen = scanner.nextInt();
+
+                                            if( risiko.hatAngriffmoeglichkeiten(risiko.getAngriffbereiteLaender())){
+                                                System.out.println("No possible attack");
+                                            }else{
+                                                break;
+                                            }
+
                                         }
                                         
                                             risiko.nextPhase();
                                         break;
                                     
                                     case VERSCHIEBEN: //Verschieben
-                                    System.out.println(risiko.getJetzigerSpielerName() + " es ist gerade die Verteilphase");
+                                        
+                                            System.out.println(risiko.getJetzigerSpielerName() + " es ist gerade die Verteilphase");
                                             //1risiko.verschieben();
                                             System.out.println("wollen sie einheiten verscheiben");
                                             
@@ -172,7 +180,7 @@ public class CUI {
                     }
                     break;
                 case 2:
-                   //risiko.loadGame();
+                    //risiko.loadGame();
                     // Spiel Laden, kommt spaeter
                     break;
                 case 3:
