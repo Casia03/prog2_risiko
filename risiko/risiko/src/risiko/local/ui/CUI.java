@@ -169,7 +169,7 @@ public class CUI {
                                                         System.out.println("Gib die Anzahl der Einheiten die du einruecken moechtest. \nDu hast " + (risiko.getLandArmee(vonLand)-1) + " Einheiten zur verfuegung.");
                                                         int anzahlArmeeZumEinruecken;
                                                         anzahlArmeeZumEinruecken = scanner.nextInt();
-                                                        risiko.einruecken();
+                                                        //risiko.einruecken();
                                                     }
                                                 }
                                                 

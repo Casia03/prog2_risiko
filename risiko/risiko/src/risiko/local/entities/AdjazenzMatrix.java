@@ -282,7 +282,7 @@ public class AdjazenzMatrix {
         return adjazenzmatrix;
     }
 
-    public String[] getAlleVerschiebeBereiteLaender(List<Land> spielerLaender){
+    public String[] getAlleVerschiebeBereiteLaender(List<Land> spielerLaender){ // Zeigt nur die laender an, die einen genug armee fur eine verschiebung besitzen UND eigene nachbarn haben
         List<String> bereiteLaender = new ArrayList<>();
 
         for(int i = 0; i < spielerLaender.size(); i++){
@@ -301,12 +301,12 @@ public class AdjazenzMatrix {
         return nachbarnArray;
     }
 
-    public String[] getAlleAngreifebereiteLaender(List<Land> spielerLaender, Spieler spieler){
+    public String[] getAlleAngreifebereiteLaender(List<Land> spielerLaender, Spieler spieler){ // Zeigt nur die laender an, die einen genug armee fur ein angriff besitzen UND eigene nachbarn haben
         List<String> bereiteLaender = new ArrayList<>();
 
         for(int i = 0; i < spielerLaender.size(); i++){
             for (int j = 0; j < countries.size(); j++){
-                if(sindNachbar(spielerLaender.get(i).getTrueIndex()-1, countries.get(j).getTrueIndex()-1)){
+                if(sindNachbar(spielerLaender.get(i).getTrueIndex()-1, countries.get(j).getTrueIndex()-1) && countries.get(j).getEingenommenVon() != spieler.getSpielerID()){
                     String nachbarInfo = String.format("%d %s", i, countries.get(i));
                     bereiteLaender.add(nachbarInfo);
                 }
@@ -319,7 +319,7 @@ public class AdjazenzMatrix {
     
         return nachbarnArray;
     }
-    }
+    
     public String[] getAlleEigeneNachbars(int verteilungsLand, Spieler spieler) {
         if (verteilungsLand < 0 || verteilungsLand >= n) {
             throw new IllegalArgumentException("Ungültiger Länderindex");

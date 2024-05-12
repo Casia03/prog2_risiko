@@ -216,31 +216,34 @@ public class Risiko {
     }
 
     public String[] getVerschiebebereiteLaender(){ // Gibt eine liste von den eigenen Laender, die genug Armee fur eine verschiebung besitzen
-        String[] verschiebeBereiteLaender;
-        // TODO : !! MUSS UBERPRUEFEN OB DAS LAND NACHBARLAENDER HAT BEVOR ANZEIGEN
+        String[] bereiteLaender;
         spieler = getJetzigerSpieler();
         List<Land> laender = weltVerwaltung.getSpielerAngriffsbereiteLaender(spieler); // wird zur ne string ausgabe geaendert 
         
-        if(spielLogik.hatEigeneNachbarn(laender, spieler)){
-            
+        bereiteLaender = adj.getAlleVerschiebeBereiteLaender(laender);
+        if(bereiteLaender != null){
+            return bereiteLaender;
         }
 
-        return verschiebeBereiteLaender;
+        throw new IllegalArgumentException("Du hast keine Verschiebebereite Laender");
     }
 
+    public String[] getAngreiffeBereiteLaender(){
+        String[] bereiteLaender;
+        spieler = getJetzigerSpieler();
+        List<Land> laender = weltVerwaltung.getSpielerAngriffsbereiteLaender(spieler); // wird zur ne string ausgabe geaendert 
+        
+        bereiteLaender = adj.getAlleAngreifebereiteLaender(laender, spieler);
+        if(bereiteLaender != null){
+            return bereiteLaender;
+        }
+
+        throw new IllegalArgumentException("Du hast keine Verschiebebereite Laender");
+    }
     public void waehleVerschiebeZiel(int vonLand){ //  hmm
         spieler = getJetzigerSpieler();
         adj.getAlleEigeneNachbars(vonLand, spieler);
     }
-
-    public boolean hatEigeneNachbarn(int landID){
-        spieler = getJetzigerSpieler();
-        Land land = getLand(landID);
-        return spielLogik.hatEigeneNachbarn(land, spieler);
-    }
-
-
-
     
     /*      AUSWERTUNGS METHODEN        */
 
