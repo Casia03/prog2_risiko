@@ -83,11 +83,11 @@ public class WeltVerwaltung {
     }
 
     public Land getLand(int landID) {
-        return lander.get(landID); 
+        return lander.get(landID - 1); 
     }
 
     private Land getLandForForLoops(int id){
-        return lander.get(id - 1); // minus 1 weill spieler laender 1 bis 42 auswaehlen koennen und nicht 0 vis 41
+        return lander.get(id); // minus 1 weill spieler laender 1 bis 42 auswaehlen koennen und nicht 0 vis 41
         // aber in der liste hat das erste emelent (Alaska) den Index 0 nicht 1, an sich
         // hat alaska index 1 ja aber nur als objekt aber nicht als listen element
     }

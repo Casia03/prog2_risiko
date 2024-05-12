@@ -271,13 +271,3 @@ public class Risiko {
 
 
 }
-
-// StartGame
-// --> Anfangsverteilephase soweit alle noch zusatzarmee haben
-// ----> Angreifephase fur der ersten spieler, sollange er angreifen moeche/kann
-// -------> Verschiebephase fur der Ersten spieler, wenn er moechte/kann
-// ----------> Naechster spieler
-// ------> Angreifephase fur spieler 2, wenn er moechte/...
-// --------> ...
-// ----> Wenn wieder Spieler 1, dann rewardscheck, zusatzarmee geben.
-// ------> Verteilfephase Spieler 1.

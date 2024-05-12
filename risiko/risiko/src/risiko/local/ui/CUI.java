@@ -64,7 +64,7 @@ public class CUI {
                                                                                             // der Jetzige Spieler alle
                                                                                             // armeen verteilt hat
                                                 System.out.println(risiko.getJetzigerSpielerName()
-                                                        + ": es ist gerade die Verteilphase");
+                                                       + ": es ist gerade die Verteilphase");
                                                 System.out.println("Deine Länder: ");
 
                                                 risiko.getJetzigerSpielerLaenderListe(); // muss noch geaendert werden
