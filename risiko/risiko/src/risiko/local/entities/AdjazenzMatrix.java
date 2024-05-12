@@ -294,7 +294,7 @@ public class AdjazenzMatrix {
             if (sindNachbar(verteilungsLand, i) && countries.get(i).getEingenommenVon() == spieler.getSpielerID()) {
                 String nachbarInfo = String.format("%d %s", i, countries.get(i));
                 nachbarnListe.add(nachbarInfo);
-                System.out.println("INDEX: " + (i+1) + " Name : " + countries.get(i).getName() + " Armee : " + countries.get(i).getArmee());
+                //System.out.println("INDEX: " + (i+1) + " Name : " + countries.get(i).getName() + " Armee : " + countries.get(i).getArmee());
             }
         }
     
@@ -308,25 +308,26 @@ public class AdjazenzMatrix {
 
 
 
-    public  void /* List<String> */ getAlleGegnerNachbar(int angreifeLand, Spieler spieler) {
-        
-        List<String> nachbarn = new ArrayList<>();
-
-        if (angreifeLand >= 0 && angreifeLand < n) {
-           // nachbarn.add("Nachbarn von " + countries.get(angreifeLand) + ":");
-
-            for (int i = 0; i < n; i++) {
-                if (sindNachbar(angreifeLand, i) && (countries.get(i).getEingenommenVon() != spieler.getSpielerID())) {
-                    
-                    nachbarn.add(i + " " +  countries.get(i));
-                    System.out.println("TRUEIndex: "+ countries.get(i).getTrueIndex() + " Name : " + countries.get(i).getName() + " Armee : " + countries.get(i).getArmee());
-                }
-            }
-        } else {
-            throw new IllegalArgumentException("Invalid country index");
+    public String[] getAlleGegnerNachbar(int angreifeLand, Spieler spieler) {
+        if (angreifeLand < 0 || angreifeLand >= n) {
+            throw new IllegalArgumentException("Ungültiger Länderindex");
         }
 
-        //return nachbarn;
+        List<String> nachbarn = new ArrayList<>();
+
+           // nachbarn.add("Nachbarn von " + countries.get(angreifeLand) + ":");
+            for (int i = 0; i < n; i++) {
+                if (sindNachbar(angreifeLand, i) && (countries.get(i).getEingenommenVon() != spieler.getSpielerID())) {
+                    String nachbarInfo = String.format("%d %s", i, countries.get(i));
+                    nachbarn.add(nachbarInfo);
+                    //nachbarn.add(i + " " +  countries.get(i));
+                    //System.out.println("TRUEIndex: "+ countries.get(i).getTrueIndex() + " Name : " + countries.get(i).getName() + " Armee : " + countries.get(i).getArmee());
+                }
+            }
+
+        String[] nachbarnArray = new String[nachbarn.size()];
+        nachbarnArray = nachbarn.toArray(nachbarnArray);
+        return nachbarnArray;
     }
 
     public boolean sindNachbar(int angreifeLand, int verteidigerLand) {
