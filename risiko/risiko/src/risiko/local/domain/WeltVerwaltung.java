@@ -96,6 +96,7 @@ public class WeltVerwaltung {
         List<Land> spielerLaender = new ArrayList<Land>();
         for (int i = 0; i < lander.size(); i++) {
             if (getLandForForLoops(i).getEingenommenVon() == spieler.getSpielerID()) {
+                //System.out.println(getLandForForLoops(i));
                 spielerLaender.add(getLandForForLoops(i));
             }
         }
@@ -105,7 +106,7 @@ public class WeltVerwaltung {
     public String[] getSpielerLaenderAusgabe(List<Land> listeLand){
         List<String> liste = new ArrayList<>();
         for (int i = 0; i < listeLand.size(); i++){
-            String nachbarInfo = String.format("%d %s", i, getLandForForLoops(i));
+            String nachbarInfo = String.format("%s", listeLand.get(i));
             liste.add(nachbarInfo);
         }
         String[] listeArray = new String[liste.size()];

@@ -63,7 +63,7 @@ public class Land {
 
     @Override
     public String toString() {
-        return " Index: "+ trueIndex + " / Name: " + name + " / Armee: " + anzahlArmeen + " \n ";
+        return "Nr." + trueIndex + " / Name: " + name + " / Armee: " + anzahlArmeen + /* " !! EINGENOMMEN VON:  " + eingenommen + */ " \n ";
     }
 
     public String getColour() {
