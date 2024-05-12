@@ -124,6 +124,19 @@ public class Risiko {
     
 
 
+<<<<<<< HEAD
+=======
+    public List<Land> getVerschiebebereiteLaender(){ // Gibt eine liste von den eigenen Laender, die genug Armee fur eine verschiebung besitzen
+        spieler = getJetzigerSpieler();
+        List<Land> laender = weltVerwaltung.getSpielerAngriffsbereiteLaender(spieler); // wird zur ne string ausgabe geaendert 
+        return laender;
+    }
+
+    public void waehleVerschiebeZiel(int vonLand){ //  hmm
+        spieler = getJetzigerSpieler();
+        adj.getAlleEigeneNachbars(vonLand, spieler);
+    }
+>>>>>>> d995bb488b81a2dcc24f90aebd4b0e8e6bbbb538
 
     
 

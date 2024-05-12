@@ -51,8 +51,7 @@ public class CUI {
                                 System.out.println("The Game Starts!");
                                 startGame = true;
                                 risiko.startGame(risiko);
-
-                                
+                                // funktionier noch nicht System.out.println(risiko.getVerschiebebereiteLaender());
                                 boolean spielende = false;
                                 while (!spielende) {
 

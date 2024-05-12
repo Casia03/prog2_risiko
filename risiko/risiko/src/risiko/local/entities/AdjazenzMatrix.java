@@ -282,27 +282,31 @@ public class AdjazenzMatrix {
         return adjazenzmatrix;
     }
 
-    public void /* String */ getAlleEigeneNachbars(int verteilungsLand, Spieler spieler) {  //ZURZEIT GEBEN DIE ZWEI GEGNER- NACHBAR METHODEN JEWEILS EIN STRING FUR JEDES DAS DEN IF BEDINGUNG STIMMENDES LAND EIN STING, 
-                                                                                            // muss zur ne string weitergabe werden die dann Risiko verarbeiten wird.
-        
-        
-        StringBuilder ausgabe = new StringBuilder();
-
-        if (verteilungsLand >= 0 && verteilungsLand < n) {
-            ausgabe.append("Nachbarn von ").append(countries.get(verteilungsLand)).append(":\n");
-
-            for (int i = 0; i < n; i++) {
-                if (sindNachbar(verteilungsLand, i) && countries.get(i).getEingenommenVon() == spieler.getSpielerID()) {
-                    ausgabe.append(i).append(" ").append(countries.get(i)).append("\n");
-
-                    System.out.println("INDEX: " + (i+1) + " Name : " + countries.get(i).getName() + " Armee : " + countries.get(i).getArmee());
-                }
-            }
-        } else {
-            throw new IllegalArgumentException("Invalid country index");
+    
+    public String[] getAlleEigeneNachbars(int verteilungsLand, Spieler spieler) {
+        if (verteilungsLand < 0 || verteilungsLand >= n) {
+            throw new IllegalArgumentException("Ungültiger Länderindex");
         }
-           // return ausgabe.toString();
+    
+        List<String> nachbarnListe = new ArrayList<>();
+    
+        for (int i = 0; i < n; i++) {
+            if (sindNachbar(verteilungsLand, i) && countries.get(i).getEingenommenVon() == spieler.getSpielerID()) {
+                String nachbarInfo = String.format("%d %s", i, countries.get(i));
+                nachbarnListe.add(nachbarInfo);
+                System.out.println("INDEX: " + (i+1) + " Name : " + countries.get(i).getName() + " Armee : " + countries.get(i).getArmee());
+            }
+        }
+    
+        String[] nachbarnArray = new String[nachbarnListe.size()];
+        nachbarnArray = nachbarnListe.toArray(nachbarnArray);
+    
+        return nachbarnArray;
     }
+
+
+
+
 
     public  void /* List<String> */ getAlleGegnerNachbar(int angreifeLand, Spieler spieler) {
         
