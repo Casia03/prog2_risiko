@@ -125,6 +125,7 @@ public class CUI {
 
                                         case ANGREIFFEN: // Angreifen
                                             boolean spielerWillAngreifen = true;
+                                            boolean spielerWillEinruecken = false;
                                             System.out.println("Spieler " + risiko.getJetzigerSpielerName() + ", gerade bist du in die Angreiffenphase ");
                                             System.out.println("Möchtest du die Angreiffephase übespringen? \nTippe: \n'J' für Ja \n'N' für Nein");
 
@@ -157,6 +158,21 @@ public class CUI {
                                                 risiko.angreifen(vonLand, nachLand, armeeAnzahl);
 
                                                 System.out.println("Resultat : " + risiko.getAngriffResult());
+                                                if(risiko.getAngriffResultat()){ // WENN GEWONNEN
+                                                    System.out.println("Du hast das Land " + risiko.getLandName(nachLand) + " Erobert.");
+                                                    System.out.println("Möchtest du auf das eroberte Land mehr Einheiten einrücken?\nTippe: \n'J' für Ja \n'N' für Nein\"");
+
+                                                    spielerWillEinruecken = scanner.next().trim().equalsIgnoreCase("j")? true: false;
+
+                                                    if(spielerWillEinruecken){ // WENN EINRUECKEN MOECHTEN
+                                                        System.out.println("Gib die Anzahl der Einheiten die du einruecken moechtest. \nDu hast " + (risiko.getLandArmee(vonLand)-1) + " Einheiten zur verfuegung.");
+                                                        int anzahlArmeeZumEinruecken;
+                                                        anzahlArmeeZumEinruecken = scanner.nextInt();
+                                                        risiko.einruecken();
+                                                    }
+                                                }
+                                                
+                                                
 
                                                 System.out.println("Möchtest du weiter angreifen? \nTippe: \n'J' für Ja \n'N' für Nein");
 

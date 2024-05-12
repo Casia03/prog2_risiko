@@ -252,6 +252,16 @@ public class Risiko {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getAngriffResult'");
     }
+
+    public boolean getAngriffResultat() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getAngriffResultat'");
+    }
+
+    public void einruecken() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'einruecken'");
+    }
     
 
 
