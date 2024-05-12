@@ -108,8 +108,8 @@ public class Risiko {
     } 
 
     public void einruecken(int vonLandID, int nachLandID) {
-        Land vonLand = getLand(vonLandID - 1);
-        Land nachLand = getLand(nachLandID - 1);
+        Land vonLand = getLand(vonLandID);
+        Land nachLand = getLand(nachLandID);
 
         spielLogik.einruecken(vonLand, nachLand);
     }

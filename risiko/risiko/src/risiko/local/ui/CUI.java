@@ -117,7 +117,7 @@ public class CUI {
                                             boolean spielerWillAngreifen = true;
                                             boolean spielerWillEinruecken = false;
                                             System.out.println("\n\nSpieler " + risiko.getJetzigerSpielerName() + ", gerade bist du in die Angreiffenphase ");
-                                            System.out.println("Möchtest du die Angreiffephase übespringen? \nTippe: \n'J' für Ja \n'N' für Nein");
+                                            System.out.println("Möchtest du Angreiffen? \nTippe: \n'J' für Ja \n'N' für Nein");
 
                                             spielerWillAngreifen = scanner.next().trim().equalsIgnoreCase("j") ? true: false;
 
