@@ -46,18 +46,19 @@ public class CUI {
                                     System.out.println("You need at least 2 players to start the game!");
                                     break;
                                 }
-
+                                int i = 0;
                                 System.out.println("The Game Starts!");
                                 startGame = true;
                                 risiko.startGame(risiko);
                                 // funktionier noch nicht System.out.println(risiko.getVerschiebebereiteLaender());
                                 boolean spielende = false;
                                 while (!spielende) {
+                                
 
                                     switch (risiko.getPhase()) {
                                         case ERSTVERTEILEN: // Anfangsverteil
                                             // for(int i = 0;i <)
-                                            int i = 0;
+                                            
 
                                             while (risiko.jetzigerSpielerHatZusatzarmee()) { // Wird abgespielt bis
                                                                                             // der Jetzige Spieler alle
@@ -80,12 +81,13 @@ public class CUI {
                                                 int anzahlArmee = scanner.nextInt(); // BEGRENZUNGEN EINFUEGEN
                                                 risiko.verteilen(nachLand, anzahlArmee);
                                             }
-                                            i += 1;
+                                            i = i + 1;
                                             risiko.nextPlayer(); // Naechster spieler
                                             if (i == risiko.getAnzahlSpieler()) { // wenn alle spieler zusatzarmee verteilt haben dann gehts in die naechste phase
+                                                System.out.println("PROBLEM HIER1");
                                                 risiko.nextPhase();
                                             }
-
+                                            System.out.println("PROBLEM HIER2");
                                             break;
 
                                         case VERTEILEN: // Verteilen

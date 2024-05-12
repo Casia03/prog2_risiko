@@ -1,7 +1,9 @@
 package risiko.local.entities;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import risiko.local.domain.WeltVerwaltung;
 
@@ -284,41 +286,41 @@ public class AdjazenzMatrix {
 
     public String[] getAlleVerschiebeBereiteLaender(List<Land> spielerLaender){ // Zeigt nur die laender an, die einen genug armee fur eine verschiebung besitzen UND eigene nachbarn haben
         List<String> bereiteLaender = new ArrayList<>();
+        Set<String> uniqueLaender = new HashSet<>();
 
-        for(int i = 0; i < spielerLaender.size(); i++){
-            for (int j = 0; j < spielerLaender.size(); j++){
-                if(sindNachbar(spielerLaender.get(i).getTrueIndex()-1, spielerLaender.get(j).getTrueIndex()-1)){
-                    String nachbarInfo = String.format("%d %s", i, countries.get(i));
-                    bereiteLaender.add(nachbarInfo);
+        for (Land land : spielerLaender) {
+            for (Land country : countries) {
+                if (sindNachbar(land.getTrueIndex() - 1, country.getTrueIndex() - 1) && land.getArmee() >= 2){
+                    String nachbarInfo = land.toString();
+                            if (!uniqueLaender.contains(nachbarInfo)) {
+                                bereiteLaender.add(nachbarInfo);
+                                uniqueLaender.add(nachbarInfo);
+                            }
                 }
             }
-            
-        }
-
-        String[] nachbarnArray = new String[bereiteLaender.size()];
-        nachbarnArray = bereiteLaender.toArray(nachbarnArray);
-    
-        return nachbarnArray;
+        }    
+        return bereiteLaender.toArray(new String[0]);
     }
-
     public String[] getAlleAngreifebereiteLaender(List<Land> spielerLaender, Spieler spieler){ // Zeigt nur die laender an, die einen genug armee fur ein angriff besitzen UND eigene nachbarn haben
-        List<String> bereiteLaender = new ArrayList<>();
-
-        for(int i = 0; i < spielerLaender.size(); i++){
-            for (int j = 0; j < countries.size(); j++){
-                if(sindNachbar(spielerLaender.get(i).getTrueIndex()-1, countries.get(j).getTrueIndex()-1) && countries.get(j).getEingenommenVon() != spieler.getSpielerID()){
-                    String nachbarInfo = String.format("%d %s", i, countries.get(i));
-                    bereiteLaender.add(nachbarInfo);
+            List<String> bereiteLaender = new ArrayList<>();
+            Set<String> uniqueLaender = new HashSet<>();
+        
+            for (Land land : spielerLaender) {
+                for (Land country : countries) {
+                    if (sindNachbar(land.getTrueIndex() - 1, country.getTrueIndex() - 1) &&
+                        country.getEingenommenVon() != spieler.getSpielerID() &&
+                        land.getArmee() >= 2) {
+                            String nachbarInfo = land.toString();
+                            if (!uniqueLaender.contains(nachbarInfo)) {
+                                bereiteLaender.add(nachbarInfo);
+                                uniqueLaender.add(nachbarInfo);
+                            }
+                    }
                 }
             }
-            
+        
+            return bereiteLaender.toArray(new String[0]);
         }
-
-        String[] nachbarnArray = new String[bereiteLaender.size()];
-        nachbarnArray = bereiteLaender.toArray(nachbarnArray);
-    
-        return nachbarnArray;
-    }
     
     public String[] getAlleEigeneNachbars(int verteilungsLand, Spieler spieler) {
         if (verteilungsLand < 0 || verteilungsLand >= n) {
@@ -329,7 +331,7 @@ public class AdjazenzMatrix {
     
         for (int i = 0; i < n; i++) {
             if (sindNachbar(verteilungsLand, i) && countries.get(i).getEingenommenVon() == spieler.getSpielerID()) {
-                String nachbarInfo = String.format("%d %s", i, countries.get(i));
+                String nachbarInfo = String.format("%s", countries.get(i));
                 nachbarnListe.add(nachbarInfo);
                 //System.out.println("INDEX: " + (i+1) + " Name : " + countries.get(i).getName() + " Armee : " + countries.get(i).getArmee());
             }
@@ -342,7 +344,7 @@ public class AdjazenzMatrix {
     }
 
     public String[] getAlleGegnerNachbar(int angreifeLand, Spieler spieler) {
-        if (angreifeLand < 0 || angreifeLand >= n) {
+        if (angreifeLand < 0 || angreifeLand >= n - 1) {
             throw new IllegalArgumentException("Ungültiger Länderindex");
         }
 
@@ -351,7 +353,7 @@ public class AdjazenzMatrix {
            // nachbarn.add("Nachbarn von " + countries.get(angreifeLand) + ":");
             for (int i = 0; i < n; i++) {
                 if (sindNachbar(angreifeLand, i) && (countries.get(i).getEingenommenVon() != spieler.getSpielerID())) {
-                    String nachbarInfo = String.format("%d %s", i, countries.get(i));
+                    String nachbarInfo = String.format("%s", countries.get(i));
                     nachbarn.add(nachbarInfo);
                     //nachbarn.add(i + " " +  countries.get(i));
                     //System.out.println("TRUEIndex: "+ countries.get(i).getTrueIndex() + " Name : " + countries.get(i).getName() + " Armee : " + countries.get(i).getArmee());

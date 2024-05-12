@@ -101,8 +101,8 @@ public class Risiko {
 
     public String angreifen(int vonLandID, int nachLandID, int angreifeAnzahl){
         String resultat;
-        Land nachLand = weltVerwaltung.getLand(nachLandID);
-        Land vonLand = weltVerwaltung.getLand(vonLandID);
+        Land nachLand = getLand(nachLandID);
+        Land vonLand = getLand(vonLandID);
         resultat = spielLogik.angreifen(vonLand, nachLand, angreifeAnzahl); // Exceptions noetig
         return resultat;
     } 
