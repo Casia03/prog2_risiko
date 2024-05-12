@@ -106,8 +106,9 @@ public class Risiko {
     } 
 
     public void einruecken(int vonLand, int nachLand) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'einruecken'");
+        Land vonLand2 = getLand(vonLand);
+        Land nachLand1 = getLand(nachLand);
+
     }
 
     public void verschieben(int vonLandID, int nachLandID, int anzahl){
@@ -122,20 +123,7 @@ public class Risiko {
 
     
 
-    public void getAngriffGegnerLaender(int vonLand){ // Gibt eine liste von die gegnerische nachbar laender zuruck.
-        spieler = getJetzigerSpieler();
-        adj.getAlleGegnerNachbar(vonLand, spieler);
-    }
 
-    public void getVerschiebebereiteLaender(){ // Gibt eine liste von den eigenen Laender, die genug Armee fur eine verschiebung besitzen
-        spieler = getJetzigerSpieler();
-        List<Land> laender = weltVerwaltung.getSpielerAngriffsbereiteLaender(spieler); // wird zur ne string ausgabe geaendert 
-    }
-
-    public void waehleVerschiebeZiel(int vonLand){ //  hmm
-        spieler = getJetzigerSpieler();
-        adj.getAlleEigeneNachbars(vonLand, spieler);
-    }
 
     
 
@@ -209,8 +197,8 @@ public class Risiko {
 
 
     /*       LAND METHODEN          */
-    public Land getLand(int nachLand) {
-        Land land = weltVerwaltung.getLand(nachLand);
+    public Land getLand(int landID) {
+        Land land = weltVerwaltung.getLand(landID);
         return land;
     }
 
@@ -230,7 +218,27 @@ public class Risiko {
         return landArmee;
     }
 
+    public void getAngriffGegnerLaender(int vonLand){ // Gibt eine liste von die gegnerische nachbar laender zuruck.
+        spieler = getJetzigerSpieler();
+        adj.getAlleGegnerNachbar(vonLand, spieler);
+    }
 
+    public void getVerschiebebereiteLaender(){ // Gibt eine liste von den eigenen Laender, die genug Armee fur eine verschiebung besitzen
+        // TODO : !! MUSS UBERPRUEFEN OB DAS LAND NACHBARLAENDER HAT BEVOR ANZEIGEN
+        spieler = getJetzigerSpieler();
+        List<Land> laender = weltVerwaltung.getSpielerAngriffsbereiteLaender(spieler); // wird zur ne string ausgabe geaendert 
+    }
+
+    public void waehleVerschiebeZiel(int vonLand){ //  hmm
+        spieler = getJetzigerSpieler();
+        adj.getAlleEigeneNachbars(vonLand, spieler);
+    }
+
+    public boolean hatEigeneNachbarn(int landID){
+        spieler = getJetzigerSpieler();
+        Land land = getLand(landID);
+        return spielLogik.hatEigeneNachbarn(land, spieler);
+    }
 
 
 

@@ -51,6 +51,8 @@ public class CUI {
                                 System.out.println("The Game Starts!");
                                 startGame = true;
                                 risiko.startGame(risiko);
+
+                                
                                 boolean spielende = false;
                                 while (!spielende) {
 

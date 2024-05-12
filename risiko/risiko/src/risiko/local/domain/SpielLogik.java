@@ -216,5 +216,22 @@ public class SpielLogik {
         }
     }
 
+    public boolean hatEigeneNachbarn(Land land, Spieler spieler){
+        if( adj.getAlleEigeneNachbars(land.getTrueIndex(), spieler) == 0 ){ //adj.getAlle... falls leer dann hat keine nachbarn
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public boolean hatGegnerNachbarn(Land land, Spieler spieler){
+        if(adj.getAlleGegnerNachbar(land.getTrueIndex(), spieler) == 0){ //adj.getAlle... falls leer dann hat keine nachbarn
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    
 }
 
