@@ -29,7 +29,7 @@ public class WeltVerwaltung {
     public void initialisiereWelt() {
         try {
             // Der Pfad wird an Scanner uebergeben
-            Scanner s = new Scanner(new File("landtext.txt")); // C:\\Users\\Casia\\Desktop\\Semester2\\PROG_2\\Übungen\\risiko\\
+            Scanner s = new Scanner(new File("landtext.txt")); // C:\\Users\\Casia\\Desktop\\PROG_2\\risiko\\risiko\\
             while (s.hasNextLine()) {
                 // laenderNamen.add(s.nextLine());
                 String landName = s.nextLine();
@@ -100,6 +100,17 @@ public class WeltVerwaltung {
             }
         }
         return spielerLaender;
+    }
+
+    public String[] getSpielerLaenderAusgabe(List<Land> listeLand){
+        List<String> liste = new ArrayList<>();
+        for (int i = 0; i < listeLand.size(); i++){
+            String nachbarInfo = String.format("%d %s", i, getLandForForLoops(i));
+            liste.add(nachbarInfo);
+        }
+        String[] listeArray = new String[liste.size()];
+        listeArray = liste.toArray(listeArray);
+        return listeArray;
     }
 
     public List<Land> getSpielerAngriffsbereiteLaender(Spieler spieler) {
