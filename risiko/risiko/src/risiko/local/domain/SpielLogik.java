@@ -156,14 +156,15 @@ public class SpielLogik {
     }
 
     private int[] wurfel(int attackArmeeNumber, int defendArmeeNumber){ //Methode zur erzeugubg von zufaeliger wurfelnergebnissen
-        int[] wurfel = new int[4]; //Array mit 5 Zellen, Zellen index 0 bis 2, also die Erste Drei sind fur die Wurfeln des Angreifers, zellen 4 und 5, also index 3-4 sind fur den Wurfeln des Verteidigers
+        
+        int[] wurfel = new int[5]; //Array mit 5 Zellen, Zellen index 0 bis 2, also die Erste Drei sind fur die Wurfeln des Angreifers, zellen 4 und 5, also index 3-4 sind fur den Wurfeln des Verteidigers
+        
         for (int i = 0; i < wurfel.length; i++){ // Wurfel mit Nullen Fullen, damit spaeter kein Null pointer exception kommt
             wurfel[i] = 0;
         }
         switch (attackArmeeNumber){  //Math random zur generierung einer Random wurfel zahl von 1 buis 6 fur entweder 1 2 oder 3 wurfeln
             case 1:
                 wurfel[0] = (int)(Math.random() * 5 + 1);
-
                 break;
             case 2:
                 wurfel[0] = (int)(Math.random() * 5 + 1);
@@ -172,17 +173,17 @@ public class SpielLogik {
             case 3:
                 wurfel[0] = (int)(Math.random() * 5 + 1);
                 wurfel[1] = (int)(Math.random() * 5 + 1);
-                wurfel[3] = (int)(Math.random() * 5 + 1);
+                wurfel[2] = (int)(Math.random() * 5 + 1);
                 break;
         }
 
         switch (defendArmeeNumber){
             case 1:
-                wurfel[4] = (int)(Math.random() * 5 + 1);
+                wurfel[3] = (int)(Math.random() * 5 + 1);
                 break;
             case 2:
+                wurfel[3] = (int)(Math.random() * 5 + 1);
                 wurfel[4] = (int)(Math.random() * 5 + 1);
-                wurfel[5] = (int)(Math.random() * 5 + 1);
                 break;
         }
            

@@ -323,7 +323,7 @@ public class AdjazenzMatrix {
         }
     
     public String[] getAlleEigeneNachbars(int verteilungsLand, Spieler spieler) {
-        if (verteilungsLand < 0 || verteilungsLand >= n) {
+        if (verteilungsLand < 0 || verteilungsLand > n) {
             throw new IllegalArgumentException("Ungültiger Länderindex");
         }
     
@@ -344,7 +344,7 @@ public class AdjazenzMatrix {
     }
 
     public String[] getAlleGegnerNachbar(int angreifeLand, Spieler spieler) {
-        if (angreifeLand < 0 || angreifeLand >= n - 1) {
+        if (angreifeLand < 0 || angreifeLand > n ) {
             throw new IllegalArgumentException("Ungültiger Länderindex");
         }
 
@@ -366,7 +366,7 @@ public class AdjazenzMatrix {
     }
 
     public boolean sindNachbar(int angreifeLand, int verteidigerLand) {
-        if (angreifeLand < 0 || angreifeLand >= n || verteidigerLand < 0 || verteidigerLand >= n) {
+        if (angreifeLand < 0 || angreifeLand >= n || verteidigerLand < 0 || verteidigerLand > n) {
             throw new IllegalArgumentException("Invalid country index");
         }
 

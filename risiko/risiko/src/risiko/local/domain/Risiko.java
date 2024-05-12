@@ -219,7 +219,7 @@ public class Risiko {
 
     public String[] getAngriffGegnerLaender(int vonLand){ // Gibt eine liste von die gegnerische nachbar laender zuruck.
         spieler = getJetzigerSpieler();
-        String[] list = adj.getAlleGegnerNachbar(vonLand, spieler);
+        String[] list = adj.getAlleGegnerNachbar(vonLand - 1, spieler);
         return list;
     }
 
