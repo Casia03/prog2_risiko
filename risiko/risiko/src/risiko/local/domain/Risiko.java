@@ -157,9 +157,9 @@ public class Risiko {
     public String[] getJetzigerSpielerLaenderListe(){  // Gibt die Laender des Jetzigen spielers zurcuk
         spieler = getJetzigerSpieler();
         List<Land> laender = weltVerwaltung.getSpielerLaender(spieler); // wird zur ne string ausgabe geaendert 
+        
+        
         return weltVerwaltung.getSpielerLaenderAusgabe(laender);
-        //code zum anzeigen der laender, wahrscheinlich ein String return??
-
     }
 
     public void getJetzigerSpielerAngriffBereiteLaender(){ // Gibt die Angriffsbereite laender die zu den Jetzigen spieler gehoren

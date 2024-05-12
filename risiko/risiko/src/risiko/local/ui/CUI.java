@@ -67,7 +67,10 @@ public class CUI {
                                                        + ": es ist gerade die Verteilphase");
                                                 System.out.println("Deine Länder: ");
 
-                                                System.out.println( risiko.getJetzigerSpielerLaenderListe()); // muss noch geaendert werden
+                                                String[] resultArray = risiko.getJetzigerSpielerLaenderListe();
+                                                for (String element : resultArray) {
+                                                    System.out.println(element);
+                                                }
 
                                                 System.out.println("zurzeit zusatz armen in besitzt: "
                                                         + risiko.getJetzigerSpielerZusatzArmee());
