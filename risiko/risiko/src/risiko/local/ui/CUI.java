@@ -57,9 +57,6 @@ public class CUI {
 
                                     switch (risiko.getPhase()) {
                                         case ERSTVERTEILEN: // Anfangsverteil
-                                            // for(int i = 0;i <)
-                                            
-
                                             while (risiko.jetzigerSpielerHatZusatzarmee()) { // Wird abgespielt bis
                                                                                             // der Jetzige Spieler alle
                                                                                             // armeen verteilt hat
@@ -84,10 +81,8 @@ public class CUI {
                                             i = i + 1;
                                             risiko.nextPlayer(); // Naechster spieler
                                             if (i == risiko.getAnzahlSpieler()) { // wenn alle spieler zusatzarmee verteilt haben dann gehts in die naechste phase
-                                                System.out.println("PROBLEM HIER1");
                                                 risiko.nextPhase();
                                             }
-                                            System.out.println("PROBLEM HIER2");
                                             break;
 
                                         case VERTEILEN: // Verteilen
@@ -168,6 +163,7 @@ public class CUI {
                                                             int anzahlArmeeZumEinruecken = scanner.nextInt(); // BEGRENZUNGEN EINFUEGEN
                                                             risiko.verschieben(vonLand, nachLand, anzahlArmeeZumEinruecken);
                                                             System.out.println("So sieht zurzeit die Liste deiner Angriffsbereite Laender: " + risiko.getAngreiffeBereiteLaender());
+                                                            spielerWillEinruecken = false;
                                                         }
                                                     }
                                                     
@@ -176,20 +172,21 @@ public class CUI {
                                                     spielerWillAngreifen = scanner.next().trim().equalsIgnoreCase("j")? true: false;
                                                 }else{
                                                     System.out.println("Du hast leider Keine möglichkeit anzugreiffen, du wirst an die Verschieben phase weitergeleitet");
+                                                    spielerWillAngreifen = false;
                                                     risiko.nextPhase();
                                                     break;
                                                 }
                                                 
                                             }
-
+                                            spielerWillAngreifen = false;
                                             risiko.nextPhase();
                                             break;
 
                                         case VERSCHIEBEN: // Verschieben
                                             boolean spielerWillVerschieben = true;
-                                            System.out.println("\n\nSpieler" + risiko.getJetzigerSpielerName() + ", es ist gerade die Verschiebephase");
+                                            System.out.println("\n\nSpieler " + risiko.getJetzigerSpielerName() + ", es ist gerade die Verschiebephase");
 
-                                            System.out.println("Möchtest du die Verschiebephase übespringen? \nTippe: \n'J' für Ja \n'N' für Nein");
+                                            System.out.println("Möchtest du Verschieben? \nTippe: \n'J' für Ja \n'N' für Nein");
 
                                             spielerWillVerschieben = scanner.next().trim().equalsIgnoreCase("j")? true: false;
 
@@ -223,7 +220,6 @@ public class CUI {
                                             }
 
                                             risiko.nextPhase();
-                                            risiko.nextPlayer();
                                             break;
                                         // 1. Fragen ob man Verteilen möchte. Bei nein: Nächste Phase
                                         // 2. Ein Land wählen welches mehr als eine Einheit besitzt und dem Spieler
