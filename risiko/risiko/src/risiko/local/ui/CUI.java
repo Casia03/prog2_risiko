@@ -162,7 +162,11 @@ public class CUI {
                                                             System.out.println("Gib die Anzahl der Einheiten die du einruecken moechtest. \nDu hast " + (risiko.getLandArmee(vonLand)-1) + " Einheiten zur verfuegung."); 
                                                             int anzahlArmeeZumEinruecken = scanner.nextInt(); // BEGRENZUNGEN EINFUEGEN
                                                             risiko.verschieben(vonLand, nachLand, anzahlArmeeZumEinruecken);
-                                                            System.out.println("So sieht zurzeit die Liste deiner Angriffsbereite Laender: " + risiko.getAngreiffeBereiteLaender());
+                                                            System.out.println("So sieht zurzeit die Liste deiner Angriffsbereite Laender: ");
+                                                            String[] resultArray3 = risiko.getAngreiffeBereiteLaender();
+                                                            for (String element : resultArray3) {
+                                                                System.out.println(element);
+                                                            }
                                                             spielerWillEinruecken = false;
                                                         }
                                                     }
@@ -192,8 +196,11 @@ public class CUI {
 
                                             while (spielerWillVerschieben) {
                                                 System.out.println("Vom welchem Land möchtest du Einheiten verschieben?");
-                                                
-                                                risiko.getVerschiebebereiteLaender();
+
+                                                String[] resultArray = risiko.getVerschiebebereiteLaender();
+                                                    for (String element : resultArray) {
+                                                        System.out.println(element);
+                                                    }
 
                                                 System.out.println("Bitte gib die Nummer des Landes an von wo du die Einheiten aus verschieben möchtest.");
 
@@ -202,13 +209,18 @@ public class CUI {
                                                 System.out.println("Von dem Land: " + risiko.getLand(vonLand)+ " können nach folgenden Länder verschoben werden: ");
 
                                                 //funktion für angrenzende länder
+                                                
+                                                String[] resultArray1 = risiko.getAlleEigeneNachbars(vonLand);
+                                                for (String element : resultArray1) {
+                                                    System.out.println(element);
+                                                }
 
                                                 System.out.println("Bitte gib die Nummer des Landes an, welches die Einheiten erhalten soll.");
 
                                                 int nachLand = scanner.nextInt(); // Eingabe des Landes die die Einheiten bekommen soll, Exception nicht vergessen // BEGRENZUNGEN EINFUEGEN
 
                                                 System.out.println("Du hast " + risiko.getLandArmee(vonLand) + " Einheiten auf dein Land, und kannst somit höhstens "+ (risiko.getLandArmee(vonLand)-1) + " Einheiten verschieben. \n" 
-                                                + "Gib jetzt an, wie vielen Einheiten du verschieben möchtest (Mindestens eine Einheite muss bleiben).");
+                                                + "Gib jetzt an, wie vielen Einheiten du verschieben möchtest.");
 
                                                 int armeeAnzahl = scanner.nextInt(); // Eingabe der anzahl von verschobenen Einheiten, Exception nicht vergessen // BEGRENZUNGEN EINFUEGEN
 

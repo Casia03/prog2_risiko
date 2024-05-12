@@ -275,4 +275,10 @@ public class Risiko {
         }
     }
 
+    public String[] getAlleEigeneNachbars(int vonLand) {
+        spieler = getJetzigerSpieler();
+        String[] liste = adj.getAlleEigeneNachbars(vonLand, spieler);
+        return liste;
+    }
+
 }
