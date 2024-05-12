@@ -105,15 +105,17 @@ public class Risiko {
         spielLogik.angreifen(vonLand, nachLand, angreifeAnzahl); // Exceptions noetig
     } 
 
+    public void einruecken(int vonLand, int nachLand) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'einruecken'");
+    }
+
     public void verschieben(int vonLandID, int nachLandID, int anzahl){
         Land nachLand = weltVerwaltung.getLand(nachLandID);
         Land vonLand = weltVerwaltung.getLand(vonLandID);
 
         spielLogik.verschieben(vonLand, nachLand, anzahl);
 
-        //String erfolg ausgabe
-        //adjazenz pruefen
-        //verschiebe azahl pruefen und dann verschieben
     }
 
     
@@ -233,10 +235,6 @@ public class Risiko {
 
 
 
-
-
-
-
     
     /*      AUSWERTUNGS METHODEN        */
 
@@ -259,10 +257,7 @@ public class Risiko {
         throw new UnsupportedOperationException("Unimplemented method 'getAngriffResultat'");
     }
 
-    public void einruecken() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'einruecken'");
-    }
+
     
 
 
