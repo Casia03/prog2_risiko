@@ -99,16 +99,19 @@ public class Risiko {
 
     }
 
-    public void angreifen(int vonLandID, int nachLandID, int angreifeAnzahl){
+    public String angreifen(int vonLandID, int nachLandID, int angreifeAnzahl){
+        String resultat;
         Land nachLand = weltVerwaltung.getLand(nachLandID);
         Land vonLand = weltVerwaltung.getLand(vonLandID);
-        spielLogik.angreifen(vonLand, nachLand, angreifeAnzahl); // Exceptions noetig
+        resultat = spielLogik.angreifen(vonLand, nachLand, angreifeAnzahl); // Exceptions noetig
+        return resultat;
     } 
 
-    public void einruecken(int vonLand, int nachLand) {
+    public void einruecken(int vonLand, int nachLand, int anzahlArmee) {
         Land vonLand2 = getLand(vonLand);
         Land nachLand1 = getLand(nachLand);
 
+        spielLogik.einruecken(vonLand2, nachLand1, anzahlArmee);
     }
 
     public void verschieben(int vonLandID, int nachLandID, int anzahl){
@@ -245,6 +248,7 @@ public class Risiko {
 
         throw new IllegalArgumentException("Du hast keine Verschiebebereite Laender");
     }
+    
     public void waehleVerschiebeZiel(int vonLand){ //  hmm
         spieler = getJetzigerSpieler();
         adj.getAlleEigeneNachbars(vonLand, spieler);
@@ -269,6 +273,15 @@ public class Risiko {
     public boolean getAngriffResultat() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getAngriffResultat'");
+    }
+
+    public boolean landHatKeineArmee(int nachLand) {
+        Land land = getLand(nachLand);
+        if(land.getArmee() <= 0){
+            return true;
+        }else{
+            return false;
+        }
     }
 
 

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 import risiko.local.entities.Land;
 import risiko.local.entities.Spieler;
+import risiko.local.persistance.Exceptions;
 import risiko.local.entities.AdjazenzMatrix;
 
 public class SpielLogik {
@@ -28,7 +29,9 @@ public class SpielLogik {
         }
     }
     
-    public void angreifen(Land vonLand, Land nachLand, int attackArmeeNumber){ 
+    public String angreifen(Land vonLand, Land nachLand, int attackArmeeNumber){ 
+        StringBuilder resultatBuilder = new StringBuilder();
+        //String[] resultat = new String[2];
         int defendArmeeNumber = 1;
         if(nachLand.getArmee() >= 2){
             defendArmeeNumber = 2;
@@ -37,7 +40,7 @@ public class SpielLogik {
         }
         if (angriffMoeglich(vonLand, nachLand) || adj.sindNachbar(vonLand.getTrueIndex(), nachLand.getTrueIndex())){ // prüfft Kommt wahrscheinlich weg, hmm gucken wir mal, ich mein die "kann man das uberhaupt auswaehlen" bedingungen werden meistens durch die adj matrix, weltverwaltung und dann auch von risiko verabeitet. Ich denke es wird fur die GUI spaeter notig haha, also bleibt es erstmal hier, stort doch bestimmt niemanden, hoffentlich
             if(!attackNumberStimmt(vonLand,attackArmeeNumber) && !defendNumberStimmt(nachLand,defendArmeeNumber)){
-                return; //Exception, neue Auswahl von Angaben, also !!nicht!! return 
+                throw new UnsupportedOperationException("Unimplemented method "); //Exception, neue Auswahl von Angaben, also !!nicht!! return 
             }else{
                 int[] wurfelResultat = wurfel(attackArmeeNumber, defendArmeeNumber);
                 //wurfel Anzeigen
@@ -51,32 +54,48 @@ public class SpielLogik {
                 int highestDefence = wurfelResultat[4];
                 int secondHighestDefence = wurfelResultat[3];
 
+                String attackerLostOne = "Angreifer verloren Eine Einheit";
+                String defenderLostOne = "Verteidiger verloren Eine Einheit";
                 if(highestAttack <= highestDefence){ //wenn attackWurfel kleiner Gleich defendWurfel, dann gewinnt defend 
                     // AttackArmee - 1
                     vonLand.setArmee(vonLand.getArmee() - 1);
+                    resultatBuilder.append(attackerLostOne);
+                    //resultat[0] = attackerLostOne;
+                    // HIER STRING FOR ATTACKER LOST ONE
 
                 }else{ //gewinnt  Angreifer
                     // Defend Armee - 1
                     nachLand.setArmee(nachLand.getArmee() - 1);
+                    //resultat[0] = defenderLostOne;
+                    // HIER STRING FOR DEFENDER LOST ONE
+                    resultatBuilder.append(defenderLostOne);
 
                 }
                 if(secondHighestDefence != 0){
                     if(secondHighestAttack <= secondHighestDefence){ //gewinnt defender
                         // AttackArmee - 1
                         vonLand.setArmee(vonLand.getArmee() - 1);
+                        // HIER STRING FOR ATTACKER LOST ONE
+                        resultatBuilder.append(attackerLostOne);
+                        //resultat[1] = attackerLostOne;
 
                     }else{ //gewinnt  Angreifer
                     // Defend Armee - 1
                         nachLand.setArmee(nachLand.getArmee() - 1);
+                        // HIER STRING FOR DEFENDER LOST ONE
+                        //resultat[1] = defenderLostOne;
+                        resultatBuilder.append(defenderLostOne);
                     }
                 }
                 
             }
             
-            
         }else{
             //angriff nicht moeglich exception
         }
+        // CONJUCTION OF BOTH STRINGS UP IN THE IF STATEMENTS INTO THE resultat String[]
+
+        return resultatBuilder.toString();
     }
 
     public void einruecken(Land vonLand, Land nachLand, int armee){ //Funktion zum einruecken von Armeen nach ne erfolgreiche eroberung eines Landes,

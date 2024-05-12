@@ -73,11 +73,11 @@ public class CUI {
                                                 System.out.println("zurzeit zusatz armen in besitzt: " + risiko.getJetzigerSpielerZusatzArmee());
                                                 System.out.println("Du musst deine Zusatzarmeen verteilen. \nWaehle dazu ein Land auf dem du deine Zusatzarmeen verteilen möchtest.");
 
-                                                int nachLand = scanner.nextInt();
+                                                int nachLand = scanner.nextInt(); // BEGRENZUNGEN EINFUEGEN
 
                                                 System.out.println("Wie viele Einheiten möchtest du auf das Land " + risiko.getLand(nachLand)+ " platzieren? \n zu verfügung stehen dir noch " + risiko.getJetzigerSpielerZusatzArmee() + " Einheiten.");
 
-                                                int anzahlArmee = scanner.nextInt();
+                                                int anzahlArmee = scanner.nextInt(); // BEGRENZUNGEN EINFUEGEN
                                                 risiko.verteilen(nachLand, anzahlArmee);
                                             }
                                             i += 1;
@@ -99,11 +99,11 @@ public class CUI {
                                                 System.out.println("zurzeit zusatz armen in besitzt: " + risiko.getJetzigerSpielerZusatzArmee());
                                                 System.out.println("Du musst deine Zusatzarmeen verteilen. \nGib die Nummer des Landes ein, auf dem du deine Zusatzarmeen verteilen möchtest.");
 
-                                                int nachLand = scanner.nextInt();
+                                                int nachLand = scanner.nextInt(); // BEGRENZUNGEN EINFUEGEN
 
                                                 System.out.println("Wie viele Einheiten möchtest du auf das Land "+ risiko.getLand(nachLand) + " platzieren? \n zu verfügung stehen dir noch " + risiko.getJetzigerSpielerZusatzArmee() + " Einheiten.");
 
-                                                int anzahlArmee = scanner.nextInt();
+                                                int anzahlArmee = scanner.nextInt(); // BEGRENZUNGEN EINFUEGEN
                                                 risiko.verteilen(nachLand, anzahlArmee);
 
                                                 System.out.println("Die Einheiten wurden effolgreich verteilt.\n");
@@ -132,7 +132,7 @@ public class CUI {
 
                                                 System.out.println("Bitte gib die Nummer des Landes an mit dem du angreifen moechtests.");
 
-                                                int vonLand = scanner.nextInt(); // Eingabe der Angriffslandes, Exception nicht vergessen
+                                                int vonLand = scanner.nextInt(); // Eingabe der Angriffslandes, Exception nicht vergessen // BEGRENZUNGEN EINFUEGEN
 
                                                 System.out.println("Von dem Land: " + risiko.getLand(vonLand)+ " können folgende gegnerische Länder angegriffen werden: ");
 
@@ -145,26 +145,24 @@ public class CUI {
 
                                                 System.out.println("Bitte gib die Nummer des Landes an, welches du angreifen möchtests.");
 
-                                                int nachLand = scanner.nextInt(); // Eingabe der Verteidigungslandes, Exception nicht vergessen
+                                                int nachLand = scanner.nextInt(); // Eingabe der Verteidigungslandes, Exception nicht vergessen // BEGRENZUNGEN EINFUEGEN
 
                                                 System.out.println("Du hast " + risiko.getLandArmee(vonLand) + " Einheiten auf dein Land, und kannst somit mit höhstens " + risiko.getMaxAttackNumber(vonLand) + " Einheiten Angreifen. \n Gib jetzt an, mit wie vielen Einheiten du angreifen möchtest (1, 2 oder 3 Einheiten).");
 
-                                                int armeeAnzahl = scanner.nextInt(); // Eingabe der Agriffs armee anzahl, Exception nicht vergessen
+                                                int armeeAnzahl = scanner.nextInt(); // Eingabe der Agriffs armee anzahl, Exception nicht vergessen // BEGRENZUNGEN EINFUEGEN
 
-                                                risiko.angreifen(vonLand, nachLand, armeeAnzahl);
+                                                System.out.println(risiko.angreifen(vonLand, nachLand, armeeAnzahl)); // Zeigt resultat von angriff
 
-                                                System.out.println("Resultat : " + risiko.getAngriffResult());
-                                                if(risiko.getAngriffResultat()){ // WENN GEWONNEN
+                                                if(risiko.landHatKeineArmee(nachLand)){ // WENN GEWONNEN
                                                     System.out.println("Du hast das Land " + risiko.getLandName(nachLand) + " Erobert.");
                                                     System.out.println("Möchtest du auf das eroberte Land mehr Einheiten einrücken?\nTippe: \n'J' für Ja \n'N' für Nein\"");
 
                                                     spielerWillEinruecken = scanner.next().trim().equalsIgnoreCase("j")? true: false;
 
                                                     if(spielerWillEinruecken){ // WENN EINRUECKEN MOECHTEN
-                                                        System.out.println("Gib die Anzahl der Einheiten die du einruecken moechtest. \nDu hast " + (risiko.getLandArmee(vonLand)-1) + " Einheiten zur verfuegung.");
-                                                        int anzahlArmeeZumEinruecken;
-                                                        anzahlArmeeZumEinruecken = scanner.nextInt();
-                                                        //risiko.einruecken();
+                                                        System.out.println("Gib die Anzahl der Einheiten die du einruecken moechtest. \nDu hast " + (risiko.getLandArmee(vonLand)-1) + " Einheiten zur verfuegung."); 
+                                                        int anzahlArmeeZumEinruecken = scanner.nextInt(); // BEGRENZUNGEN EINFUEGEN
+                                                        risiko.einruecken(vonLand, nachLand, anzahlArmeeZumEinruecken);
                                                     }
                                                 }
                                                 
@@ -193,7 +191,7 @@ public class CUI {
 
                                                 System.out.println("Bitte gib die Nummer des Landes an von wo du die Einheiten aus verschieben möchtest.");
 
-                                                int vonLand = scanner.nextInt(); // Eingabe der Landes von wo aus verschoben wird, Exception nicht vergessen
+                                                int vonLand = scanner.nextInt(); // Eingabe der Landes von wo aus verschoben wird, Exception nicht vergessen // BEGRENZUNGEN EINFUEGEN
                                                 
                                                 System.out.println("Von dem Land: " + risiko.getLand(vonLand)+ " können nach folgenden Länder verschoben werden: ");
 
@@ -201,12 +199,12 @@ public class CUI {
 
                                                 System.out.println("Bitte gib die Nummer des Landes an, welches die Einheiten erhalten soll.");
 
-                                                int nachLand = scanner.nextInt(); // Eingabe des Landes die die Einheiten bekommen soll, Exception nicht vergessen
+                                                int nachLand = scanner.nextInt(); // Eingabe des Landes die die Einheiten bekommen soll, Exception nicht vergessen // BEGRENZUNGEN EINFUEGEN
 
                                                 System.out.println("Du hast " + risiko.getLandArmee(vonLand) + " Einheiten auf dein Land, und kannst somit höhstens "+ (risiko.getLandArmee(vonLand)-1) + " Einheiten verschieben. \n" 
                                                 + "Gib jetzt an, wie vielen Einheiten du verschieben möchtest (Mindestens eine Einheite muss bleiben).");
 
-                                                int armeeAnzahl = scanner.nextInt(); // Eingabe der anzahl von verschobenen Einheiten, Exception nicht vergessen
+                                                int armeeAnzahl = scanner.nextInt(); // Eingabe der anzahl von verschobenen Einheiten, Exception nicht vergessen // BEGRENZUNGEN EINFUEGEN
 
                                                 risiko.verschieben(vonLand, nachLand, armeeAnzahl);
 
