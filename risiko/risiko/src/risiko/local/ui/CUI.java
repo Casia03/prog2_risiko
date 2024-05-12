@@ -193,6 +193,7 @@ public class CUI {
 
                                             while (spielerWillVerschieben) {
                                                 System.out.println("Vom welchem Land möchtest du Einheiten verschieben?");
+                                                
                                                 risiko.getVerschiebebereiteLaender();
 
                                                 System.out.println("Bitte gib die Nummer des Landes an von wo du die Einheiten aus verschieben möchtest.");

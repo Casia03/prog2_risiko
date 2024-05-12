@@ -282,7 +282,44 @@ public class AdjazenzMatrix {
         return adjazenzmatrix;
     }
 
+    public String[] getAlleVerschiebeBereiteLaender(List<Land> spielerLaender){
+        List<String> bereiteLaender = new ArrayList<>();
+
+        for(int i = 0; i < spielerLaender.size(); i++){
+            for (int j = 0; j < spielerLaender.size(); j++){
+                if(sindNachbar(spielerLaender.get(i).getTrueIndex()-1, spielerLaender.get(j).getTrueIndex()-1)){
+                    String nachbarInfo = String.format("%d %s", i, countries.get(i));
+                    bereiteLaender.add(nachbarInfo);
+                }
+            }
+            
+        }
+
+        String[] nachbarnArray = new String[bereiteLaender.size()];
+        nachbarnArray = bereiteLaender.toArray(nachbarnArray);
     
+        return nachbarnArray;
+    }
+
+    public String[] getAlleAngreifebereiteLaender(List<Land> spielerLaender, Spieler spieler){
+        List<String> bereiteLaender = new ArrayList<>();
+
+        for(int i = 0; i < spielerLaender.size(); i++){
+            for (int j = 0; j < countries.size(); j++){
+                if(sindNachbar(spielerLaender.get(i).getTrueIndex()-1, countries.get(j).getTrueIndex()-1)){
+                    String nachbarInfo = String.format("%d %s", i, countries.get(i));
+                    bereiteLaender.add(nachbarInfo);
+                }
+            }
+            
+        }
+
+        String[] nachbarnArray = new String[bereiteLaender.size()];
+        nachbarnArray = bereiteLaender.toArray(nachbarnArray);
+    
+        return nachbarnArray;
+    }
+    }
     public String[] getAlleEigeneNachbars(int verteilungsLand, Spieler spieler) {
         if (verteilungsLand < 0 || verteilungsLand >= n) {
             throw new IllegalArgumentException("Ungültiger Länderindex");
@@ -303,10 +340,6 @@ public class AdjazenzMatrix {
     
         return nachbarnArray;
     }
-
-
-
-
 
     public String[] getAlleGegnerNachbar(int angreifeLand, Spieler spieler) {
         if (angreifeLand < 0 || angreifeLand >= n) {

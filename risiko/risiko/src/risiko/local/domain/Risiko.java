@@ -119,27 +119,6 @@ public class Risiko {
 
     }
 
-    
-
-    
-
-
-<<<<<<< HEAD
-=======
-    public List<Land> getVerschiebebereiteLaender(){ // Gibt eine liste von den eigenen Laender, die genug Armee fur eine verschiebung besitzen
-        spieler = getJetzigerSpieler();
-        List<Land> laender = weltVerwaltung.getSpielerAngriffsbereiteLaender(spieler); // wird zur ne string ausgabe geaendert 
-        return laender;
-    }
-
-    public void waehleVerschiebeZiel(int vonLand){ //  hmm
-        spieler = getJetzigerSpieler();
-        adj.getAlleEigeneNachbars(vonLand, spieler);
-    }
->>>>>>> d995bb488b81a2dcc24f90aebd4b0e8e6bbbb538
-
-    
-
 
     /*       SPIELER METHODEN          */
     
@@ -236,10 +215,17 @@ public class Risiko {
         adj.getAlleGegnerNachbar(vonLand, spieler);
     }
 
-    public void getVerschiebebereiteLaender(){ // Gibt eine liste von den eigenen Laender, die genug Armee fur eine verschiebung besitzen
+    public String[] getVerschiebebereiteLaender(){ // Gibt eine liste von den eigenen Laender, die genug Armee fur eine verschiebung besitzen
+        String[] verschiebeBereiteLaender;
         // TODO : !! MUSS UBERPRUEFEN OB DAS LAND NACHBARLAENDER HAT BEVOR ANZEIGEN
         spieler = getJetzigerSpieler();
         List<Land> laender = weltVerwaltung.getSpielerAngriffsbereiteLaender(spieler); // wird zur ne string ausgabe geaendert 
+        
+        if(spielLogik.hatEigeneNachbarn(laender, spieler)){
+            
+        }
+
+        return verschiebeBereiteLaender;
     }
 
     public void waehleVerschiebeZiel(int vonLand){ //  hmm
