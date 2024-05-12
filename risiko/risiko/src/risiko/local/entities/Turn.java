@@ -66,7 +66,6 @@ public class Turn {
                 break;
             case VERTEILEN:
                 phase = Phase.ANGREIFFEN;
-                nextPlayer();
                 break;
             case ANGREIFFEN:
                 phase = Phase.VERSCHIEBEN;

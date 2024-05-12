@@ -20,12 +20,7 @@ public class WeltVerwaltung {
     public WeltVerwaltung(){
 
     }
-    /*
-     *
-     * THis shit rocks!!
-     * 
-     * 
-     */
+
     public void initialisiereWelt() {
         try {
             // Der Pfad wird an Scanner uebergeben
@@ -84,6 +79,10 @@ public class WeltVerwaltung {
 
     public Land getLand(int landID) {
         return lander.get(landID - 1); 
+    }
+
+    public void setNeueBesitzer(int nachLand, Spieler spieler){
+        getLand(nachLand).setEigenommen(spieler.getSpielerID());
     }
 
     private Land getLandForForLoops(int id){

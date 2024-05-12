@@ -63,7 +63,7 @@ public class CUI {
                                             while (risiko.jetzigerSpielerHatZusatzarmee()) { // Wird abgespielt bis
                                                                                             // der Jetzige Spieler alle
                                                                                             // armeen verteilt hat
-                                                System.out.println(risiko.getJetzigerSpielerName() + ": es ist gerade die Verteilphase");
+                                                System.out.println("\n\nSpieler " + risiko.getJetzigerSpielerName() + ", es ist gerade die Verteilphase");
                                                 System.out.println("Deine Länder: ");
 
                                                 String[] resultArray = risiko.getJetzigerSpielerLaenderListe();
@@ -93,7 +93,7 @@ public class CUI {
                                         case VERTEILEN: // Verteilen
 
                                             while (risiko.jetzigerSpielerHatZusatzarmee()) {
-                                                System.out.println(risiko.getJetzigerSpielerName() + ", es ist gerade die Verteilephase \nBitte verteile deine Zusatzarmeen.");
+                                                System.out.println("\n\nSpieler " + risiko.getJetzigerSpielerName() + ", es ist gerade die Verteilephase \nBitte verteile deine Zusatzarmeen.");
                                                 System.out.println("Deine Länder: ");
 
                                                 risiko.getJetzigerSpielerLaenderListe();
@@ -116,7 +116,7 @@ public class CUI {
                                         case ANGREIFFEN: // Angreifen
                                             boolean spielerWillAngreifen = true;
                                             boolean spielerWillEinruecken = false;
-                                            System.out.println("Spieler " + risiko.getJetzigerSpielerName() + ", gerade bist du in die Angreiffenphase ");
+                                            System.out.println("\n\nSpieler " + risiko.getJetzigerSpielerName() + ", gerade bist du in die Angreiffenphase ");
                                             System.out.println("Möchtest du die Angreiffephase übespringen? \nTippe: \n'J' für Ja \n'N' für Nein");
 
                                             spielerWillAngreifen = scanner.next().trim().equalsIgnoreCase("j") ? true: false;
@@ -126,53 +126,60 @@ public class CUI {
                                                 System.out.println("Du hast dich fur den Angriff entschieden \nWälle ein land aus dem du Angreiffen moechtest");
                                                 
                                                  // Ausgabe der agnriffsbereiten laender
-
-                                                String[] resultArray = risiko.getJetzigerSpielerAngriffBereiteLaender();
-                                                for (String element : resultArray) {
-                                                    System.out.println(element);
-                                                }
-
-                                                System.out.println("Bitte gib die Nummer des Landes an mit dem du angreifen moechtests.");
-
-                                                int vonLand = scanner.nextInt(); // Eingabe der Angriffslandes, Exception nicht vergessen // BEGRENZUNGEN EINFUEGEN
-
-                                                System.out.println("Von dem Land: " + risiko.getLand(vonLand)+ " können folgende gegnerische Länder angegriffen werden: ");
-
-                                                 // Ausgabe der Adjazierenden genger laender
-
-                                                String[] resultArray2 = risiko.getAngriffGegnerLaender(vonLand);
-                                                for (String element : resultArray2) {
-                                                    System.out.println(element);
-                                                }
-
-                                                System.out.println("Bitte gib die Nummer des Landes an, welches du angreifen möchtests.");
-
-                                                int nachLand = scanner.nextInt(); // Eingabe der Verteidigungslandes, Exception nicht vergessen // BEGRENZUNGEN EINFUEGEN
-
-                                                System.out.println("Du hast " + risiko.getLandArmee(vonLand) + " Einheiten auf dein Land, und kannst somit mit höhstens " + risiko.getMaxAttackNumber(vonLand) + " Einheiten Angreifen. \n Gib jetzt an, mit wie vielen Einheiten du angreifen möchtest (1, 2 oder 3 Einheiten).");
-
-                                                int armeeAnzahl = scanner.nextInt(); // Eingabe der Agriffs armee anzahl, Exception nicht vergessen // BEGRENZUNGEN EINFUEGEN
-
-                                                System.out.println(risiko.angreifen(vonLand, nachLand, armeeAnzahl)); // Zeigt resultat von angriff
-
-                                                if(risiko.landHatKeineArmee(nachLand)){ // WENN GEWONNEN
-                                                    System.out.println("Du hast das Land " + risiko.getLandName(nachLand) + " Erobert.");
-                                                    System.out.println("Möchtest du auf das eroberte Land mehr Einheiten einrücken?\nTippe: \n'J' für Ja \n'N' für Nein\"");
-
-                                                    spielerWillEinruecken = scanner.next().trim().equalsIgnoreCase("j")? true: false;
-
-                                                    if(spielerWillEinruecken){ // WENN EINRUECKEN MOECHTEN
-                                                        System.out.println("Gib die Anzahl der Einheiten die du einruecken moechtest. \nDu hast " + (risiko.getLandArmee(vonLand)-1) + " Einheiten zur verfuegung."); 
-                                                        int anzahlArmeeZumEinruecken = scanner.nextInt(); // BEGRENZUNGEN EINFUEGEN
-                                                        risiko.einruecken(vonLand, nachLand, anzahlArmeeZumEinruecken);
+                                                if(risiko.getAngreiffeBereiteLaender() != null){
+                                                    String[] resultArray = risiko.getAngreiffeBereiteLaender();
+                                                    for (String element : resultArray) {
+                                                        System.out.println(element);
                                                     }
+
+                                                    System.out.println("Bitte gib die Nummer des Landes an mit dem du angreifen moechtests.");
+
+                                                    int vonLand = scanner.nextInt(); // Eingabe der Angriffslandes, Exception nicht vergessen // BEGRENZUNGEN EINFUEGEN
+
+                                                    System.out.println("Von dem Land: " + risiko.getLand(vonLand)+ " können folgende gegnerische Länder angegriffen werden: ");
+
+                                                    // Ausgabe der Adjazierenden genger laender
+
+                                                    String[] resultArray2 = risiko.getAngriffGegnerLaender(vonLand);
+                                                    for (String element : resultArray2) {
+                                                        System.out.println(element);
+                                                    }
+
+                                                    System.out.println("Bitte gib die Nummer des Landes an, welches du angreifen möchtests.");
+
+                                                    int nachLand = scanner.nextInt(); // Eingabe der Verteidigungslandes, Exception nicht vergessen // BEGRENZUNGEN EINFUEGEN
+
+                                                    System.out.println("Du hast " + risiko.getLandArmee(vonLand) + " Einheiten auf dein Land, und kannst somit mit höhstens " + risiko.getMaxAttackNumber(vonLand) + " Einheiten Angreifen. \n Gib jetzt an, mit wie vielen Einheiten du angreifen möchtest (1, 2 oder 3 Einheiten).");
+
+                                                    int armeeAnzahl = scanner.nextInt(); // Eingabe der Agriffs armee anzahl, Exception nicht vergessen // BEGRENZUNGEN EINFUEGEN
+
+                                                    System.out.println(risiko.angreifen(vonLand, nachLand, armeeAnzahl)); // Zeigt resultat von angriff
+
+                                                    if(risiko.landHatKeineArmee(nachLand)){ // WENN GEWONNEN
+                                                        risiko.neuerBesitzerSetzen(nachLand);
+                                                        risiko.einruecken(vonLand, nachLand);
+                                                        System.out.println("Du hast das Land " + risiko.getLandName(nachLand) + " Erobert.");
+                                                        System.out.println("Möchtest du auf das eroberte Land mehr Einheiten einrücken?\nTippe: \n'J' für Ja \n'N' für Nein\"");
+
+                                                        spielerWillEinruecken = scanner.next().trim().equalsIgnoreCase("j")? true: false;
+
+                                                        if(spielerWillEinruecken){ // WENN EINRUECKEN MOECHTEN
+                                                            System.out.println("Gib die Anzahl der Einheiten die du einruecken moechtest. \nDu hast " + (risiko.getLandArmee(vonLand)-1) + " Einheiten zur verfuegung."); 
+                                                            int anzahlArmeeZumEinruecken = scanner.nextInt(); // BEGRENZUNGEN EINFUEGEN
+                                                            risiko.verschieben(vonLand, nachLand, anzahlArmeeZumEinruecken);
+                                                            System.out.println("So sieht zurzeit die Liste deiner Angriffsbereite Laender: " + risiko.getAngreiffeBereiteLaender());
+                                                        }
+                                                    }
+                                                    
+                                                    System.out.println("Möchtest du weiter angreifen? \nTippe: \n'J' für Ja \n'N' für Nein");
+
+                                                    spielerWillAngreifen = scanner.next().trim().equalsIgnoreCase("j")? true: false;
+                                                }else{
+                                                    System.out.println("Du hast leider Keine möglichkeit anzugreiffen, du wirst an die Verschieben phase weitergeleitet");
+                                                    risiko.nextPhase();
+                                                    break;
                                                 }
                                                 
-                                                
-
-                                                System.out.println("Möchtest du weiter angreifen? \nTippe: \n'J' für Ja \n'N' für Nein");
-
-                                                spielerWillAngreifen = scanner.next().trim().equalsIgnoreCase("j")? true: false;
                                             }
 
                                             risiko.nextPhase();
@@ -180,7 +187,7 @@ public class CUI {
 
                                         case VERSCHIEBEN: // Verschieben
                                             boolean spielerWillVerschieben = true;
-                                            System.out.println(risiko.getJetzigerSpielerName() + " es ist gerade die Verschiebephase");
+                                            System.out.println("\n\nSpieler" + risiko.getJetzigerSpielerName() + ", es ist gerade die Verschiebephase");
 
                                             System.out.println("Möchtest du die Verschiebephase übespringen? \nTippe: \n'J' für Ja \n'N' für Nein");
 
@@ -216,6 +223,7 @@ public class CUI {
                                             }
 
                                             risiko.nextPhase();
+                                            risiko.nextPlayer();
                                             break;
                                         // 1. Fragen ob man Verteilen möchte. Bei nein: Nächste Phase
                                         // 2. Ein Land wählen welches mehr als eine Einheit besitzt und dem Spieler

@@ -13,7 +13,7 @@ public class SpielLogik {
     private AdjazenzMatrix adj;
 
     public SpielLogik(WeltVerwaltung wv){
-        AdjazenzMatrix adj = new AdjazenzMatrix(wv);
+       adj = new AdjazenzMatrix(wv);
     }
     
     public void verteilen(Spieler spieler, Land land, int anzahl){
@@ -38,6 +38,7 @@ public class SpielLogik {
         }else if (nachLand.getArmee() == 1){
             defendArmeeNumber = 1;
         }
+        //System.out.println(defendArmeeNumber + " VERTEIDIGER WURFEL ANZAHL");
         if (angriffMoeglich(vonLand, nachLand) || adj.sindNachbar(vonLand.getTrueIndex(), nachLand.getTrueIndex())){ // prüfft Kommt wahrscheinlich weg, hmm gucken wir mal, ich mein die "kann man das uberhaupt auswaehlen" bedingungen werden meistens durch die adj matrix, weltverwaltung und dann auch von risiko verabeitet. Ich denke es wird fur die GUI spaeter notig haha, also bleibt es erstmal hier, stort doch bestimmt niemanden, hoffentlich
             if(!attackNumberStimmt(vonLand,attackArmeeNumber) && !defendNumberStimmt(nachLand,defendArmeeNumber)){
                 throw new UnsupportedOperationException("Unimplemented method "); //Exception, neue Auswahl von Angaben, also !!nicht!! return 
@@ -45,8 +46,10 @@ public class SpielLogik {
                 int[] wurfelResultat = wurfel(attackArmeeNumber, defendArmeeNumber);
                 //wurfel Anzeigen
                 //angriffAuswertung(wurfelResultat);
-                Arrays.sort(wurfelResultat,0,2);
-                Arrays.sort(wurfelResultat,3,4);
+                Arrays.sort(wurfelResultat,0,3);
+                Arrays.sort(wurfelResultat,3,5);
+
+                //System.out.println("WURFEL RESULTAT: " + wurfelResultat[0] + " " + wurfelResultat[1] + " " + wurfelResultat[2] + " " + wurfelResultat[3] + " " + wurfelResultat[4] + " " );
 
                 int highestAttack = wurfelResultat[2];
                 int secondHighestAttack = wurfelResultat[1];
@@ -54,21 +57,19 @@ public class SpielLogik {
                 int highestDefence = wurfelResultat[4];
                 int secondHighestDefence = wurfelResultat[3];
 
-                String attackerLostOne = "Angreifer verloren Eine Einheit";
-                String defenderLostOne = "Verteidiger verloren Eine Einheit";
+                String attackerLostOne = "Angreifer verloren Eine Einheit\n";
+                String defenderLostOne = "Verteidiger verloren Eine Einheit\n";
                 if(highestAttack <= highestDefence){ //wenn attackWurfel kleiner Gleich defendWurfel, dann gewinnt defend 
                     // AttackArmee - 1
                     vonLand.setArmee(vonLand.getArmee() - 1);
                     resultatBuilder.append(attackerLostOne);
-                    //resultat[0] = attackerLostOne;
-                    // HIER STRING FOR ATTACKER LOST ONE
+                    //System.out.println("ANGREIFER VELOREN 1 PRINT AUS SPILLOGIK + vonlandarmee : " + vonLand.getArmee() );
 
                 }else{ //gewinnt  Angreifer
                     // Defend Armee - 1
                     nachLand.setArmee(nachLand.getArmee() - 1);
-                    //resultat[0] = defenderLostOne;
-                    // HIER STRING FOR DEFENDER LOST ONE
                     resultatBuilder.append(defenderLostOne);
+                    //System.out.println("VERTEIDIGER VELOREN 1 PRINT AUS SPILLOGIK + vonlandarmee : " + nachLand.getArmee() );
 
                 }
                 if(secondHighestDefence != 0){
@@ -78,6 +79,7 @@ public class SpielLogik {
                         // HIER STRING FOR ATTACKER LOST ONE
                         resultatBuilder.append(attackerLostOne);
                         //resultat[1] = attackerLostOne;
+                        //System.out.println("ANGREIFER VELOREN 2 PRINT AUS SPILLOGIK + vonlandarmee : " + vonLand.getArmee() );
 
                     }else{ //gewinnt  Angreifer
                     // Defend Armee - 1
@@ -85,6 +87,7 @@ public class SpielLogik {
                         // HIER STRING FOR DEFENDER LOST ONE
                         //resultat[1] = defenderLostOne;
                         resultatBuilder.append(defenderLostOne);
+                        //System.out.println("VERTEIDIGER VELOREN 2 PRINT AUS SPILLOGIK + vonlandarmee : " + nachLand.getArmee() );
                     }
                 }
                 
@@ -98,20 +101,13 @@ public class SpielLogik {
         return resultatBuilder.toString();
     }
 
-    public void einruecken(Land vonLand, Land nachLand, int armee){ //Funktion zum einruecken von Armeen nach ne erfolgreiche eroberung eines Landes,
+    public void einruecken(Land vonLand, Land nachLand){ //Funktion zum einruecken von Armeen nach ne erfolgreiche eroberung eines Landes,
         nachLand.setArmee(1); // Eine Einheit automatisch rueberziehen
         vonLand.setArmee(vonLand.getArmee() - 1);
-
-        if (vonLand.getArmee() <= armee || armee >= 0){ // wenn man alle armeen einruecken moechte fehler, oder negative zahlen
-           //fehlermeldung
-        }else{
-            nachLand.setArmee(armee + 1);  //armee einruecken
-            vonLand.setArmee(vonLand.getArmee() - armee); // eingerueckte armee entfernen
-        }
     }
 
     public void verschieben(Land vonLand, Land nachLand, int armee){
-        if(!adj.sindNachbar(vonLand.getTrueIndex(), nachLand.getTrueIndex())){
+        if(!adj.sindNachbar(vonLand.getTrueIndex()-1, nachLand.getTrueIndex()-1)){
             //exception nicht nachbar kanns nicht verschieben
         }
         if(vonLand.getArmee() - armee < 1 || armee <= 0){

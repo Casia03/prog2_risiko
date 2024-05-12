@@ -107,11 +107,11 @@ public class Risiko {
         return resultat;
     } 
 
-    public void einruecken(int vonLand, int nachLand, int anzahlArmee) {
-        Land vonLand2 = getLand(vonLand);
-        Land nachLand1 = getLand(nachLand);
+    public void einruecken(int vonLandID, int nachLandID) {
+        Land vonLand = getLand(vonLandID - 1);
+        Land nachLand = getLand(nachLandID - 1);
 
-        spielLogik.einruecken(vonLand2, nachLand1, anzahlArmee);
+        spielLogik.einruecken(vonLand, nachLand);
     }
 
     public void verschieben(int vonLandID, int nachLandID, int anzahl){
@@ -165,14 +165,14 @@ public class Risiko {
 
     }
 
-    public String[] getJetzigerSpielerAngriffBereiteLaender(){ // Gibt die Angriffsbereite laender die zu den Jetzigen spieler gehoren
-        spieler = getJetzigerSpieler();
-        List<Land> laender = weltVerwaltung.getSpielerLaender(spieler); // wird zur ne string ausgabe geaendert 
-        String[] liste = adj.getAlleAngreifebereiteLaender(laender, spieler);
+    // public String[] getJetzigerSpielerAngriffBereiteLaender(){ // Gibt die Angriffsbereite laender die zu den Jetzigen spieler gehoren
+    //     spieler = getJetzigerSpieler();
+    //     List<Land> laender = weltVerwaltung.getSpielerLaender(spieler); // wird zur ne string ausgabe geaendert 
+    //     String[] liste = adj.getAlleAngreifebereiteLaender(laender, spieler);
 
-        return liste;
+    //     return liste;
 
-    }
+    // }
     
     public Spieler getSpielerByID(int spielerID){ // Gibt den spieler zuruck mit den eingegebenen spielerID
         return spielerVerwaltung.getSpielerByID(spielerID);
@@ -226,7 +226,7 @@ public class Risiko {
     public String[] getVerschiebebereiteLaender(){ // Gibt eine liste von den eigenen Laender, die genug Armee fur eine verschiebung besitzen
         String[] bereiteLaender;
         spieler = getJetzigerSpieler();
-        List<Land> laender = weltVerwaltung.getSpielerAngriffsbereiteLaender(spieler); // wird zur ne string ausgabe geaendert 
+        List<Land> laender = weltVerwaltung.getSpielerLaender(spieler); // wird zur ne string ausgabe geaendert  
         
         bereiteLaender = adj.getAlleVerschiebeBereiteLaender(laender);
         if(bereiteLaender != null){
@@ -239,14 +239,18 @@ public class Risiko {
     public String[] getAngreiffeBereiteLaender(){
         String[] bereiteLaender;
         spieler = getJetzigerSpieler();
-        List<Land> laender = weltVerwaltung.getSpielerAngriffsbereiteLaender(spieler); // wird zur ne string ausgabe geaendert 
-        
+        List<Land> laender = weltVerwaltung.getSpielerLaender(spieler); // wird zur ne string ausgabe geaendert   
         bereiteLaender = adj.getAlleAngreifebereiteLaender(laender, spieler);
         if(bereiteLaender != null){
             return bereiteLaender;
         }
 
-        throw new IllegalArgumentException("Du hast keine Verschiebebereite Laender");
+        throw new IllegalArgumentException("Du hast keine Angriffbereite Laender");
+    }
+
+    public void neuerBesitzerSetzen(int vonLand){
+        spieler = getJetzigerSpieler();
+        weltVerwaltung.setNeueBesitzer(vonLand, spieler);
     }
     
     public void waehleVerschiebeZiel(int vonLand){ //  hmm
@@ -262,19 +266,6 @@ public class Risiko {
         return maxAttack;
     }
 
-
-    
-
-    public String getAngriffResult() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAngriffResult'");
-    }
-
-    public boolean getAngriffResultat() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAngriffResultat'");
-    }
-
     public boolean landHatKeineArmee(int nachLand) {
         Land land = getLand(nachLand);
         if(land.getArmee() <= 0){
@@ -283,9 +274,5 @@ public class Risiko {
             return false;
         }
     }
-
-
-    
-
 
 }

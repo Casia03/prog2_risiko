@@ -366,7 +366,7 @@ public class AdjazenzMatrix {
     }
 
     public boolean sindNachbar(int angreifeLand, int verteidigerLand) {
-        if (angreifeLand < 0 || angreifeLand >= n || verteidigerLand < 0 || verteidigerLand > n) {
+        if (angreifeLand < 0 || angreifeLand > n || verteidigerLand < 0 || verteidigerLand > n) {
             throw new IllegalArgumentException("Invalid country index");
         }
 
