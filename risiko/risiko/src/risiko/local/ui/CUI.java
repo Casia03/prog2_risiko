@@ -121,7 +121,7 @@ public class CUI {
                                                 System.out.println("Du hast dich fur den Angriff entschieden \nWälle ein land aus dem du Angreiffen moechtest");
                                                 
                                                  // Ausgabe der agnriffsbereiten laender
-                                                if(risiko.getAngreiffeBereiteLaender() != null){
+                                                if(risiko.getAngreiffeBereiteLaender().length != 0){
                                                     String[] resultArray = risiko.getAngreiffeBereiteLaender();
                                                     for (String element : resultArray) {
                                                         System.out.println(element);

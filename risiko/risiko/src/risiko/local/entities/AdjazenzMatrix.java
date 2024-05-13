@@ -301,6 +301,7 @@ public class AdjazenzMatrix {
         }    
         return bereiteLaender.toArray(new String[0]);
     }
+    
     public String[] getAlleAngreifebereiteLaender(List<Land> spielerLaender, Spieler spieler){ // Zeigt nur die laender an, die einen genug armee fur ein angriff besitzen UND eigene nachbarn haben
             List<String> bereiteLaender = new ArrayList<>();
             Set<String> uniqueLaender = new HashSet<>();

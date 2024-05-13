@@ -184,9 +184,7 @@ public class SpielLogik {
         }
            
             return wurfel;
-    }
-
-        
+    }  
 
     private boolean angriffMoeglich(Land vonLand, Land nachLand){ //Methode zum pruefen ob der Angreifer sein eigenes Land angreiff
         int angreifer = vonLand.getEingenommenVon();
