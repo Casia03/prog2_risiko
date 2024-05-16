@@ -5,6 +5,7 @@ import java.util.List;
 
 import risiko.local.entities.AdjazenzMatrix;
 import risiko.local.entities.Land;
+import risiko.local.entities.Mission.MissionType;
 import risiko.local.entities.Spieler;
 //import risiko.local.persistance.SaveLoadManager;
 import risiko.local.entities.Turn;
@@ -34,7 +35,7 @@ public class Risiko {
         weltVerwaltung.initialisiereWelt();
         turn = new Turn(spielerListe);
         weltVerwaltung.verteileLaender(spielerListe);
-        //werltverwaltung verteile missionen
+        weltVerwaltung.missionenVerteilung(spielerListe);
     }
 
     public int getAnzahlSpieler() {
@@ -52,7 +53,10 @@ public class Risiko {
     public int getTurn(){
         return turn.getTurn();
     }
-    
+    public MissionType getMission() {
+		return spieler.getMission();
+	}
+
     public void nextPhase(){
         turn.nextPhase();
     }

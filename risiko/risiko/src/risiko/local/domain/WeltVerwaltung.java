@@ -3,6 +3,7 @@ package risiko.local.domain;
 import java.io.FileNotFoundException;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
@@ -11,6 +12,7 @@ import risiko.local.persistance.Exceptions;
 import risiko.local.entities.AdjazenzMatrix;
 import risiko.local.entities.Land;
 import risiko.local.entities.Spieler;
+import risiko.local.entities.Mission;
 
 public class WeltVerwaltung {
     Exceptions Exceptions = new Exceptions();
@@ -131,5 +133,23 @@ public class WeltVerwaltung {
             }
         }
         return spielerLaender;
+    }
+    public void missionenVerteilung(List<Spieler> spielerList) {
+        // Create a list of mission types from the enumerator
+        List<Mission.MissionType> missionTypes = new ArrayList<>(Arrays.asList(Mission.MissionType.values()));
+
+        // Shuffle the mission types to randomize their order
+        Collections.shuffle(missionTypes);
+
+        // Assign each player a mission type
+        for (int i = 0; i < spielerList.size(); i++) {
+            Spieler spieler = spielerList.get(i);
+
+            // Get the mission type at the current index
+            Mission.MissionType missionType = missionTypes.get(i);
+
+            // Assign the mission type to the player
+            spieler.setMission(missionType);
+        }
     }
 }

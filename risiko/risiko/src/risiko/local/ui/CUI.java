@@ -67,7 +67,8 @@ public class CUI {
                                                 for (String element : resultArray) {
                                                     System.out.println(element);
                                                 }
-
+                                                System.out.println("Dein Ziel:");
+                                                System.out.println(risiko.getJetzigerSpieler().getMission());
                                                 System.out.println("zurzeit zusatz armen in besitzt: " + risiko.getJetzigerSpielerZusatzArmee());
                                                 System.out.println("Du musst deine Zusatzarmeen verteilen. \nWaehle dazu ein Land auf dem du deine Zusatzarmeen verteilen möchtest.");
 

@@ -1,10 +1,13 @@
 package risiko.local.entities;
 
+import risiko.local.entities.Mission.MissionType;
+
 public class Spieler {
     private int spielerId;
     private String spielerName;
 	private int zusatzArmee;
     private int missionId;
+    private MissionType mission;
 
     public Spieler(String spielerName, int spielerId, int zusatzArmee, int missionId){
         this.spielerName = spielerName;
@@ -41,6 +44,14 @@ public class Spieler {
         return missionId;
     }
     
+    public MissionType getMission() {
+		return mission;
+	}
+
+	public void setMission(MissionType missionTyp) {
+		this.mission = missionTyp;
+	}
+
     @Override
     public String toString(){
         return 
