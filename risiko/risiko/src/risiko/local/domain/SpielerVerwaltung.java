@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import risiko.local.entities.Spieler;
+import risiko.local.persistance.Exceptions;
 
 public class SpielerVerwaltung {
+    Exceptions Exceptions = new Exceptions();
     private List<Spieler> spielerListe = new ArrayList<>();
 
     public SpielerVerwaltung() {
@@ -13,11 +15,18 @@ public class SpielerVerwaltung {
     }
 
     public void spielerHinzufuegen(String name) {
-        Spieler spieler = new Spieler(name, getAnzahlSpieler(), 30, 0);
-        if (!spielerListe.contains(spieler)) {
+        try {
+            for(Spieler s : spielerListe) {
+                if(s.getSpielerName().equals(name)) {
+                    throw new IllegalArgumentException("Ein Spieler mit dem Namen " + name + " existiert bereits.");
+                }
+            }
+            
+            Spieler spieler = new Spieler(name, getAnzahlSpieler(), 30, 0);
             spielerListe.add(spieler);
-        } else {
-            // Spieler existiert schon exception
+        } catch (IllegalArgumentException e) {
+            // Hier könnten Sie eine Meldung ausgeben oder anderweitig darauf reagieren
+            System.out.println("Fehler beim Hinzufügen des Spielers: " + e.getMessage());
         }
     }
 
