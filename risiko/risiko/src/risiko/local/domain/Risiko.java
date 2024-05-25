@@ -2,12 +2,14 @@ package risiko.local.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import risiko.local.entities.AdjazenzMatrix;
 import risiko.local.entities.Land;
 import risiko.local.entities.Mission.MissionType;
 import risiko.local.entities.Spieler;
 //import risiko.local.persistance.SaveLoadManager;
+import risiko.local.persistance.Exceptions;
 import risiko.local.entities.Turn;
 import risiko.local.entities.Turn.Phase;
 
@@ -18,6 +20,7 @@ public class Risiko {
     private Turn turn;
     private Spieler spieler;
     private AdjazenzMatrix adj;
+    private Exceptions e;
   //  private SaveLoadManager saveloadmanager;
 
     public Risiko(){
@@ -25,6 +28,7 @@ public class Risiko {
         spielerVerwaltung = new SpielerVerwaltung();
         spielLogik = new SpielLogik(weltVerwaltung);
         adj = new AdjazenzMatrix(weltVerwaltung);
+        e = new Exceptions();
         //Entweder hier muss das gemacht werden oer in Start game methode. 
     //    SaveLoadGameManager = new SaveLoadGameManager();
         
@@ -283,6 +287,36 @@ public class Risiko {
         spieler = getJetzigerSpieler();
         String[] liste = adj.getAlleEigeneNachbars(vonLand - 1, spieler);
         return liste;
+    }
+
+    public int berechneZusatzarmeen(int anzahlTerritorien) {
+    int zusatzarmeen = 0;
+
+    // Berechnung basierend auf der Anzahl der Territorien
+    zusatzarmeen += Math.max(anzahlTerritorien / 3, 3); // Mindestens 3 Armeen, wenn weniger als 9 Territorien
+
+    // Bonusarmeen für vollständige Kontrolle von Kontinenten
+    //if (kontrolliertAsien) zusatzarmeen += 7;
+    //if (kontrolliertNordamerika) zusatzarmeen += 5;
+    //if (kontrolliertEuropa) zusatzarmeen += 5;
+    //if (kontrolliertAfrika) zusatzarmeen += 3;
+    //if (kontrolliertSuedamerika) zusatzarmeen += 2;
+    //if (kontrolliertAustralien) zusatzarmeen += 2;
+
+    return zusatzarmeen;
+    }
+
+    public int getAnzahlSpielerLaender(Spieler spieler){
+        List<Land> laender = weltVerwaltung.getSpielerLaender(spieler);
+        return laender.size();
+    }
+
+    public void addZusatzarmee(Spieler spieler, int zusatzArmee){
+        spieler.addZusatzarmee(zusatzArmee);
+    }
+
+    public int readInt(Scanner scanner,int min,int max){
+        return e.readInt(scanner, min, max);
     }
 
 }

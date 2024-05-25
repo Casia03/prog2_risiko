@@ -44,6 +44,10 @@ public class Spieler {
         return missionId;
     }
     
+    public void addZusatzarmee(int zusatzArmee){
+        this.zusatzArmee += zusatzArmee;
+    }
+
     public MissionType getMission() {
 		return mission;
 	}
