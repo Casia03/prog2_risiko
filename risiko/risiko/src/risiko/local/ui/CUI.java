@@ -72,7 +72,7 @@ public class CUI {
                                                 System.out.println("zurzeit zusatz armen in besitzt: " + risiko.getJetzigerSpielerZusatzArmee());
                                                 System.out.println("Du musst deine Zusatzarmeen verteilen. \nWaehle dazu ein Land auf dem du deine Zusatzarmeen verteilen möchtest.");
 
-                                                int nachLand = scanner.nextInt(); //BEGRENTUNG EINFUEGNE, LAENDER NUMMERN
+                                                int nachLand = scanner.nextInt(); //risiko.readLandIndex(scanner, risiko.getJetzigerSpielerLaenderListe()); //BEGRENTUNG EINFUEGNE, LAENDER NUMMERN
 
                                                 System.out.println("Wie viele Einheiten möchtest du auf das Land " + risiko.getLand(nachLand)+ " platzieren? \n zu verfügung stehen dir noch " + risiko.getJetzigerSpielerZusatzArmee() + " Einheiten.");
 

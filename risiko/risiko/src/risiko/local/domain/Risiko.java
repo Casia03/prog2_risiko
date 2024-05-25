@@ -319,4 +319,7 @@ public class Risiko {
         return e.readInt(scanner, min, max);
     }
 
+    public int readLandIndex(Scanner scanner, List<Land> validIndices){
+        return e.readLandIndex(scanner, validIndices);
+    }
 }
