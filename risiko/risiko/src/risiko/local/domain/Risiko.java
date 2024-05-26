@@ -289,29 +289,28 @@ public class Risiko {
         return liste;
     }
 
-    public int berechneZusatzarmeen(int anzahlTerritorien) {
-    int zusatzarmeen = 0;
+    public int berechneZusatzarmeen() {
+        spieler = getJetzigerSpieler();
+        int anzahlTerritorien = weltVerwaltung.getSpielerLaender(spieler).size();
+        int zusatzarmeen = 0;
 
-    // Berechnung basierend auf der Anzahl der Territorien
-    zusatzarmeen += Math.max(anzahlTerritorien / 3, 3); // Mindestens 3 Armeen, wenn weniger als 9 Territorien
+        // Berechnung basierend auf der Anzahl der Territorien
+        zusatzarmeen += Math.max(anzahlTerritorien / 3, 3); // Mindestens 3 Armeen, wenn weniger als 9 Territorien
 
-    // Bonusarmeen für vollständige Kontrolle von Kontinenten
-    //if (kontrolliertAsien) zusatzarmeen += 7;
-    //if (kontrolliertNordamerika) zusatzarmeen += 5;
-    //if (kontrolliertEuropa) zusatzarmeen += 5;
-    //if (kontrolliertAfrika) zusatzarmeen += 3;
-    //if (kontrolliertSuedamerika) zusatzarmeen += 2;
-    //if (kontrolliertAustralien) zusatzarmeen += 2;
+        // Bonusarmeen für vollständige Kontrolle von Kontinenten
+        //if (kontrolliertAsien) zusatzarmeen += 7;
+        //if (kontrolliertNordamerika) zusatzarmeen += 5;
+        //if (kontrolliertEuropa) zusatzarmeen += 5;
+        //if (kontrolliertAfrika) zusatzarmeen += 3;
+        //if (kontrolliertSuedamerika) zusatzarmeen += 2;
+        //if (kontrolliertAustralien) zusatzarmeen += 2;
 
-    return zusatzarmeen;
+        return zusatzarmeen;
     }
 
-    public int getAnzahlSpielerLaender(Spieler spieler){
-        List<Land> laender = weltVerwaltung.getSpielerLaender(spieler);
-        return laender.size();
-    }
-
-    public void addZusatzarmee(Spieler spieler, int zusatzArmee){
+    public void addBonusArmee(){ // Addieren
+        spieler = getJetzigerSpieler();
+        int zusatzArmee = berechneZusatzarmeen();
         spieler.addZusatzarmee(zusatzArmee);
     }
 
@@ -319,7 +318,16 @@ public class Risiko {
         return e.readInt(scanner, min, max);
     }
 
-    public int readLandIndex(Scanner scanner, List<Land> validIndices){
+    public int readJetzigerPlayerLandIndex(Scanner scanner){
+        spieler = getJetzigerSpieler();
+        List<Land> validIndices = weltVerwaltung.getSpielerLaender(spieler);
         return e.readLandIndex(scanner, validIndices);
     }
+
+    public int readGegnerLandIndex(Scanner scanner, int vonLand){
+        spieler = getJetzigerSpieler();
+        List<Land> validIndices = adj.getAlleGegnerNachbarListe(vonLand, spieler);
+        return e.readLandIndex(scanner, validIndices);
+    }
+
 }

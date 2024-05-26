@@ -344,7 +344,8 @@ public class AdjazenzMatrix {
         return nachbarnArray;
     }
 
-    public String[] getAlleGegnerNachbar(int angreifeLand, Spieler spieler) {
+    public String[] getAlleGegnerNachbar(int angreifeLand, Spieler spieler) { // gibt eine String[] zuruck mit allen gegner nachbarn die von das angreifeLand zugreifbar sind.
+                                                                                // Fur TextAusgabe
         if (angreifeLand < 0 || angreifeLand > n ) {
             throw new IllegalArgumentException("Ungültiger Länderindex");
         }
@@ -364,6 +365,22 @@ public class AdjazenzMatrix {
         String[] nachbarnArray = new String[nachbarn.size()];
         nachbarnArray = nachbarn.toArray(nachbarnArray);
         return nachbarnArray;
+    }
+
+    public List<Land> getAlleGegnerNachbarListe(int angreifeLand, Spieler spieler){ // Gibt eine List<Land> Liste zuruck mit allen gegner nachbarn die von das angreifeland zugreifbar sind.
+        if (angreifeLand < 0 || angreifeLand > n ) {
+            throw new IllegalArgumentException("Ungültiger Länderindex");
+        }
+
+        List<Land> liste = new ArrayList<>();
+            for (int i = 0; i < n; i++) {
+                if (sindNachbar(angreifeLand, i) && (countries.get(i).getEingenommenVon() != spieler.getSpielerID())) {
+                    liste.add(countries.get(i));
+
+                }
+            }
+
+        return liste;
     }
 
     public boolean sindNachbar(int angreifeLand, int verteidigerLand) {

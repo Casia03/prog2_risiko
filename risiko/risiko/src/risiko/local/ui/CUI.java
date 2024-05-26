@@ -72,7 +72,7 @@ public class CUI {
                                                 System.out.println("zurzeit zusatz armen in besitzt: " + risiko.getJetzigerSpielerZusatzArmee());
                                                 System.out.println("Du musst deine Zusatzarmeen verteilen. \nWaehle dazu ein Land auf dem du deine Zusatzarmeen verteilen möchtest.");
 
-                                                int nachLand = scanner.nextInt(); //risiko.readLandIndex(scanner, risiko.getJetzigerSpielerLaenderListe()); //BEGRENTUNG EINFUEGNE, LAENDER NUMMERN
+                                                int nachLand = risiko.readJetzigerPlayerLandIndex(scanner); // Eingaben von landID, mit exceptions fur flasche angaben
 
                                                 System.out.println("Wie viele Einheiten möchtest du auf das Land " + risiko.getLand(nachLand)+ " platzieren? \n zu verfügung stehen dir noch " + risiko.getJetzigerSpielerZusatzArmee() + " Einheiten.");
 
@@ -87,7 +87,7 @@ public class CUI {
                                             break;
 
                                         case VERTEILEN: // Verteilen
-                                            risiko.addZusatzarmee(risiko.getJetzigerSpieler(), risiko.berechneZusatzarmeen(risiko.getAnzahlSpielerLaender(risiko.getJetzigerSpieler())));
+                                            risiko.addBonusArmee(); // Jetziger spieler kreigt bonus armeen je nach erobertes land anzahl
                                             while (risiko.jetzigerSpielerHatZusatzarmee()) {
                                                 System.out.println("\n\nSpieler " + risiko.getJetzigerSpielerName() + ", es ist gerade die Verteilephase \nBitte verteile deine Zusatzarmeen.");
                                                 System.out.println("Deine Länder: ");
@@ -100,7 +100,7 @@ public class CUI {
                                                 System.out.println("zurzeit zusatz armen in besitzt: " + risiko.getJetzigerSpielerZusatzArmee());
                                                 System.out.println("Du musst deine Zusatzarmeen verteilen. \nGib die Nummer des Landes ein, auf dem du deine Zusatzarmeen verteilen möchtest.");
 
-                                                int nachLand = scanner.nextInt(); // BEGRENZUNGEN EINFUEGEN, LAENDER NUMMERN
+                                                int nachLand = risiko.readJetzigerPlayerLandIndex(scanner); // Eingaben von landID, mit exceptions fur flasche angaben
 
                                                 System.out.println("Wie viele Einheiten möchtest du auf das Land "+ risiko.getLand(nachLand) + " platzieren? \n zu verfügung stehen dir noch " + risiko.getJetzigerSpielerZusatzArmee() + " Einheiten.");
 
@@ -133,7 +133,7 @@ public class CUI {
 
                                                     System.out.println("Bitte gib die Nummer des Landes an mit dem du angreifen moechtests.");
 
-                                                    int vonLand = scanner.nextInt(); // Eingabe der Angriffslandes, Exception nicht vergessen // BEGRENZUNGEN EINFUEGEN, 
+                                                    int vonLand = risiko.readJetzigerPlayerLandIndex(scanner); // Eingaben von landID, mit exceptions fur flasche angaben
 
                                                     System.out.println("Von dem Land: " + risiko.getLand(vonLand)+ " können folgende gegnerische Länder angegriffen werden: ");
 
@@ -146,7 +146,7 @@ public class CUI {
 
                                                     System.out.println("Bitte gib die Nummer des Landes an, welches du angreifen möchtests.");
 
-                                                    int nachLand = scanner.nextInt(); // Eingabe der Verteidigungslandes, Exception nicht vergessen // BEGRENZUNGEN EINFUEGEN, LAENDER NUMMERN
+                                                    int nachLand = risiko.readGegnerLandIndex(scanner, vonLand); // Eingabe der VerteidigungslandesID, mit exceptions 
 
                                                     System.out.println("Du hast " + risiko.getLandArmee(vonLand) + " Einheiten auf dein Land, und kannst somit mit höhstens " + risiko.getMaxAttackNumber(vonLand) + " Einheiten Angreifen. \n Gib jetzt an, mit wie vielen Einheiten du angreifen möchtest (1, 2 oder 3 Einheiten).");
 

@@ -59,6 +59,7 @@ public class Turn {
     public int getTurn(){
         return turnNumber;
     }
+
     public void nextPhase() {
         switch (phase) {
             case ERSTVERTEILEN:
@@ -79,10 +80,6 @@ public class Turn {
                 }
                 break;
         }
-    }
-
-    public int getTurnNumber() {
-        return turnNumber;
     }
 
     @Override
