@@ -8,7 +8,7 @@ import risiko.local.entities.AdjazenzMatrix;
 import risiko.local.entities.Land;
 import risiko.local.entities.Mission.MissionType;
 import risiko.local.entities.Spieler;
-//import risiko.local.persistance.SaveLoadManager;
+import risiko.local.persistance.SaveLoadManager;
 import risiko.local.persistance.Exceptions;
 import risiko.local.entities.Turn;
 import risiko.local.entities.Turn.Phase;
@@ -21,6 +21,7 @@ public class Risiko {
     private Spieler spieler;
     private AdjazenzMatrix adj;
     private Exceptions e;
+    private SaveLoadManager slm;
   //  private SaveLoadManager saveloadmanager;
 
     public Risiko(){
@@ -29,6 +30,7 @@ public class Risiko {
         spielLogik = new SpielLogik(weltVerwaltung);
         adj = new AdjazenzMatrix(weltVerwaltung);
         e = new Exceptions();
+        slm = new SaveLoadManager();
         //Entweder hier muss das gemacht werden oer in Start game methode. 
     //    SaveLoadGameManager = new SaveLoadGameManager();
         
@@ -321,5 +323,13 @@ public class Risiko {
 
     public int readLandIndex(Scanner scanner, List<Land> validIndices){
         return e.readLandIndex(scanner, validIndices);
+    }
+
+    public void saveGame(Risiko risiko) {
+        slm.saveGame(risiko);
+    }
+
+    public void loadGame() {
+        slm.loadGame();
     }
 }

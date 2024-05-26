@@ -8,7 +8,7 @@ import risiko.local.domain.Risiko;
 import risiko.local.entities.Land;
 import risiko.local.entities.Spieler;
 import risiko.local.entities.Turn;
-//import risiko.local.entities.Exceptions;
+import risiko.local.persistance.Exceptions;
 
 public class SaveLoadManager {
 
@@ -28,10 +28,10 @@ public class SaveLoadManager {
         }
     }
 
-    private void saveTurn(Turn turn) throws IOException {
+    private void saveTurn(int i) throws IOException {
         String filePath = SAVE_FOLDER_PATH + "turn.dat";
         try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(filePath))) {
-            outputStream.writeObject(turn);
+            outputStream.writeObject(i);
         }
     }
 
@@ -70,18 +70,19 @@ public class SaveLoadManager {
 
     public void saveGame(Risiko risiko) {
         try {
-            //saveTurn(risiko.getTurn());
 
+            
             for (Spieler spieler : risiko.getSpielerListe()) {
                 saveSpieler(spieler);
             }
-
+            
             saveCountries(risiko.getLaender());
 
-            // System.out.println("Game saved successfully.");
+             System.out.println("Game saved successfully.");
 
         } catch (IOException e) {
-            Exceptions.showErrorDialog("die spiel daten konnten nicht gespeichert werden");
+            //Exceptions.showErrorDialog("die spiel daten konnten nicht gespeichert werden");
+            System.err.println("die spiel daten konnten nicht gespeichert werden" + e);
         }
     }
 
@@ -100,7 +101,8 @@ public class SaveLoadManager {
             return risiko;
 
         } catch (IOException | ClassNotFoundException e) {
-            Exceptions.showErrorDialog("die spiel daten konnten nicht geladen werden");
+            //Exceptions.showErrorDialog("die spiel daten konnten nicht geladen werden");
+            System.err.println("die spiel daten konnten nicht geladen werden");
             return null;
         }
     }

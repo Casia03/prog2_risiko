@@ -87,6 +87,7 @@ public class CUI {
                                             break;
 
                                         case VERTEILEN: // Verteilen
+                                        risiko.saveGame(risiko);
                                             risiko.addZusatzarmee(risiko.getJetzigerSpieler(), risiko.berechneZusatzarmeen(risiko.getAnzahlSpielerLaender(risiko.getJetzigerSpieler())));
                                             while (risiko.jetzigerSpielerHatZusatzarmee()) {
                                                 System.out.println("\n\nSpieler " + risiko.getJetzigerSpielerName() + ", es ist gerade die Verteilephase \nBitte verteile deine Zusatzarmeen.");
@@ -113,6 +114,7 @@ public class CUI {
                                             break;
 
                                         case ANGREIFFEN: // Angreifen
+                                        risiko.saveGame(risiko);
                                             boolean spielerWillAngreifen = true;
                                             boolean spielerWillEinruecken = false;
                                             System.out.println("\n\nSpieler " + risiko.getJetzigerSpielerName() + ", gerade bist du in die Angreiffenphase ");
@@ -191,6 +193,8 @@ public class CUI {
                                             break;
 
                                         case VERSCHIEBEN: // Verschieben
+                                        risiko.saveGame(risiko);
+
                                             boolean spielerWillVerschieben = true;
                                             System.out.println("\n\nSpieler " + risiko.getJetzigerSpielerName() + ", es ist gerade die Verschiebephase");
 
@@ -257,7 +261,7 @@ public class CUI {
                     }
                     break;
                 case 2:
-                    // risiko.loadGame();
+                     risiko.loadGame();
                     // Spiel Laden, kommt spaeter
                     break;
                 case 3:
