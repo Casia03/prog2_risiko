@@ -14,6 +14,7 @@ public class SaveLoadManager {
 
     private static final String SAVE_FOLDER_PATH = "saveFiles/";
     Exceptions Exceptions = new Exceptions();
+    
     private void saveSpieler(Spieler spieler) throws IOException {
         String filePath = SAVE_FOLDER_PATH + spieler.getSpielerName() + ".dat";
         try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(filePath))) {
