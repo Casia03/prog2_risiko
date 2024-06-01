@@ -9,7 +9,7 @@ import risiko.local.entities.Kontinent;
 import risiko.local.entities.Land;
 import risiko.local.entities.Mission;
 import risiko.local.entities.Spieler;
-//import risiko.local.persistance.SaveLoadManager;
+import risiko.local.persistance.SaveLoadManager;
 import risiko.local.persistance.Exceptions;
 import risiko.local.entities.Turn;
 import risiko.local.entities.Turn.Phase;
@@ -33,6 +33,7 @@ public class Risiko {
         spielLogik = new SpielLogik(weltVerwaltung);
         adj = new AdjazenzMatrix(weltVerwaltung);
         e = new Exceptions();
+        slm = new SaveLoadManager();
         //Entweder hier muss das gemacht werden oer in Start game methode. 
         //SaveLoadGameManager = new SaveLoadGameManager();
         
