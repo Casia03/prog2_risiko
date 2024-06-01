@@ -22,7 +22,7 @@ public class SpielerVerwaltung {
                 }
             }
             
-            Spieler spieler = new Spieler(name, getAnzahlSpieler(), 30, 0);
+            Spieler spieler = new Spieler(name, getAnzahlSpieler(), 30, 0, new int[3]);
             spielerListe.add(spieler);
         } catch (IllegalArgumentException e) {
             // Hier könnten Sie eine Meldung ausgeben oder anderweitig darauf reagieren
