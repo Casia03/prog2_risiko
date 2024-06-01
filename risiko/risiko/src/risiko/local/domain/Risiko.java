@@ -33,7 +33,7 @@ public class Risiko {
         spielLogik = new SpielLogik(weltVerwaltung);
         adj = new AdjazenzMatrix(weltVerwaltung);
         e = new Exceptions();
-        slm = new SaveLoadManager();
+        //slm = new SaveLoadManager();
         //Entweder hier muss das gemacht werden oer in Start game methode. 
         //SaveLoadGameManager = new SaveLoadGameManager();
         
@@ -334,7 +334,7 @@ public class Risiko {
 
     public int readGegnerLandIndex(Scanner scanner, int vonLand){
         spieler = getJetzigerSpieler();
-        List<Land> validIndices = adj.getAlleGegnerNachbarListe(vonLand, spieler);
+        List<Land> validIndices = adj.getAlleGegnerNachbarListe(vonLand - 1, spieler);
         return e.readLandIndex(scanner, validIndices);
     }
 

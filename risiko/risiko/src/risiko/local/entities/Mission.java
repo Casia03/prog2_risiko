@@ -2,8 +2,12 @@ package risiko.local.entities;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Mission {
+	private int enthoelltekarten = 0;
+	private int anzahlDerZusatzarmeen = 4;
+
 	private String[] beschreibung = new String[7];
 	private List<Land> africaTerritories = new ArrayList<Land>();
 	private List<Land> asiaTerritories = new ArrayList<Land>();
@@ -22,6 +26,12 @@ public class Mission {
         CONQUER_AFRICA_ASIA,
     }
 
+	public enum EinheitsKarten{
+		INFANTERIE,
+		KAVALLERIE,
+		ARTILLERIE
+	}
+
 	public Mission(Kontinent kontinente){
 		africaTerritories = kontinente.returnAfrica();
 		asiaTerritories = kontinente.returnAsia();
@@ -39,6 +49,26 @@ public class Mission {
 		beschreibung[6] = "CONQUER_AFRICA_ASIA";
 	}
 
+	public int generiereRandomEinheitskarte(){
+		int karte = (int)(Math.random() * 3);
+		return karte;
+	}
+
+	public void anzahlEnthoellteKartenErhoehen(){
+		enthoelltekarten++;
+	}
+
+	public int anzahlVonEinheitenNachEnthoellen(){
+		int anzahl = 0;
+		if(enthoelltekarten < 5){
+			anzahlDerZusatzarmeen = 4 + enthoelltekarten * 2;
+		}else if(enthoelltekarten == 5){
+			anzahlDerZusatzarmeen = 15;
+
+			anzahl = 15 + 1/6 * enthoelltekarten * 5;
+		}
+		return anzahl;
+	}
     public String getMissionBeschreibung(int mission){
         return beschreibung[mission];
     }

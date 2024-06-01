@@ -50,13 +50,12 @@ public class CUI {
                                 System.out.println("The Game Starts!");
                                 startGame = true;
                                 risiko.startGame(risiko);
-                                // funktionier noch nicht System.out.println(risiko.getVerschiebebereiteLaender());
                                 boolean spielende = false;
                                 while (!spielende) {
                                 
 
                                     switch (risiko.getPhase()) {
-                                        case ERSTVERTEILEN: // Anfangsverteil
+                                        case ERSTVERTEILEN: // Anfangsverteilephase 
                                             while (risiko.jetzigerSpielerHatZusatzarmee()) { // Wird abgespielt bis
                                                                                             // der Jetzige Spieler alle
                                                                                             // armeen verteilt hat
@@ -114,7 +113,7 @@ public class CUI {
                                             break;
 
                                         case ANGREIFFEN: // Angreifen
-                                        risiko.saveGame(risiko);
+                                        //risiko.saveGame(risiko);
                                             boolean spielerWillAngreifen = true;
                                             boolean spielerWillEinruecken = false;
                                             System.out.println("\n\nSpieler " + risiko.getJetzigerSpielerName() + ", gerade bist du in die Angreiffenphase ");
@@ -195,7 +194,7 @@ public class CUI {
                                             break;
 
                                         case VERSCHIEBEN: // Verschieben
-                                        risiko.saveGame(risiko);
+                                        //risiko.saveGame(risiko);
 
                                             boolean spielerWillVerschieben = true;
                                             System.out.println("\n\nSpieler " + risiko.getJetzigerSpielerName() + ", es ist gerade die Verschiebephase");
@@ -263,7 +262,7 @@ public class CUI {
                     }
                     break;
                 case 2:
-                     risiko.loadGame();
+                     //risiko.loadGame();
                     // Spiel Laden, kommt spaeter
                     break;
                 case 3:

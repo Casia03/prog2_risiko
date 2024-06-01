@@ -5,12 +5,14 @@ public class Spieler {
     private String spielerName;
 	private int zusatzArmee;
     private int missionId;
+    private int[] einheitsKarten = new int[3];
 
-    public Spieler(String spielerName, int spielerId, int zusatzArmee, int missionId){
+    public Spieler(String spielerName, int spielerId, int zusatzArmee, int missionId, int[] einheitsKarten){
         this.spielerName = spielerName;
 		this.spielerId = spielerId;
 		this.zusatzArmee = zusatzArmee;
         this.missionId = missionId;
+        this.einheitsKarten = einheitsKarten;
     }
     
     public void setSpielerID(int spielerId){
