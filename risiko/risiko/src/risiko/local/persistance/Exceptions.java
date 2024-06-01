@@ -47,7 +47,7 @@ public class Exceptions {
                 value = scanner.nextInt();
                 if (!isValidLandIndex(validIndices, value)) {
                     throw new IllegalArgumentException(
-                            "Bitte geben Sie einen gültigen Index eines Landes ein, das Sie besitzen.");
+                            "Bitte geben Sie einen gültigen Index eines Landes ein.");
                 }
                 valid = true;
             } catch (InputMismatchException e) {
