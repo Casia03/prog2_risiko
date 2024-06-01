@@ -59,20 +59,24 @@ public class Mission {
 	}
 
 	public int anzahlVonEinheitenNachEnthoellen(){
-		int anzahl = 0;
 		if(enthoelltekarten < 5){
-			anzahlDerZusatzarmeen = 4 + enthoelltekarten * 2;
+			anzahlDerZusatzarmeen += 2;
+			anzahlEnthoellteKartenErhoehen();
 		}else if(enthoelltekarten == 5){
 			anzahlDerZusatzarmeen = 15;
-
-			anzahl = 15 + 1/6 * enthoelltekarten * 5;
+			anzahlEnthoellteKartenErhoehen();
+		}else{
+			anzahlDerZusatzarmeen += 5;
+			anzahlEnthoellteKartenErhoehen();
 		}
-		return anzahl;
+		return anzahlDerZusatzarmeen;
 	}
-    public String getMissionBeschreibung(int mission){
+    
+	public String getMissionBeschreibung(int mission){
         return beschreibung[mission];
     }
-    // Methods for checking player's conquests and conditions
+	
+	// Methods for checking player's conquests and conditions
 	public boolean hasConqueredAfrica(List<Land> playerTerritories) {
 		return playerTerritories.containsAll(africaTerritories);
 	}
