@@ -1,6 +1,8 @@
 package risiko.local.entities;
 
-public class Land {
+import java.io.Serializable;
+
+public class Land implements Serializable{
 
     private String name;
     private int trueIndex;

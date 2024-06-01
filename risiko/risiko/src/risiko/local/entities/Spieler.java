@@ -1,6 +1,8 @@
 package risiko.local.entities;
 
-public class Spieler {
+import java.io.Serializable;
+
+public class Spieler implements Serializable {
     private int spielerId;
     private String spielerName;
 	private int zusatzArmee;
