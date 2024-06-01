@@ -25,7 +25,7 @@ public class Risiko {
     private Kontinent kontinente;
     private Mission mission;
     
-  //  private SaveLoadManager saveloadmanager;
+    private SaveLoadManager slm;
 
     public Risiko(){
         weltVerwaltung = new WeltVerwaltung();
@@ -33,7 +33,7 @@ public class Risiko {
         spielLogik = new SpielLogik(weltVerwaltung);
         adj = new AdjazenzMatrix(weltVerwaltung);
         e = new Exceptions();
-        //slm = new SaveLoadManager();
+        slm = new SaveLoadManager();
         //Entweder hier muss das gemacht werden oer in Start game methode. 
         //SaveLoadGameManager = new SaveLoadGameManager();
         
@@ -85,11 +85,13 @@ public class Risiko {
         return turn.getPhase();
     } 
  
-    /* 
     public void loadGame() {
-        SaveLoadManager.loadGame();
+        slm.loadGame();
     }
-    */
+
+    public void saveGame(Risiko risiko){
+        slm.saveGame(risiko);
+    }
 
     public ArrayList<Land> getLaender() {
         return weltVerwaltung.getLaeder();

@@ -12,11 +12,17 @@ import risiko.local.persistance.Exceptions;
 
 public class SaveLoadManager {
 
-    private static final String SAVE_FOLDER_PATH = "saveFiles/";
+    private static final String SAVE_FOLDER_PATH = "risiko/risiko/src/risiko/local/saveFiles/";
     Exceptions Exceptions = new Exceptions();
     
     private void saveSpieler(Spieler spieler) throws IOException {
+        File saveFolder = new File(SAVE_FOLDER_PATH);
         String filePath = SAVE_FOLDER_PATH + spieler.getSpielerName() + ".dat";
+        
+        if (!saveFolder.exists()) {
+            saveFolder.mkdirs();
+        }
+
         try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(filePath))) {
             outputStream.writeObject(spieler);
         }
@@ -78,7 +84,7 @@ public class SaveLoadManager {
             }
             
             saveCountries(risiko.getLaender());
-
+            //saveTurn(Turn );
              System.out.println("Game saved successfully.");
 
         } catch (IOException e) {

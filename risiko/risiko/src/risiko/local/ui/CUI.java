@@ -113,7 +113,7 @@ public class CUI {
                                             break;
 
                                         case ANGREIFFEN: // Angreifen
-                                        //risiko.saveGame(risiko);
+                                        risiko.saveGame(risiko);
                                             boolean spielerWillAngreifen = true;
                                             boolean spielerWillEinruecken = false;
                                             System.out.println("\n\nSpieler " + risiko.getJetzigerSpielerName() + ", gerade bist du in die Angreiffenphase ");
