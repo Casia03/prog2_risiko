@@ -5,8 +5,9 @@ import java.util.List;
 import java.util.Scanner;
 
 import risiko.local.entities.AdjazenzMatrix;
+import risiko.local.entities.Kontinent;
 import risiko.local.entities.Land;
-import risiko.local.entities.Mission.MissionType;
+import risiko.local.entities.Mission;
 import risiko.local.entities.Spieler;
 //import risiko.local.persistance.SaveLoadManager;
 import risiko.local.persistance.Exceptions;
@@ -21,6 +22,9 @@ public class Risiko {
     private Spieler spieler;
     private AdjazenzMatrix adj;
     private Exceptions e;
+    private Kontinent kontinente;
+    private Mission mission;
+    
   //  private SaveLoadManager saveloadmanager;
 
     public Risiko(){
@@ -30,16 +34,18 @@ public class Risiko {
         adj = new AdjazenzMatrix(weltVerwaltung);
         e = new Exceptions();
         //Entweder hier muss das gemacht werden oer in Start game methode. 
-    //    SaveLoadGameManager = new SaveLoadGameManager();
+        //SaveLoadGameManager = new SaveLoadGameManager();
         
     }
 
     public void startGame(Risiko risiko){
-        List<Spieler> spielerListe = getSpielerListe();
-        weltVerwaltung.initialisiereWelt();
-        turn = new Turn(spielerListe);
-        weltVerwaltung.verteileLaender(spielerListe);
-        weltVerwaltung.missionenVerteilung(spielerListe);
+        List<Spieler> spielerListe = getSpielerListe(); // Spielerliste furs weiterleiten an Klassen die diese benoetigen
+        weltVerwaltung.initialisiereWelt();             // laender objekte werden erstellt
+        turn = new Turn(spielerListe);                  // Turn klasse wird Initialisiert, um das spielzyklus zu gestalten
+        weltVerwaltung.verteileLaender(spielerListe);   // Laender werden an Spielern verteilt
+        kontinente = new Kontinent(weltVerwaltung.getLaeder()); //Kontinente werden Initialisiert
+        weltVerwaltung.missionenVerteilung(spielerListe);       // Missionen werden verteilt
+        mission = new Mission(kontinente);                      // Missionen werde Initialisiert, um spaeter die uberpruefung des statuses jeder mission zur uberpruefen
     }
 
     public int getAnzahlSpieler() {
@@ -57,9 +63,14 @@ public class Risiko {
     public int getTurn(){
         return turn.getTurn();
     }
-    public MissionType getMission() {
-		return spieler.getMission();
-	}
+
+
+    public String getJetzigerSpielerMission(){
+        spieler = getJetzigerSpieler();
+        int missionNummer = spieler.getMissionId();
+
+        return mission.getMissionBeschreibung(missionNummer);
+    }
 
     public void nextPhase(){
         turn.nextPhase();
@@ -159,10 +170,6 @@ public class Risiko {
         }else{
             return false;
         }
-    }
-
-    public String getJetzigerSpielerMission(){
-        return null;
     }
 
     public String[] getJetzigerSpielerLaenderListe(){  // Gibt die Laender des Jetzigen spielers zurcuk

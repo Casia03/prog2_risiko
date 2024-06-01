@@ -68,7 +68,7 @@ public class CUI {
                                                     System.out.println(element);
                                                 }
                                                 System.out.println("Dein Ziel:");
-                                                System.out.println(risiko.getJetzigerSpieler().getMission());
+                                                System.out.println(risiko.getJetzigerSpielerMission()); // MISSION ANZEIGE
                                                 System.out.println("zurzeit zusatz armen in besitzt: " + risiko.getJetzigerSpielerZusatzArmee());
                                                 System.out.println("Du musst deine Zusatzarmeen verteilen. \nWaehle dazu ein Land auf dem du deine Zusatzarmeen verteilen möchtest.");
 
@@ -87,6 +87,7 @@ public class CUI {
                                             break;
 
                                         case VERTEILEN: // Verteilen
+                                            // ABFRAGE ZUR ENTHOELLUNG DER EINHEITSKARTEN
                                             risiko.addBonusArmee(); // Jetziger spieler kreigt bonus armeen je nach erobertes land anzahl
                                             while (risiko.jetzigerSpielerHatZusatzarmee()) {
                                                 System.out.println("\n\nSpieler " + risiko.getJetzigerSpielerName() + ", es ist gerade die Verteilephase \nBitte verteile deine Zusatzarmeen.");
@@ -183,6 +184,8 @@ public class CUI {
                                                     spielerWillAngreifen = false;
                                                     risiko.nextPhase();
                                                     break;
+                                                    // VERTEILUNG VON EINHEITSKARTEN
+                                                    // MISSION PRUEFEN FUR DEN JETZIGEN SPIELER 
                                                 }
                                                 
                                             }

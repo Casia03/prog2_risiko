@@ -1,10 +1,16 @@
 package risiko.local.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Mission {
-    private String beschreibung;
-
+	private String[] beschreibung = new String[7];
+	private List<Land> africaTerritories = new ArrayList<Land>();
+	private List<Land> asiaTerritories = new ArrayList<Land>();
+	private List<Land> australiaTerritories = new ArrayList<Land>();
+	private List<Land> europeTerritories = new ArrayList<Land>();
+	private List<Land> southAmericaTerritories = new ArrayList<Land>();
+	private List<Land> northAmericaTerritories = new ArrayList<Land>();
 
     public enum MissionType {
         CONQUER_NORTH_AMERICA_AFRICA,
@@ -15,32 +21,49 @@ public class Mission {
         CONQUER_ASIA_SOUTH_AMERICA,
         CONQUER_AFRICA_ASIA,
     }
-     
-    public String getMission(){
-        return beschreibung;
+
+	public Mission(Kontinent kontinente){
+		africaTerritories = kontinente.returnAfrica();
+		asiaTerritories = kontinente.returnAsia();
+		australiaTerritories = kontinente.returnAustralia();
+		europeTerritories = kontinente.returnEurope();
+		southAmericaTerritories = kontinente.returnSouthAmerica();
+		northAmericaTerritories = kontinente.returnNorthAmerica();
+
+		beschreibung[0] = "CONQUER_NORTH_AMERICA_AFRICA";
+		beschreibung[1] = "CONQUER_NORTH_AMERICA_AUSTRALIA";
+		beschreibung[2] = "CONQUER_24_COUNTRIES";
+		beschreibung[3] = "CONQUER_18_COUNTRIES_WITH_MIN_ARMIES";
+		beschreibung[4] = "CONQUER_EUROPE_SOUTH_AMERICA_AND_THIRD";
+		beschreibung[5] = "CONQUER_ASIA_SOUTH_AMERICA";
+		beschreibung[6] = "CONQUER_AFRICA_ASIA";
+	}
+
+    public String getMissionBeschreibung(int mission){
+        return beschreibung[mission];
     }
     // Methods for checking player's conquests and conditions
-	public boolean hasConqueredAfrica(List<Land> playerTerritories, List<Land> africaTerritories) {
+	public boolean hasConqueredAfrica(List<Land> playerTerritories) {
 		return playerTerritories.containsAll(africaTerritories);
 	}
 
-	public boolean hasConqueredAsia(List<Land> playerTerritories, List<Land> asiaTerritories) {
+	public boolean hasConqueredAsia(List<Land> playerTerritories) {
 		return playerTerritories.containsAll(asiaTerritories);
 	}
 
-	public boolean hasConqueredAustralia(List<Land> playerTerritories, List<Land> australiaTerritories) {
+	public boolean hasConqueredAustralia(List<Land> playerTerritories) {
 		return playerTerritories.containsAll(australiaTerritories);
 	}
 
-	public boolean hasConqueredEurope(List<Land> playerTerritories, List<Land> europeTerritories) {
+	public boolean hasConqueredEurope(List<Land> playerTerritories) {
 		return playerTerritories.containsAll(europeTerritories);
 	}
 
-	public boolean hasConqueredSouthAmerica(List<Land> playerTerritories, List<Land> southAmericaTerritories) {
+	public boolean hasConqueredSouthAmerica(List<Land> playerTerritories) {
 		return playerTerritories.containsAll(southAmericaTerritories);
 	}
 
-	public boolean hasConqueredNorthAmerica(List<Land> playerTerritories, List<Land> northAmericaTerritories) {
+	public boolean hasConqueredNorthAmerica(List<Land> playerTerritories) {
 		return playerTerritories.containsAll(northAmericaTerritories);
 	}
 
@@ -97,15 +120,6 @@ public class Mission {
 	public int getConqueredTerritoryCount(List<Land> playerTerritories) {
 		return playerTerritories.size();
 	}
-
-	public boolean isFirstPlayer() {
-		return false;
-	}
-
-	public boolean isSecondPlayer() {
-		return false;
-	}
-        
 
     
 }

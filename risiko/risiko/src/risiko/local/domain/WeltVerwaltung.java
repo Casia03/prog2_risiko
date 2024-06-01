@@ -6,10 +6,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 import risiko.local.persistance.Exceptions;
 import risiko.local.entities.AdjazenzMatrix;
+import risiko.local.entities.Kontinent;
 import risiko.local.entities.Land;
 import risiko.local.entities.Spieler;
 import risiko.local.entities.Mission;
@@ -49,6 +51,7 @@ public class WeltVerwaltung {
             // Handle the exception if the file is not found
             Exceptions.showErrorDialog("welt konnte nicht inizialisiert werden ");
         }
+
     }
 
     public void verteileLaender(List<Spieler> spieler) {
@@ -134,22 +137,28 @@ public class WeltVerwaltung {
         }
         return spielerLaender;
     }
+    private void shuffleArray(int[] initialArray){
+        Random rnd = new Random();
+        for (int i = initialArray.length - 1; i > 0; i--){
+            int index = rnd.nextInt(i + 1);
+            // Simple swap
+            int a = initialArray[index];
+            initialArray[index] = initialArray[i];
+            initialArray[i] = a;
+        }
+    }
     public void missionenVerteilung(List<Spieler> spielerList) {
         // Create a list of mission types from the enumerator
-        List<Mission.MissionType> missionTypes = new ArrayList<>(Arrays.asList(Mission.MissionType.values()));
-
-        // Shuffle the mission types to randomize their order
-        Collections.shuffle(missionTypes);
-
+        int[] mission = new int[7];
+        for (int i = 0; i < 7; i++){
+            mission[i] = i;
+        }   
+        shuffleArray(mission);
+        
         // Assign each player a mission type
         for (int i = 0; i < spielerList.size(); i++) {
             Spieler spieler = spielerList.get(i);
-
-            // Get the mission type at the current index
-            Mission.MissionType missionType = missionTypes.get(i);
-
-            // Assign the mission type to the player
-            spieler.setMission(missionType);
+            spieler.setMissionId(mission[i]);
         }
     }
 }

@@ -11,8 +11,6 @@ public class Kontinent{
     private List<Land> SouthAmerica = new ArrayList<Land>();
     private List<Land> Europe = new ArrayList<Land>();
 
-    
-
     public List<Land> returnAfrica(){
         return Africa;
     }
