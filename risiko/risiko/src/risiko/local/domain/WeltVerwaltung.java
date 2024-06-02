@@ -161,4 +161,14 @@ public class WeltVerwaltung {
             spieler.setMissionId(mission[i]);
         }
     }
+
+    public Land getLandByColour(String colour) {
+        int landNr = -1;
+        for(Land land: lander){
+            if(land.getColour() == colour){
+                landNr = land.getTrueIndex();
+            }
+        }
+        return getLand(landNr);
+    }
 }
