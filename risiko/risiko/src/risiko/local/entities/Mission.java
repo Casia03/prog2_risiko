@@ -160,88 +160,79 @@ public class Mission {
 			case 1:
 
 				if(hasConqueredNorthAmerica(spielerTerritorien) && hasConqueredAfrica(spielerTerritorien)){ //CONQUER_NORTH_AMERICA_AFRICA
-					return true;
+					return true;	
 				}
 				return false;
-				break;
 
 			case 2:
 
-				if(){
+				if(hasConqueredNorthAmerica(spielerTerritorien) && hasConqueredAustralia(spielerTerritorien)){ // CONQUER_NORTH_AMERICA_AUSTRALIA,
 					return true;
 				}
 				return false;
-				break;
 
 			case 3:
 
-				if(){
+				if(false){ //CONQUER_24_COUNTRIES FEHLT
 					return true;
 				}
 				return false;
-				break;
 
 			case 4:
 
-				if(){
+				if(hasConquered18CountriesWithMinArmies(spielerTerritorien)){ //CONQUER_18_COUNTRIES_WITH_MIN_ARMIES
 					return true;
 				}
 				return false;
-				break;
 				
 			case 5:
 
-				if(){
+				if(hasConqueredEurope(spielerTerritorien) && hasConqueredSouthAmerica(spielerTerritorien) && hasConqueredThirdContinent(spielerTerritorien)){ // CONQUER_EUROPE_SOUTH_AMERICA_AND_THIRD
 					return true;
 				}
 				return false;
-				break;
 
 			case 6:
 
-				if(){
+				if(hasConqueredAsia(spielerTerritorien)&& hasConqueredSouthAmerica(spielerTerritorien)){ //CONQUER_ASIA_SOUTH_AMERICA
 					return true;
 				}
 				return false;
-				break;
 				
 			case 7:
 
-				if(){
+				if(hasConqueredAfrica(spielerTerritorien) && hasConqueredAsia(spielerTerritorien)){ // CONQUER_AFRICA_ASIA
 					return true;
 				}
 				return false;
-				break;
 
 			case 8:
 
-				if(){
+				if(false){
 					return true;
 				}
 				return false;
-				break;
 				
 			case 9:
 
-				if(){
+				if(false){
 					return true;
 				}
 				return false;
-				break;
 
 			case 10:
 
-				if(){
+				if(false){
 					return true;
 				}
 				return false;
-				break;
 				
 			default:
-				break;
+				return false;
 
 		}
 
 	}
+	
     
 }

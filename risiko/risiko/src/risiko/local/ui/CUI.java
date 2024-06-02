@@ -156,6 +156,12 @@ public class CUI {
                                                     System.out.println(risiko.angreifen(vonLand, nachLand, armeeAnzahl)); // Zeigt resultat von angriff
 
                                                     if(risiko.landHatKeineArmee(nachLand)){ // WENN GEWONNEN
+                                                        System.out.println(risiko.missionStatus());
+                                                        if(risiko.checkIfMissionErfuelt()){
+                                                            System.out.println("SPIEL ZU ENDE!!, SPIELER " + risiko.getJetzigerSpielerName() + " HAT GEWONNEN!");
+                                                            auswahlHauptmenu = 3;
+                                                            break;
+                                                        }
                                                         risiko.neuerBesitzerSetzen(nachLand);
                                                         risiko.einruecken(vonLand, nachLand);
                                                         System.out.println("Du hast das Land " + risiko.getLandName(nachLand) + " Erobert.");
@@ -273,6 +279,7 @@ public class CUI {
                     break;
             }
         }
+        System.out.println("SPIELL SCHLIESST!!");
         scanner.close();
     }
 }

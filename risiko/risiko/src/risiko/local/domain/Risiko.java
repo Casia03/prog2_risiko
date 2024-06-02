@@ -340,4 +340,19 @@ public class Risiko {
         return e.readLandIndex(scanner, validIndices);
     }
 
+
+    public boolean checkIfMissionErfuelt(){
+        spieler = getJetzigerSpieler();
+        boolean ergebniss = mission.checkIfMissionErfuelt(weltVerwaltung.getSpielerLaender(spieler), spieler.getMissionId());
+        return ergebniss;
+    }
+
+    public String missionStatus(){
+        if(checkIfMissionErfuelt()){
+            return "Spieler " + getJetzigerSpielerName() + " Du Hast deine Mission Eruellt, Kongratulations!!";
+        } else{
+            return "Spieler " + getJetzigerSpielerName() + ", deine Mission ist noch nicht erfuellt.";
+        }
+    }
+
 }
