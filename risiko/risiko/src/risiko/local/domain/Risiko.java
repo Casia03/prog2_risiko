@@ -355,4 +355,9 @@ public class Risiko {
         }
     }
 
+    public int getSpielerMissionNummer(){
+        spieler = getJetzigerSpieler();
+        return spieler.getMissionId();
+    }
+
 }

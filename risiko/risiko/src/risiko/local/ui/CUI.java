@@ -67,7 +67,7 @@ public class CUI {
                                                     System.out.println(element);
                                                 }
                                                 System.out.println("Dein Ziel:");
-                                                System.out.println(risiko.getJetzigerSpielerMission()); // MISSION ANZEIGE
+                                                System.out.println(risiko.getJetzigerSpielerMission() + " MISSIONSNUMMER " + risiko.getSpielerMissionNummer()); // MISSION ANZEIGE
                                                 System.out.println("zurzeit zusatz armen in besitzt: " + risiko.getJetzigerSpielerZusatzArmee());
                                                 System.out.println("Du musst deine Zusatzarmeen verteilen. \nWaehle dazu ein Land auf dem du deine Zusatzarmeen verteilen möchtest.");
 
@@ -159,8 +159,8 @@ public class CUI {
                                                         System.out.println(risiko.missionStatus());
                                                         if(risiko.checkIfMissionErfuelt()){
                                                             System.out.println("SPIEL ZU ENDE!!, SPIELER " + risiko.getJetzigerSpielerName() + " HAT GEWONNEN!");
-                                                            auswahlHauptmenu = 3;
-                                                            break;
+                                                            //auswahlHauptmenu = 3;
+                                                            System.exit(0);
                                                         }
                                                         risiko.neuerBesitzerSetzen(nachLand);
                                                         risiko.einruecken(vonLand, nachLand);
@@ -188,7 +188,6 @@ public class CUI {
                                                 }else{
                                                     System.out.println("Du hast leider Keine möglichkeit anzugreiffen, du wirst an die Verschieben phase weitergeleitet");
                                                     spielerWillAngreifen = false;
-                                                    risiko.nextPhase();
                                                     break;
                                                     // VERTEILUNG VON EINHEITSKARTEN
                                                     // MISSION PRUEFEN FUR DEN JETZIGEN SPIELER 
