@@ -23,6 +23,18 @@ public class Spieler implements Serializable {
     public int getSpielerID(){
         return spielerId;
     }
+
+    public void addEinheitskarte(int karte){
+        if (karte == 1){ // Infanterie karte addieren
+            einheitsKarten[0] += 1;
+        }
+        else if (karte == 2){ // Kavallerie karte addieren
+            einheitsKarten[1] += 1;
+        }
+        else if (karte == 3){ // Artillerie karte addieren
+            einheitsKarten[2] += 1;
+        }
+    }
     
     public void setSpielerName(String spielerName){
         this.spielerName = spielerName;

@@ -155,5 +155,93 @@ public class Mission {
 		return playerTerritories.size();
 	}
 
+	public boolean checkIfMissionErfuelt(List<Land> spielerTerritorien, int spielerMission){
+		switch(spielerMission){
+			case 1:
+
+				if(hasConqueredNorthAmerica(spielerTerritorien) && hasConqueredAfrica(spielerTerritorien)){ //CONQUER_NORTH_AMERICA_AFRICA
+					return true;
+				}
+				return false;
+				break;
+
+			case 2:
+
+				if(){
+					return true;
+				}
+				return false;
+				break;
+
+			case 3:
+
+				if(){
+					return true;
+				}
+				return false;
+				break;
+
+			case 4:
+
+				if(){
+					return true;
+				}
+				return false;
+				break;
+				
+			case 5:
+
+				if(){
+					return true;
+				}
+				return false;
+				break;
+
+			case 6:
+
+				if(){
+					return true;
+				}
+				return false;
+				break;
+				
+			case 7:
+
+				if(){
+					return true;
+				}
+				return false;
+				break;
+
+			case 8:
+
+				if(){
+					return true;
+				}
+				return false;
+				break;
+				
+			case 9:
+
+				if(){
+					return true;
+				}
+				return false;
+				break;
+
+			case 10:
+
+				if(){
+					return true;
+				}
+				return false;
+				break;
+				
+			default:
+				break;
+
+		}
+
+	}
     
 }
