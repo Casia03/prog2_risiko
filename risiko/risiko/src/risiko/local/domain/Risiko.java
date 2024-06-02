@@ -355,9 +355,15 @@ public class Risiko {
         }
     }
 
+<<<<<<< HEAD
     public Land getLandByColour(String colour) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getLandByColour'");
+=======
+    public int getSpielerMissionNummer(){
+        spieler = getJetzigerSpieler();
+        return spieler.getMissionId();
+>>>>>>> 4feda9ed36b648d8d50a917e96b27d6409cc2af4
     }
 
 }

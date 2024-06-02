@@ -112,7 +112,7 @@ public class Mission {
 				i++;
 			}
 		}
-		return i == 18;
+		return i >= 18;
 	}
 
 	public boolean hasConqueredThirdContinent(List<Land> playerTerritories) {
@@ -155,38 +155,47 @@ public class Mission {
 		return playerTerritories.size();
 	}
 
+	public boolean hasConquered24Countries(List<Land> playerTerritories){
+		if(playerTerritories.size() >= 24){
+			return true;
+		}else{
+			return false;
+		}
+	}
 	public boolean checkIfMissionErfuelt(List<Land> spielerTerritorien, int spielerMission){
 		switch(spielerMission){
 			case 1:
 
 				if(hasConqueredNorthAmerica(spielerTerritorien) && hasConqueredAfrica(spielerTerritorien)){ //CONQUER_NORTH_AMERICA_AFRICA
+					System.out.println("MISSION 1 !!!");
 					return true;	
 				}
 				return false;
 
 			case 2:
-
+				System.out.println("MISSION 2 !!!");
 				if(hasConqueredNorthAmerica(spielerTerritorien) && hasConqueredAustralia(spielerTerritorien)){ // CONQUER_NORTH_AMERICA_AUSTRALIA,
 					return true;
 				}
 				return false;
 
 			case 3:
-
-				if(false){ //CONQUER_24_COUNTRIES FEHLT
+				System.out.println("MISSION 3 !!!");
+				if(hasConquered24Countries(spielerTerritorien)){ //CONQUER_24_COUNTRIES FEHLT
+					
 					return true;
 				}
 				return false;
 
 			case 4:
-
+				System.out.println("MISSION 4 !!!");
 				if(hasConquered18CountriesWithMinArmies(spielerTerritorien)){ //CONQUER_18_COUNTRIES_WITH_MIN_ARMIES
 					return true;
 				}
 				return false;
 				
 			case 5:
-
+				System.out.println("MISSION 5 !!!");
 				if(hasConqueredEurope(spielerTerritorien) && hasConqueredSouthAmerica(spielerTerritorien) && hasConqueredThirdContinent(spielerTerritorien)){ // CONQUER_EUROPE_SOUTH_AMERICA_AND_THIRD
 					return true;
 				}
