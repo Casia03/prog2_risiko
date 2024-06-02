@@ -355,4 +355,9 @@ public class Risiko {
         }
     }
 
+    public Land getLandByColour(String colour) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getLandByColour'");
+    }
+
 }
