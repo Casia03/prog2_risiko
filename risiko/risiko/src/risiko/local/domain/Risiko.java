@@ -359,10 +359,17 @@ public class Risiko {
         spieler = getJetzigerSpieler();
         return spieler.getMissionId();
     }
-
     public Land getLandByColour(String colour) {
         Land land = weltVerwaltung.getLandByColour(colour);
         return land;
     }
-
+    public int getSpielerID(){
+        return spieler.getSpielerID();
+    }
+    public String getSpielerName(){
+        return spieler.getSpielerName();
+    }
+    public int getZusatzArmee(){
+        return spieler.getZusatzArmee();
+    }
 }

@@ -7,6 +7,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import risiko.local.domain.Risiko;
 import risiko.local.entities.Spieler;
+import risiko.local.entities.Turn.Phase;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.*;
@@ -49,7 +51,7 @@ public class MainGame extends JFrame {
     private Land selectedLand;
     private int beginningDistribution = 0;
     private Risiko game;
-    private String currentPhase;
+    private Phase currentPhase;
     private boolean isSelectingAttackingCountry = true;
     private boolean isSelectingDefendingCountry = false; // Initialize as false initially
     private Land attackingCountry;
@@ -268,8 +270,8 @@ public class MainGame extends JFrame {
         bottomPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
         // Button to trigger phase change and show current phase
-        JLabel showPhase = new JLabel(currentPhase);
-        showPhase.setText(risiko.getPhase());
+        JLabel showPhase = new JLabel(currentPhase.toString());
+        showPhase.setText(risiko.getPhase().toString());
         bottomPanel.add(showPhase);
 
         // ActionListener for the "Phase Change" button
@@ -280,11 +282,11 @@ public class MainGame extends JFrame {
                 JOptionPane.showMessageDialog(this, "Yeah broda next phase came to be");
                 risiko.nextPhase(); // change phase
 
-                currentPlayer = risiko.currentPlayer(); // update current player
+                currentPlayer = risiko.getJetzigerSpieler(); // update current player
 
                 updateTables(currentPlayer); // update tables
                 updatePhase();
-                showPhase.setText(currentPhase);
+                showPhase.setText(currentPhase.toString());
             } else {
                 JOptionPane.showMessageDialog(this, "Please distribute your forces first."); // incase there are spare
                                                                                              // forces left
@@ -304,7 +306,7 @@ public class MainGame extends JFrame {
                     // Prompt the user for the amount of troops
                     String input = JOptionPane.showInputDialog(this,
                             "Enter the number of troops to distribute: \n You have "
-                                    + currentPlayer.getZusatzSoldaten() + " spare Armies!",
+                                    + currentPlayer.getZusatzArmee() + " spare Armies!",
                             "Distribute Troops", JOptionPane.PLAIN_MESSAGE);
 
                     // Check if the user clicked "Cancel" or closed the dialog
@@ -319,7 +321,7 @@ public class MainGame extends JFrame {
                             JOptionPane.showMessageDialog(this, "Invalid input. Please enter a valid number.",
                                     "Invalid Input", JOptionPane.ERROR_MESSAGE);
                         }
-                        if (currentPlayer.getZusatzSoldaten() == 0
+                        if (currentPlayer.getZusatzArmee() == 0
                                 && beginningDistribution != spielerListe.size() - 1) { // comparing
                                                                                        // beginningDistrubution so that
                                                                                        // after the Last player
@@ -390,7 +392,7 @@ public class MainGame extends JFrame {
     }
 
     private void updatePhase() {
-        currentPhase = risiko.getCurrentPhase();
+        currentPhase = risiko.getPhase();
     }
 
     private void updateTables(Spieler currentPlayer) {
@@ -431,7 +433,7 @@ public class MainGame extends JFrame {
 
     private boolean zusatzArmeenVorhanden(List<Spieler> spielerListe) {
         for (Spieler spieler : spielerListe) {
-            if (spieler.getZusatzSoldaten() != 0) {
+            if (spieler.getZusatzArmee() != 0) {
                 return false;
             }
         }
@@ -528,11 +530,11 @@ public class MainGame extends JFrame {
     }
 
     private void updatePlayerInfo(Spieler currentPlayer) {
-        String playerName = currentPlayer.getName();
+        String playerName = currentPlayer.getSpielerName();
         int conqueredCountries = risiko.spielerCountriesOnwedCount(currentPlayer); // Use the sl object to access
                                                                                    // SpielLogik method
-        String mission = currentPlayer.getMission().toString();
-        int zusatzArmee = risiko.getZusatzArmee(currentPlayer);
+        String mission = risiko.getJetzigerSpielerMission();
+        int zusatzArmee = risiko.getZusatzArmee();
         // Check if the playerTable already has rows, if yes, update the existing row
         // data
         if (playerTableModel.getRowCount() >= 1) {
@@ -568,7 +570,7 @@ public class MainGame extends JFrame {
 
     public void turnChange() {
         risiko.nextPlayer();
-        int newIndex = risiko.getSpielerIndex();
+        int newIndex = risiko.getSpielerID();
 
         currentPlayer = spielerListe.get(newIndex); // Get the next player from the list
 
