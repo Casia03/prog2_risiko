@@ -16,7 +16,7 @@ public class Exceptions {
 
     public void showErrorDialog(String string) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'showErrorDialog'");
+        System.out.println(string);
     }
 
     public int readInt(Scanner scanner, int min, int max) {

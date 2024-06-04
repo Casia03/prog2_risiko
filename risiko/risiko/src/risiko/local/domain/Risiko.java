@@ -56,8 +56,7 @@ public class Risiko {
     public void spielerHinzufuegen(String name) {
         spielerVerwaltung.spielerHinzufuegen(name);
     }
-
-    
+   
     public int getTurn(){
         return turn.getTurn();
     }

@@ -44,8 +44,6 @@ public class MainGame extends JFrame {
     private Risiko risiko;
     private List<Spieler> spielerListe = new ArrayList<>();
     private int turn;
-    private int anfangsPhase = 0;
-    private int spielersFinishedDistribution = 0;
     private int scaleHeight = 600;
     private int scaleWidth = (int) (scaleHeight * 1.7778);
     private int ausgewaehltesLand;
@@ -55,21 +53,21 @@ public class MainGame extends JFrame {
     private boolean isSelectingAttackingCountry = true;
     private boolean isSelectingDefendingCountry = false; // Initialize as false initially
     private int attackingCountry;
-    private int defendingCountry;
     Exceptions Exceptions = new Exceptions();
 
-    public MainGame(List<String> spielerNames) {
+    public MainGame(List<String> spielerNameListe) {
         risiko = new Risiko(); // Use the class-level property instead of declaring a new local variable
 
         // Initialize spielers in the Risiko class using the spielerNames list
-        for (String spielerName : spielerNames) {
+        for (String spielerName : spielerNameListe) {
             risiko.spielerHinzufuegen(spielerName);
             // System.out.println("spielerHinzufuegen called with: " + spielerName);
         }
-
+        risiko.startGame(risiko);
+        
         spielerListe = risiko.getSpielerListe();
 
-        risiko.startGame(risiko);
+        
 
         initializeGUI(spielerListe);
     }
@@ -161,8 +159,8 @@ public class MainGame extends JFrame {
     }
 
     private JLayeredPane loadAndInitializeImages() throws IOException {
-        BufferedImage colorImage = ImageIO.read(new File("bilder/Color_Map.png"));
-        BufferedImage image = ImageIO.read(new File("bilder/Risiko_Karte_1920x10803.png"));
+        BufferedImage colorImage = ImageIO.read(new File("../bilder/Color_Map.png"));
+        BufferedImage image = ImageIO.read(new File("../bilder/Risiko_Karte_1920x10803.png"));
 
         // Scale the images to the desired dimensions
         BufferedImage scaledColorImage = scaleImage(colorImage, scaleWidth, scaleHeight);
@@ -270,9 +268,9 @@ public class MainGame extends JFrame {
         bottomPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
         // Button to trigger phase change and show current phase
-        JLabel showPhase = new JLabel(currentPhase.toString());
-        showPhase.setText(risiko.getPhase().toString());
-        bottomPanel.add(showPhase);
+        // JLabel showPhase = new JLabel(currentPhase.toString());
+        // showPhase.setText(risiko.getPhase().toString());
+        // bottomPanel.add(showPhase);
 
         // ActionListener for the "Phase Change" button
         JButton phaseChangeButton = new JButton("Phase Change");
