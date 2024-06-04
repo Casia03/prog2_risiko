@@ -57,22 +57,15 @@ public class Risiko {
         spielerVerwaltung.spielerHinzufuegen(name);
     }
 
-    public List<Spieler> getSpielerListe(){
-        return new ArrayList<>(spielerVerwaltung.getSpielerListe());
-    }
     
     public int getTurn(){
         return turn.getTurn();
     }
 
-
-    public String getJetzigerSpielerMission(){
-        spieler = getJetzigerSpieler();
-        int missionNummer = spieler.getMissionId();
-
-        return mission.getMissionBeschreibung(missionNummer);
-    }
-
+    public Phase getPhase(){
+        return turn.getPhase();
+    } 
+   
     public void nextPhase(){
         turn.nextPhase();
     }
@@ -80,11 +73,8 @@ public class Risiko {
     public void nextPlayer(){
         turn.nextPlayer();
     }
-
-    public Phase getPhase(){
-        return turn.getPhase();
-    } 
  
+    // SAVE LOAD COMMANDS
     public void loadGame() {
         slm.loadGame();
     }
@@ -93,16 +83,7 @@ public class Risiko {
         slm.saveGame(risiko);
     }
 
-    public ArrayList<Land> getLaender() {
-        return weltVerwaltung.getLaeder();
-        
-    }
-
-    // public void rewardsCheck(int spielerID){
-    //     Spieler spieler = spielerVerwaltung.returnSpieler(spielerID);
-    //     // konditionen zum zusatzermee erhalt checken, aber das alles in der logik
-    // }
-
+    // SPIELZYKLUS
     public void erstVerteilen(int landID, int armee){
         spieler = getJetzigerSpieler();
         verteilen(landID,armee);
@@ -144,9 +125,7 @@ public class Risiko {
 
     }
 
-
     /*       SPIELER METHODEN          */
-    
     public int jetzigerSpielerNummer(){ // Gibt die Nummer des jetzigen spielers zuruck
         return turn.getSpieler();
     }
@@ -183,15 +162,6 @@ public class Risiko {
 
     }
 
-    // public String[] getJetzigerSpielerAngriffBereiteLaender(){ // Gibt die Angriffsbereite laender die zu den Jetzigen spieler gehoren
-    //     spieler = getJetzigerSpieler();
-    //     List<Land> laender = weltVerwaltung.getSpielerLaender(spieler); // wird zur ne string ausgabe geaendert 
-    //     String[] liste = adj.getAlleAngreifebereiteLaender(laender, spieler);
-
-    //     return liste;
-
-    // }
-    
     public Spieler getSpielerByID(int spielerID){ // Gibt den spieler zuruck mit den eingegebenen spielerID
         return spielerVerwaltung.getSpielerByID(spielerID);
     }
@@ -203,17 +173,41 @@ public class Risiko {
     public String getMissionBySpielerID ( int spielerID){
         return null;//getSpielerByID(spielerID).getMissionId();
     }
-
-    public void getLaenderListeBySpielerID ( int spielerID){
-        spieler = getSpielerByID(spielerID);
-        List<Land> laender = weltVerwaltung.getSpielerLaender(spieler); // wird zur ne string ausgabe geaendert 
-
+    
+    public int getSpielerID(){
+        return spieler.getSpielerID();
+    }
+    
+    public String getSpielerName(){
+        return spieler.getSpielerName();
+    }
+    
+    public int getZusatzArmee(){
+        return spieler.getZusatzArmee();
+    }
+    
+    public int getSpielerMissionNummer(){
+            spieler = getJetzigerSpieler();
+            return spieler.getMissionId();
+    }
+    
+    public List<Spieler> getSpielerListe(){
+        return new ArrayList<>(spielerVerwaltung.getSpielerListe());
     }
 
+    public String getJetzigerSpielerMission(){
+        spieler = getJetzigerSpieler();
+        int missionNummer = spieler.getMissionId();
 
-
+        return mission.getMissionBeschreibung(missionNummer);
+    }
 
     /*       LAND METHODEN          */
+    public ArrayList<Land> getLaender() {
+        return weltVerwaltung.getLaeder();
+        
+    }
+
     public Land getLand(int landID) {
         Land land = weltVerwaltung.getLand(landID);
         return land;
@@ -265,19 +259,25 @@ public class Risiko {
 
         throw new IllegalArgumentException("Du hast keine Angriffbereite Laender");
     }
-
-    public void neuerBesitzerSetzen(int vonLand){
-        spieler = getJetzigerSpieler();
-        weltVerwaltung.setNeueBesitzer(vonLand, spieler);
-    }
     
     public void waehleVerschiebeZiel(int vonLand){ //  hmm
         spieler = getJetzigerSpieler();
         adj.getAlleEigeneNachbars(vonLand, spieler);
     }
     
+    public int getLandByColour(String colour) {
+        Land land = weltVerwaltung.getLandByColour(colour);
+        return land.getTrueIndex();
+    }
+    
+    public boolean sindNachbar(int vonLand, int nachLand){
+        if(adj.sindNachbar(vonLand-1,nachLand-1)){
+            return true;
+        }else{
+            return false;
+        }
+    }
     /*      AUSWERTUNGS METHODEN        */
-
     public int getMaxAttackNumber(int vonLand) {
         int landArmee = getLand(vonLand).getArmee();
         int maxAttack = spielLogik.getMaxAttackNumber(landArmee);
@@ -299,8 +299,7 @@ public class Risiko {
         return liste;
     }
 
-    public int berechneZusatzarmeen() {
-        spieler = getJetzigerSpieler();
+    public int berechneZusatzarmeen(Spieler spieler) {
         int anzahlTerritorien = weltVerwaltung.getSpielerLaender(spieler).size();
         int zusatzarmeen = 0;
 
@@ -320,10 +319,25 @@ public class Risiko {
 
     public void addBonusArmee(){ // Addieren
         spieler = getJetzigerSpieler();
-        int zusatzArmee = berechneZusatzarmeen();
+        int zusatzArmee = berechneZusatzarmeen(spieler);
         spieler.addZusatzarmee(zusatzArmee);
     }
 
+    public void neuerBesitzerSetzen(int vonLand){
+            spieler = getJetzigerSpieler();
+            weltVerwaltung.setNeueBesitzer(vonLand, spieler);
+        }
+    
+    /*      INFO AUSGABE                */
+    public String missionStatus(){
+        if(checkIfMissionErfuelt()){
+            return "Spieler " + getJetzigerSpielerName() + " Du Hast deine Mission Eruellt, Kongratulations!!";
+        } else{
+            return "Spieler " + getJetzigerSpielerName() + ", deine Mission ist noch nicht erfuellt.";
+        }
+    }
+    
+    /*      EXCEPTIONS  EINGABEN        */
     public int readInt(Scanner scanner,int min,int max){
         return e.readInt(scanner, min, max);
     }
@@ -340,36 +354,34 @@ public class Risiko {
         return e.readLandIndex(scanner, validIndices);
     }
 
-
     public boolean checkIfMissionErfuelt(){
         spieler = getJetzigerSpieler();
         boolean ergebniss = mission.checkIfMissionErfuelt(weltVerwaltung.getSpielerLaender(spieler), spieler.getMissionId());
         return ergebniss;
     }
 
-    public String missionStatus(){
-        if(checkIfMissionErfuelt()){
-            return "Spieler " + getJetzigerSpielerName() + " Du Hast deine Mission Eruellt, Kongratulations!!";
-        } else{
-            return "Spieler " + getJetzigerSpielerName() + ", deine Mission ist noch nicht erfuellt.";
-        }
+    public List<Land> getEigeneLaender() {
+        spieler = getJetzigerSpieler();
+        List<Land> laender = weltVerwaltung.getSpielerLaender(spieler);
+        return laender;
     }
 
-    public int getSpielerMissionNummer(){
+    public int getSpielerLaenderAnzahl() {
         spieler = getJetzigerSpieler();
-        return spieler.getMissionId();
+        int anzahl = weltVerwaltung.getSpielerLaender(spieler).size();
+        return anzahl;
     }
-    public Land getLandByColour(String colour) {
-        Land land = weltVerwaltung.getLandByColour(colour);
-        return land;
+
+    public boolean istDeinLand(int ausgewaehltesLand) {
+        spieler = getJetzigerSpieler();
+        Land Land = getLand(ausgewaehltesLand);
+        if(Land.getEingenommenVon() == spieler.getSpielerID()){
+            return true;
+        }else{
+            return false;
+        }
     }
-    public int getSpielerID(){
-        return spieler.getSpielerID();
-    }
-    public String getSpielerName(){
-        return spieler.getSpielerName();
-    }
-    public int getZusatzArmee(){
-        return spieler.getZusatzArmee();
-    }
+   
+    
+    
 }

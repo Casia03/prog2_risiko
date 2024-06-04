@@ -26,8 +26,8 @@ import risiko.local.entities.Land;
 
 public class MainGame extends JFrame {
     private boolean colorMapVisible = true;
-    private JTable playerTable;
-    private DefaultTableModel playerTableModel;
+    private JTable spielerTable;
+    private DefaultTableModel spielerTableModel;
 
     private JTable landInfoTable;
     private DefaultTableModel landInfoTableModel;
@@ -40,31 +40,31 @@ public class MainGame extends JFrame {
     private JLabel showPhase;
     private JPanel mainPanel;
 
-    private Spieler currentPlayer;
+    private Spieler currentSpieler;
     private Risiko risiko;
     private List<Spieler> spielerListe = new ArrayList<>();
     private int turn;
     private int anfangsPhase = 0;
-    private int playersFinishedDistribution = 0;
+    private int spielersFinishedDistribution = 0;
     private int scaleHeight = 600;
     private int scaleWidth = (int) (scaleHeight * 1.7778);
-    private Land selectedLand;
+    private int ausgewaehltesLand;
     private int beginningDistribution = 0;
     private Risiko game;
     private Phase currentPhase;
     private boolean isSelectingAttackingCountry = true;
     private boolean isSelectingDefendingCountry = false; // Initialize as false initially
-    private Land attackingCountry;
-    private Land defendingCountry;
+    private int attackingCountry;
+    private int defendingCountry;
     Exceptions Exceptions = new Exceptions();
 
-    public MainGame(List<String> playerNames) {
+    public MainGame(List<String> spielerNames) {
         risiko = new Risiko(); // Use the class-level property instead of declaring a new local variable
 
-        // Initialize players in the Risiko class using the playerNames list
-        for (String playerName : playerNames) {
-            risiko.spielerHinzufuegen(playerName);
-            // System.out.println("spielerHinzufuegen called with: " + playerName);
+        // Initialize spielers in the Risiko class using the spielerNames list
+        for (String spielerName : spielerNames) {
+            risiko.spielerHinzufuegen(spielerName);
+            // System.out.println("spielerHinzufuegen called with: " + spielerName);
         }
 
         spielerListe = risiko.getSpielerListe();
@@ -133,8 +133,8 @@ public class MainGame extends JFrame {
 
         JPanel bottomPanel = createBottomPanel();
 
-        // Initialize the player table
-        initializePlayerTable();
+        // Initialize the spieler table
+        initializeSpielerTable();
 
         // Create the main panel
         JPanel mainPanel = new JPanel(new BorderLayout());
@@ -153,10 +153,10 @@ public class MainGame extends JFrame {
         setLocationRelativeTo(null); // Center the window on the screen
         setVisible(true);
 
-        // Initialize player information with the first player
+        // Initialize spieler information with the first spieler
         if (!spielerListe.isEmpty()) {
-            currentPlayer = spielerListe.get(0);
-            updatePlayerInfo(currentPlayer);
+            currentSpieler = spielerListe.get(0);
+            updateSpielerInfo(currentSpieler);
         }
     }
 
@@ -205,16 +205,16 @@ public class MainGame extends JFrame {
                 Color clickedColor = getColorAtPixel(x, y, scaledColorImage);
                 // showColorInfo(clickedColor);
                 String colour = getColorName(clickedColor);
-                selectedLand = risiko.getLandByColour(colour);
+                ausgewaehltesLand = risiko.getLandByColour(colour);
                 // Update the land information in the table
-                updateLandInfo(selectedLand, risiko.getSpielerListe());
+                updateLandInfo(risiko.getLand(ausgewaehltesLand), risiko.getSpielerListe());
             }
         });
         // Add the layered pane to the main panel
         return layeredPane;
     }
 
-    private void updateLandInfo(Land currentLand, List<Spieler> spieler) {
+    private void updateLandInfo(Land currentLand, List<Spieler> spielerListe) {
         if (currentLand == null) {
             // If the selected land is null, clear the table or show a message indicating no
             // land is selected.
@@ -228,9 +228,9 @@ public class MainGame extends JFrame {
             int landArmies = currentLand.getArmee();
 
             String landOccupant = null;
-            for (Spieler player : spieler) {
-                if (currentLand.getEingenommenVon() == player.getSpielerID()) {
-                    landOccupant = player.getSpielerName();
+            for (Spieler spieler : spielerListe) {
+                if (currentLand.getEingenommenVon() == spieler.getSpielerID()) {
+                    landOccupant = spieler.getSpielerName();
                     break;
                 }
             }
@@ -282,9 +282,9 @@ public class MainGame extends JFrame {
                 JOptionPane.showMessageDialog(this, "Yeah broda next phase came to be");
                 risiko.nextPhase(); // change phase
 
-                currentPlayer = risiko.getJetzigerSpieler(); // update current player
+                currentSpieler = risiko.getJetzigerSpieler(); // update current spieler
 
-                updateTables(currentPlayer); // update tables
+                updateTables(currentSpieler); // update tables
                 updatePhase();
                 showPhase.setText(currentPhase.toString());
             } else {
@@ -302,34 +302,27 @@ public class MainGame extends JFrame {
         actionButton.addActionListener(e -> {
             updatePhase();
             if ("Verteilenphase".equals(currentPhase) | "AnfangsVerteilenphase".equals(currentPhase)) {
-                if (selectedLand != null && risiko.deinLand(currentPlayer, selectedLand)) {
+                if (risiko.getLand(ausgewaehltesLand) != null && risiko.istDeinLand(ausgewaehltesLand)) {
                     // Prompt the user for the amount of troops
                     String input = JOptionPane.showInputDialog(this,
-                            "Enter the number of troops to distribute: \n You have "
-                                    + currentPlayer.getZusatzArmee() + " spare Armies!",
-                            "Distribute Troops", JOptionPane.PLAIN_MESSAGE);
+                            "Enter the number of troops to distribute: \n You have " + currentSpieler.getZusatzArmee() + " spare Armies!","Distribute Troops", JOptionPane.PLAIN_MESSAGE);
 
                     // Check if the user clicked "Cancel" or closed the dialog
                     if (input != null) {
                         try {
-                            int amount = Integer.parseInt(input);
-                            risiko.verteilen(currentPlayer, selectedLand, amount);
-                            updateTables(currentPlayer);
+                            int armeeAnzahl = Integer.parseInt(input);
+                            risiko.verteilen(ausgewaehltesLand, armeeAnzahl);
+                            updateTables(currentSpieler);
 
                         } catch (NumberFormatException ex) {
                             // Show an error message if the input is not a valid integer
-                            JOptionPane.showMessageDialog(this, "Invalid input. Please enter a valid number.",
-                                    "Invalid Input", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(this, "Invalid input. Please enter a valid number.","Invalid Input", JOptionPane.ERROR_MESSAGE);
                         }
-                        if (currentPlayer.getZusatzArmee() == 0
-                                && beginningDistribution != spielerListe.size() - 1) { // comparing
-                                                                                       // beginningDistrubution so that
-                                                                                       // after the Last player
-                                                                                       // noPlayerchanges occur, so that
-                                                                                       // PhaseChange changes to the
-                                                                                       // right player.
+                        if (currentSpieler.getZusatzArmee() == 0
+                                && beginningDistribution != spielerListe.size() - 1) { // comparing beginningDistrubution so that  after the Last spieler
+                                                                                       // noSpielerchanges occur, so that PhaseChange changes to the right spieler.
                             beginningDistribution++;
-                            turnChange(); // nextPlayer
+                            phaseChange(); // nextSpieler
                         }
                     }
                 } else {
@@ -340,16 +333,16 @@ public class MainGame extends JFrame {
             } else if ("Angreifenphase".equals(currentPhase)) {
                 if (isSelectingAttackingCountry) {
                     JOptionPane.showMessageDialog(this, "Choose from where you'd like to attack.");
-                    // Validate if the selected country is a valid attacking country for the current player
-                    if (selectedLand != null && risiko.deinLand(currentPlayer, selectedLand) /* && selectedLand.hasNeighboringEnemies(currentPlayer) */) {
+                    // Validate if the selected country is a valid attacking country for the current spieler
+                    if (risiko.getLand(ausgewaehltesLand) != null && risiko.istDeinLand(ausgewaehltesLand) /* && ausgewaehltesLand.hasNeighboringEnemies(currentSpieler) */) {
                         // Save the selected attacking country
-                        attackingCountry = selectedLand;
+                        attackingCountry = ausgewaehltesLand;
                         
-                        // Prompt the player to choose a target country
+                        // Prompt the spieler to choose a target country
                         
                         isSelectingAttackingCountry = false; // Set the flag to false to switch to selecting the target country.
                         isSelectingDefendingCountry = true; // Set the flag to true to indicate that we are now selecting the defending country.
-                        selectedLand = null;
+                        // !!!!! ausgewaehltesLand = null; !!!!!
                         
                     } else {
                         // Show an error message if the selected country is not a valid attacking country
@@ -359,18 +352,23 @@ public class MainGame extends JFrame {
                     JOptionPane.showMessageDialog(this, "Choose a target country to attack.");
                     // Assuming you have a previously selected attackingCountry variable.
                     // Validate if the selected country is a valid target country for the attack
-                    if (selectedLand != null && risiko.sindNachbar(attackingCountry, selectedLand) && !risiko.deinLand(currentPlayer, selectedLand)) {
-                        // Perform the attack logic here
-                        risiko.angreifen(currentPlayer, attackingCountry, selectedLand);
-                        JOptionPane.showMessageDialog(this, "Attack happened");
-                        // Reset the defendingCountry variable for future attacks
-                        defendingCountry = null;
-                        isSelectingDefendingCountry = false; // Set the flag back to false for future attacks.
-                        isSelectingAttackingCountry = true; // Set the flag to true to indicate that we are now selecting the attacking country for the next attack.
-                        selectedLand = null;
-                    } else {
-                        // Show an error message if the selected country is not a valid target country
-                        JOptionPane.showMessageDialog(this, "Please select a valid target country to attack.", "Error", JOptionPane.ERROR_MESSAGE);
+                    String input = JOptionPane.showInputDialog(this,
+                            "Enter the number of troops to dattack: \n You have " + currentSpieler.getZusatzArmee() + " spare Armies! You can use up to Three at a time","Attack number", JOptionPane.PLAIN_MESSAGE);
+                    if(input != null){
+                        if (risiko.getLand(ausgewaehltesLand) != null && risiko.sindNachbar(attackingCountry, ausgewaehltesLand) && !risiko.istDeinLand(ausgewaehltesLand)) {
+                            // Perform the attack logic here
+                            int armeeAnzahl = Integer.parseInt(input); // EXCEPTION EINBAUEN FUR INTEGER EINGABEN ARMEE ANZAHL
+                            risiko.angreifen(attackingCountry, ausgewaehltesLand, armeeAnzahl);
+                            JOptionPane.showMessageDialog(this, "Attack happened");
+                            // Reset the defendingCountry variable for future attacks
+                            // !!!!!! defendingCountry = null;  !!!!!!!!!
+                            isSelectingDefendingCountry = false; // Set the flag back to false for future attacks.
+                            isSelectingAttackingCountry = true; // Set the flag to true to indicate that we are now selecting the attacking country for the next attack.
+                            // !!!!!! ausgewaehltesLand = null; !!!!!!!!!
+                        } else {
+                            // Show an error message if the selected country is not a valid target country
+                            JOptionPane.showMessageDialog(this, "Please select a valid target country to attack.", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
                     }
                 }
             }
@@ -395,10 +393,10 @@ public class MainGame extends JFrame {
         currentPhase = risiko.getPhase();
     }
 
-    private void updateTables(Spieler currentPlayer) {
-        updatePlayerInfo(currentPlayer);
-        updateLandInfo(selectedLand, spielerListe);
-        updateLandTable(risiko.getCountriesOwned(currentPlayer));
+    private void updateTables(Spieler currentSpieler) {
+        updateSpielerInfo(currentSpieler);
+        updateLandInfo(risiko.getLand(ausgewaehltesLand), spielerListe);
+        updateLandTable(risiko.getEigeneLaender());
     }
 
     private void initializeLandInfoTable() {
@@ -466,36 +464,36 @@ public class MainGame extends JFrame {
         landTable.getColumnModel().getColumn(1).setPreferredWidth(150);
     }
 
-    private void initializePlayerTable() {
+    private void initializeSpielerTable() {
         // Define the data for the three rows
-        String[] rowNames = { "Player Name", "Conquered Countries", "Mission", "Zusatzarmee" };
+        String[] rowNames = { "Spieler Name", "Conquered Countries", "Mission", "Zusatzarmee" };
 
-        // Create the player table model with the data for the three rows
+        // Create the spieler table model with the data for the three rows
         Object[][] tableData = new Object[4][4];
         for (int i = 0; i < 4; i++) {
             tableData[i][0] = rowNames[i];
-            tableData[i][1] = ""; // Placeholder for player information
+            tableData[i][1] = ""; // Placeholder for spieler information
             tableData[i][2] = "";
             tableData[i][3] = "";
         }
 
-        // Create the custom table model for playerTable
-        DefaultTableModel customPlayerTableModel = new DefaultTableModel(tableData, new Object[] { "", "" }) {
+        // Create the custom table model for spielerTable
+        DefaultTableModel customSpielerTableModel = new DefaultTableModel(tableData, new Object[] { "", "" }) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false; // Make the table uneditable
             }
         };
 
-        // Set the customPlayerTableModel as the playerTableModel for the class
-        playerTableModel = customPlayerTableModel;
+        // Set the customSpielerTableModel as the spielerTableModel for the class
+        spielerTableModel = customSpielerTableModel;
 
         // Create the JTable with the custom model
-        playerTable = new JTable(playerTableModel);
+        spielerTable = new JTable(spielerTableModel);
 
         // Set preferred column widths (optional, adjust as needed)
-        playerTable.getColumnModel().getColumn(0).setPreferredWidth(150);
-        playerTable.getColumnModel().getColumn(1).setPreferredWidth(300);
+        spielerTable.getColumnModel().getColumn(0).setPreferredWidth(150);
+        spielerTable.getColumnModel().getColumn(1).setPreferredWidth(300);
 
         DefaultTableCellRenderer customRenderer = new DefaultTableCellRenderer() {
             @Override
@@ -509,7 +507,7 @@ public class MainGame extends JFrame {
             }
         };
 
-        playerTable.setDefaultRenderer(Object.class, customRenderer);
+        spielerTable.setDefaultRenderer(Object.class, customRenderer);
 
         // Initialize the country table
         initializeLandTable();
@@ -517,10 +515,10 @@ public class MainGame extends JFrame {
         // Create a GridLayout for the rightPanel with 2 rows and 1 column
         rightPanel.setLayout(new GridLayout(2, 1));
 
-        // Add the player table to the second row of the rightPanel
-        JPanel playerTablePanel = new JPanel(new BorderLayout());
-        playerTablePanel.add(new JScrollPane(playerTable), BorderLayout.CENTER);
-        rightPanel.add(playerTablePanel);
+        // Add the spieler table to the second row of the rightPanel
+        JPanel spielerTablePanel = new JPanel(new BorderLayout());
+        spielerTablePanel.add(new JScrollPane(spielerTable), BorderLayout.CENTER);
+        rightPanel.add(spielerTablePanel);
 
         // Add the country table to the first row of the rightPanel
         JPanel landTablePanel = new JPanel(new BorderLayout());
@@ -529,32 +527,32 @@ public class MainGame extends JFrame {
 
     }
 
-    private void updatePlayerInfo(Spieler currentPlayer) {
-        String playerName = currentPlayer.getSpielerName();
-        int conqueredCountries = risiko.spielerCountriesOnwedCount(currentPlayer); // Use the sl object to access
+    private void updateSpielerInfo(Spieler currentSpieler) {
+        String spielerName = currentSpieler.getSpielerName();
+        int conqueredCountries = risiko.getSpielerLaenderAnzahl(); // Use the sl object to access
                                                                                    // SpielLogik method
         String mission = risiko.getJetzigerSpielerMission();
         int zusatzArmee = risiko.getZusatzArmee();
-        // Check if the playerTable already has rows, if yes, update the existing row
+        // Check if the spielerTable already has rows, if yes, update the existing row
         // data
-        if (playerTableModel.getRowCount() >= 1) {
-            playerTableModel.setValueAt(playerName, 0, 1); // Update player name
-            playerTableModel.setValueAt(conqueredCountries, 1, 1); // Update conquered countries count
-            playerTableModel.setValueAt(mission, 2, 1); // Update mission
-            playerTableModel.setValueAt(zusatzArmee, 3, 1);
+        if (spielerTableModel.getRowCount() >= 1) {
+            spielerTableModel.setValueAt(spielerName, 0, 1); // Update spieler name
+            spielerTableModel.setValueAt(conqueredCountries, 1, 1); // Update conquered countries count
+            spielerTableModel.setValueAt(mission, 2, 1); // Update mission
+            spielerTableModel.setValueAt(zusatzArmee, 3, 1);
         } else {
-            // If no rows exist, add a new row with player information
-            playerTableModel.addRow(new Object[] { playerName, conqueredCountries, mission });
+            // If no rows exist, add a new row with spieler information
+            spielerTableModel.addRow(new Object[] { spielerName, conqueredCountries, mission });
         }
 
-        updateLandTable(risiko.getCountriesOwned(currentPlayer));
+        updateLandTable(risiko.getEigeneLaender());
     }
 
     private void updateLandTable(List<Land> countries) {
         // Clear the existing data in the land table (country table)
         landTableModel.setRowCount(0);
 
-        // Populate the land table (country table) with the current player's countries
+        // Populate the land table (country table) with the current spieler's countries
         for (Land country : countries) {
             String countryName = country.getName();
             int armies = country.getArmee();
@@ -565,21 +563,18 @@ public class MainGame extends JFrame {
     }
 
     public void phaseChange() {
-
-    }
-
-    public void turnChange() {
-        risiko.nextPlayer();
+        risiko.nextPhase();
+        // risiko.nextSpieler();
         int newIndex = risiko.getSpielerID();
 
-        currentPlayer = spielerListe.get(newIndex); // Get the next player from the list
+        currentSpieler = spielerListe.get(newIndex); // Get the next spieler from the list
 
-        // Update player informa tion on the GUI for the new current player
-        updatePlayerInfo(currentPlayer);
+        // Update spieler informa tion on the GUI for the new current spieler
+        updateSpielerInfo(currentSpieler);
 
-        // Update the country table with the current player's countries
-        updateLandTable(risiko.getCountriesOwned(currentPlayer));
-        selectedLand = null;
+        // Update the country table with the current spieler's countries
+        updateLandTable(risiko.getEigeneLaender());
+        // !!!!! ausgewaehltesLand = null; !!!!!
     }
 
     private BufferedImage scaleImage(BufferedImage originalImage, int width, int height) {
