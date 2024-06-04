@@ -39,6 +39,16 @@ public class Turn {
         return phase;
     }
 
+    public int getPhaseNr(){
+        if(getPhase()==Phase.VERTEILEN){
+            return 1;
+        }
+        if(getPhase()==Phase.ANGREIFFEN){
+            return 2;
+        }
+        return 3;
+    }
+
     public void setPlayerIndex(int newspielerId){
         spielerId = newspielerId;
     }
