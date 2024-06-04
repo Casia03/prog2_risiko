@@ -35,10 +35,11 @@ public class SaveLoadManager {
         }
     }
 
-    private void saveTurn(int i) throws IOException {
+    private void saveTurn(int i, int j) throws IOException {
         String filePath = SAVE_FOLDER_PATH + "turn.dat";
         try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(filePath))) {
-            outputStream.writeObject(i);
+            outputStream.write(i);
+            outputStream.write(j);
         }
     }
 
@@ -84,7 +85,7 @@ public class SaveLoadManager {
             }
             
             saveCountries(risiko.getLaender());
-            //saveTurn(Turn );
+            saveTurn(risiko.getTurn(), risiko.getPhaseNr());
              System.out.println("Game saved successfully.");
 
         } catch (IOException e) {

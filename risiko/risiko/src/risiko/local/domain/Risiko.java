@@ -24,8 +24,14 @@ public class Risiko {
     private Exceptions e;
     private Kontinent kontinente;
     private Mission mission;
-    
     private SaveLoadManager slm;
+
+    public enum Phase2 {
+        ERSTVERTEILEN,
+        VERTEILEN,
+        ANGREIFFEN,
+        VERSCHIEBEN
+    }
 
     public Risiko(){
         weltVerwaltung = new WeltVerwaltung();
@@ -380,7 +386,15 @@ public class Risiko {
             return false;
         }
     }
-   
-    
-    
+
+    public int getPhaseNr() {
+
+        if(getPhase()==Phase2.VERTEILEN){
+            return 1;
+        }
+        if(getPhase()==Phase2.ANGREIFFEN){
+            return 2;
+        }
+        return 3;
+    }
 }
