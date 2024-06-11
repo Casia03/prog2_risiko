@@ -20,6 +20,7 @@ public class WeltVerwaltung {
     Exceptions Exceptions = new Exceptions();
 
     private ArrayList<Land> lander = new ArrayList<Land>();
+    private int landNr;
 
     public WeltVerwaltung(){
 
@@ -162,10 +163,9 @@ public class WeltVerwaltung {
         }
     }
 
-    public Land getLandByColour(String colour) {
-        int landNr = -1;
+    public Land getLandByColour(String colour) { // vergleicht die länder farbe mit die ausgewählte farbe und schmeisst das passende zurück
         for(Land land: lander){
-            if(land.getColour() == colour){
+            if(land.getColour().equals(colour)){
                 landNr = land.getTrueIndex();
             }
         }

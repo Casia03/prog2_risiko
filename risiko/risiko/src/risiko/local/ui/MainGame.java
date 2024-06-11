@@ -199,10 +199,11 @@ public class MainGame extends JFrame {
         imageLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent e) {
+                // X Y position der maus werden abgelesen
                 int x = e.getX();
                 int y = e.getY();
+                // Die Farbe (unsichbare farb karte) an der Stelle wo gekiclt wurde wird abgelesen
                 Color clickedColor = getColorAtPixel(x, y, scaledColorImage);
-                // showColorInfo(clickedColor);
                 String colour = getColorName(clickedColor);
                 ausgewaehltesLand = risiko.getLandByColour(colour);
                 // Update the land information in the table

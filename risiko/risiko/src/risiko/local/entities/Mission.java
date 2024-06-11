@@ -162,6 +162,7 @@ public class Mission {
 			return false;
 		}
 	}
+	
 	public boolean checkIfMissionErfuelt(List<Land> spielerTerritorien, int spielerMission){
 		switch(spielerMission){
 			case 1:
@@ -211,27 +212,6 @@ public class Mission {
 			case 7:
 
 				if(hasConqueredAfrica(spielerTerritorien) && hasConqueredAsia(spielerTerritorien)){ // CONQUER_AFRICA_ASIA
-					return true;
-				}
-				return false;
-
-			case 8:
-
-				if(false){
-					return true;
-				}
-				return false;
-				
-			case 9:
-
-				if(false){
-					return true;
-				}
-				return false;
-
-			case 10:
-
-				if(false){
 					return true;
 				}
 				return false;

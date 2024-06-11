@@ -78,7 +78,7 @@ public class SaveLoadManager {
 
     public void saveGame(Risiko risiko) {
         try {
-
+            
             
             for (Spieler spieler : risiko.getSpielerListe()) {
                 saveSpieler(spieler);
