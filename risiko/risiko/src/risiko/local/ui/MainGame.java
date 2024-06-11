@@ -160,8 +160,8 @@ public class MainGame extends JFrame {
     }
 
     private JLayeredPane loadAndInitializeImages() throws IOException {
-        BufferedImage colorImage = ImageIO.read(new File("../bilder/Color_Map.png"));
-        BufferedImage image = ImageIO.read(new File("../bilder/Risiko_Karte_1920x10803.png"));
+        BufferedImage colorImage = ImageIO.read(new File("risiko\\risiko\\src\\risiko\\local\\bilder\\Color_Map.png"));
+        BufferedImage image = ImageIO.read(new File("risiko\\risiko\\src\\risiko\\local\\bilder\\Risiko_Karte_1920x10803.png"));
 
         // Scale the images to the desired dimensions
         BufferedImage scaledColorImage = scaleImage(colorImage, scaleWidth, scaleHeight);
