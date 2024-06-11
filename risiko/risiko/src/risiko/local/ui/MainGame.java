@@ -25,6 +25,7 @@ import risiko.local.persistance.Exceptions;
 import risiko.local.entities.Land;
 
 public class MainGame extends JFrame {
+    
     private boolean colorMapVisible = true;
     private JTable spielerTable;
     private DefaultTableModel spielerTableModel;
