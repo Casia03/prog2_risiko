@@ -277,7 +277,8 @@ public class CUI {
                     }
                     break;
                 case 2:
-                     //risiko.loadGame();
+                    risiko.printSavedGame();
+                    risiko.loadGame();
                     // Spiel Laden, kommt spaeter
                     break;
                 case 3:

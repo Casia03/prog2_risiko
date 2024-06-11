@@ -81,6 +81,10 @@ public class Risiko {
         slm.saveGame(risiko);
     }
 
+    public void printSavedGame(){
+        slm.printSavedGame();
+    }
+
     // SPIELZYKLUS
     public void erstVerteilen(int landID, int armee){
         spieler = getJetzigerSpieler();
