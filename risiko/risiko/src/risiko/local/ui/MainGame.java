@@ -301,6 +301,7 @@ public class MainGame extends JFrame {
         JButton actionButton = new JButton("Action");
         actionButton.addActionListener(e -> {
             updatePhase();
+            System.out.println(currentPhase);
             if ("Verteilenphase".equals(currentPhase) | "AnfangsVerteilenphase".equals(currentPhase)) {
                 if (risiko.getLand(ausgewaehltesLand) != null && risiko.istDeinLand(ausgewaehltesLand)) {
                     // Prompt the user for the amount of troops
@@ -460,7 +461,7 @@ public class MainGame extends JFrame {
         landTable = new JTable(landTableModel);
 
         // Set preferred column widths (optional, adjust as needed)
-        landTable.getColumnModel().getColumn(0).setPreferredWidth(150);
+        landTable.getColumnModel().getColumn(0).setPreferredWidth(50);
         landTable.getColumnModel().getColumn(1).setPreferredWidth(150);
     }
 

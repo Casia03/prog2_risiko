@@ -20,7 +20,21 @@ public class Turn {
         ERSTVERTEILEN,
         VERTEILEN,
         ANGREIFFEN,
-        VERSCHIEBEN
+        VERSCHIEBEN;
+
+        public String toString(){
+            switch(this){
+                case ERSTVERTEILEN:
+                    return "Erstverteilen";
+                case VERTEILEN:
+                    return "Verteilen";
+                case ANGREIFFEN:
+                    return "Angreifen";
+                case VERSCHIEBEN:
+                    return "Verschieben";
+            }
+            return null;
+        }
     }
 
     private Phase phase;
