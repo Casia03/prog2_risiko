@@ -162,40 +162,43 @@ public class MainGame extends JFrame {
     private JLayeredPane loadAndInitializeImages() throws IOException {
         BufferedImage colorImage = ImageIO.read(new File("risiko\\risiko\\src\\risiko\\local\\bilder\\Color_Map.png"));
         BufferedImage image = ImageIO.read(new File("risiko\\risiko\\src\\risiko\\local\\bilder\\Risiko_Karte_1920x10803.png"));
-
+    
         // Scale the images to the desired dimensions
         BufferedImage scaledColorImage = scaleImage(colorImage, scaleWidth, scaleHeight);
         BufferedImage scaledImage = scaleImage(image, scaleWidth, scaleHeight);
-
+    
         // Create the ImageIcon for each image
         ImageIcon colorScaledImageIcon = new ImageIcon(scaledColorImage);
         ImageIcon scaledImageIcon = new ImageIcon(scaledImage);
-
+    
         // Create the JLabels for each image
         JLabel colorImageLabel = new JLabel(colorScaledImageIcon);
         JLabel imageLabel = new JLabel(scaledImageIcon);
-
-        // Create a layered pane and add the image labels with appropriate layer
-        // positions
+    
+        // Create a layered pane and add the image labels with appropriate layer positions
         JLayeredPane layeredPane = new JLayeredPane();
         layeredPane.setPreferredSize(new Dimension(scaleWidth, scaleHeight));
-
+    
         // Set a transparent background for the layered pane
         layeredPane.setOpaque(false);
-
+    
         // Add the images to the layered pane with desired layer positions
         layeredPane.add(imageLabel, Integer.valueOf(0)); // Add the scaled image label above the background
         layeredPane.add(colorImageLabel, Integer.valueOf(1)); // Add the color-based map label to the top layer
         // Make the color map label invisible (transparent)
         colorImageLabel.setOpaque(false);
         colorImageLabel.setIcon(null);
-        // Position the images in the center of the layered pane (adjusting only
-        // colorImageLabel now)
+        // Position the images in the center of the layered pane (adjusting only colorImageLabel now)
         int x = (scaleWidth - colorScaledImageIcon.getIconWidth()) / 2;
         int y = (scaleHeight - colorScaledImageIcon.getIconHeight()) / 2;
         colorImageLabel.setBounds(x, y, colorScaledImageIcon.getIconWidth(), colorScaledImageIcon.getIconHeight());
         imageLabel.setBounds(0, 0, scaleWidth, scaleHeight);
-
+    
+        // Add a JLabel to display the selected image
+        JLabel selectedImageLabel = new JLabel();
+        selectedImageLabel.setBounds(0, 0, scaleWidth, scaleHeight);
+        layeredPane.add(selectedImageLabel, Integer.valueOf(2)); // Add it above other layers
+    
         imageLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent e) {
@@ -208,11 +211,30 @@ public class MainGame extends JFrame {
                 ausgewaehltesLand = risiko.getLandByColour(colour);
                 // Update the land information in the table
                 updateLandInfo(risiko.getLand(ausgewaehltesLand), risiko.getSpielerListe());
+    
+                try {
+                    // Load the image corresponding to the selected land
+                    String imagePath = String.format("risiko\\risiko\\src\\risiko\\local\\bilder\\42\\%d.png", ausgewaehltesLand);
+                    BufferedImage selectedImage = ImageIO.read(new File(imagePath));
+                    
+                    // Scale the image if necessary
+                    BufferedImage scaledSelectedImage = scaleImage(selectedImage, scaleWidth, scaleHeight);
+    
+                    // Update the label with the new image
+                    ImageIcon selectedImageIcon = new ImageIcon(scaledSelectedImage);
+                    selectedImageLabel.setIcon(selectedImageIcon);
+                    selectedImageLabel.setVisible(true); // Ensure the label is visible
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                    // Handle the exception, e.g., by showing a default image or an error message
+                }
             }
         });
+    
         // Add the layered pane to the main panel
         return layeredPane;
     }
+    
 
     private void updateLandInfo(Land currentLand, List<Spieler> spielerListe) {
         if (currentLand == null) {
