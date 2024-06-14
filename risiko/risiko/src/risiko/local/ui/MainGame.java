@@ -413,6 +413,10 @@ public class MainGame extends JFrame {
             }
 
         });
+        bottomPanel.add(actionButton); // Add the action button to the bottom panel
+    
+        bottomPanel.add(new JScrollPane(landInfoTable));
+        landInfoTable.setPreferredScrollableViewportSize(new Dimension(landInfoTable.getPreferredSize().width, 70)); // Set preferred height
         return bottomPanel;
     }
 

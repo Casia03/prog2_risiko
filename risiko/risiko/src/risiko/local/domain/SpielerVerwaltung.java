@@ -8,10 +8,10 @@ import risiko.local.persistance.Exceptions;
 
 public class SpielerVerwaltung {
     Exceptions Exceptions = new Exceptions();
-    private List<Spieler> spielerListe = new ArrayList<>();
+    private List<Spieler> spielerListe = new ArrayList<>();;
 
     public SpielerVerwaltung() {
-
+        
     }
 
     public void spielerHinzufuegen(String name) {
@@ -47,7 +47,10 @@ public class SpielerVerwaltung {
     }
 
     public void loadSpieler(List<Spieler> loadedSpieler) {
-        spielerListe.addAll(loadedSpieler);
+        for(int i = 0; i < loadedSpieler.size(); i++){
+            spielerListe.add(loadedSpieler.get(i));
+        }
+ 
     }
 
 }

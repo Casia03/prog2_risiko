@@ -54,34 +54,34 @@ public class Risiko {
         mission = new Mission(kontinente);                      // Missionen werde Initialisiert, um spaeter die uberpruefung des statuses jeder mission zur uberpruefen
     }
 
-    public int getAnzahlSpieler() {
+    public int getAnzahlSpieler() {                     // gibt die größe der spieler Liste zurück
         return spielerVerwaltung.getAnzahlSpieler();
     }
 
-    public void spielerHinzufuegen(String name) {
+    public void spielerHinzufuegen(String name) { // um neue Spieler hinzufügen
         spielerVerwaltung.spielerHinzufuegen(name);
     }
    
-    public int getTurn(){
+    public int getTurn(){ // gibt den Jetzigen turn zuruck
         return turn.getTurn();
     }
 
-    public Phase getPhase(){
+    public Phase getPhase(){ // gibt die Jetzige Phase zuruck
         return turn.getPhase();
     } 
    
-    public void nextPhase(){
+    public void nextPhase(){ // aendert die Phase auf die naechste, wobei nach der Verschiebephase noch der Jetziger Spieler geaendert wird
         turn.nextPhase();
     }
 
-    public void nextPlayer(){
+    public void nextPlayer(){ // aendert den jetzigen spieler auf den naechsten, nur für die Erstverteilephase nötig, wird sonnst mit nextPhase() gemacht
         turn.nextPlayer();
     }
  
    
 
     // SPIELZYKLUS
-    public void erstVerteilen(int landID, int armee){
+    public void erstVerteilen(int landID, int armee){ // Die ErstverteilePhase, aendert sich nach dem durchgehen aller Spieler auf die Angreifephase
         spieler = getJetzigerSpieler();
         verteilen(landID,armee);
         if(spieler.getZusatzArmee()!=0){
@@ -92,14 +92,14 @@ public class Risiko {
         
     }
 
-    public void verteilen(int landID, int armee){
+    public void verteilen(int landID, int armee){ // Methode zur implementrierung der verteile phase 
         spieler = getJetzigerSpieler();
         Land land = weltVerwaltung.getLand(landID);
         spielLogik.verteilen(spieler, land, armee);
 
     }
 
-    public String angreifen(int vonLandID, int nachLandID, int angreifeAnzahl){
+    public String angreifen(int vonLandID, int nachLandID, int angreifeAnzahl){ // Methode zur implementrierung der angreiffe phase 
         String resultat;
         Land nachLand = getLand(nachLandID);
         Land vonLand = getLand(vonLandID);
@@ -107,14 +107,14 @@ public class Risiko {
         return resultat;
     } 
 
-    public void einruecken(int vonLandID, int nachLandID) {
+    public void einruecken(int vonLandID, int nachLandID) { // Methode zur implementrierung des einrueckens nach einer erfolgreichen eroberung eines Landes 
         Land vonLand = getLand(vonLandID);
         Land nachLand = getLand(nachLandID);
 
         spielLogik.einruecken(vonLand, nachLand);
     }
 
-    public void verschieben(int vonLandID, int nachLandID, int anzahl){
+    public void verschieben(int vonLandID, int nachLandID, int anzahl){ //  Methode zur implementrierung der verschiebe phase 
         Land nachLand = weltVerwaltung.getLand(nachLandID);
         Land vonLand = weltVerwaltung.getLand(vonLandID);
 
@@ -384,42 +384,42 @@ public class Risiko {
     }
 
      // SAVE LOAD COMMANDS
-     public void loadGame() {
-        slm.loadGame();
+     public void load(Risiko risiko) {
+        slm.loadGame(risiko);
     }
 
-    public void saveGame(Risiko risiko){
+    public void save(Risiko risiko){ // Speichert das Spiel
         slm.saveGame(risiko);
     }
 
-    public void printSavedGame(){
+    public void printSavedGame(){ // anzeigen was gespeichert wurde
         slm.printSavedGame();
     }
 
 
     //      LOAD METHODEN
 
-    public void loadLaender(List<Land> loadedLaender){
+    public void loadLaender(List<Land> loadedLaender){ // gespeicherte Laender laden
         weltVerwaltung.loadLaender(loadedLaender);
     }
 
-    public void loadSpielerListe(List<Spieler> loadedSpieler){
+    public void loadSpielerListe(List<Spieler> loadedSpieler){ // gespeicherte SpielerListe laden
         spielerVerwaltung.loadSpieler(loadedSpieler);
     }
 
-    public void loadTurn(int loadedTurn) {
+    public void loadTurn(int loadedTurn) { // gespeicherte Turn laden
         turn.loadTurn(loadedTurn);
     }
 
-    public void loadPhase(Phase loadedPhase){
+    public void loadPhase(Phase loadedPhase){ // gespeicherte phase laden
         turn.loadPhase(loadedPhase);
     }
 
-    public void loadJetzigerSpieler(int spielerId) {
+    public void loadJetzigerSpieler(int spielerId) { // gespeicherten Jetzigen Spieler laden
         turn.loadSpieler(spielerId);
     }
 
-    public void laodInitializeTurn(int spielerListe) {
+    public void laodInitializeTurn(int spielerListe) { // gespeicherte 
         turn = new Turn(spielerListe);
     }
 

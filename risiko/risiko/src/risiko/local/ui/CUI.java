@@ -4,7 +4,6 @@ import java.util.Scanner;
 import risiko.local.domain.Risiko;
 
 public class CUI {
-    
     public static void main(String[] args) {
         boolean gameloaded = false;
         boolean startGame = false;
@@ -147,7 +146,7 @@ public class CUI {
                                             break;
 
                                         case ANGREIFFEN: // Angreifen
-                                        risiko.saveGame(risiko);
+                                        risiko.save(risiko);
                                             boolean spielerWillAngreifen = true;
                                             boolean spielerWillEinruecken = false;
                                             System.out.println("\n\nSpieler " + risiko.getJetzigerSpielerName() + ", gerade bist du in die Angreiffenphase ");
@@ -302,7 +301,7 @@ public class CUI {
                     break;
                 case 2:
                     //risiko.printSavedGame();
-                    risiko.loadGame();
+                    risiko.load(risiko);
                     // Spiel Laden, kommt spaeter
                     break;
                 case 3:

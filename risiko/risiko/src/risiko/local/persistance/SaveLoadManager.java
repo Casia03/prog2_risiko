@@ -26,12 +26,12 @@ public class SaveLoadManager {
         }
     }
 
-    public Risiko loadGame() {
+    public Risiko loadGame(Risiko risiko) {
         try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(SAVE_FILE_PATH))) {
             GameData gameData = (GameData) inputStream.readObject();
 
-            Risiko risiko = new Risiko();
-            risiko.getSpielerListe().addAll(gameData.getSpielerListe());
+
+            risiko.loadSpielerListe(gameData.getSpielerListe());
             risiko.loadLaender(gameData.getLandList());
 
             risiko.laodInitializeTurn(risiko.getSpielerListe().size());
