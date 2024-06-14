@@ -383,13 +383,6 @@ public class Risiko {
         }
     }
 
-    public int getPhaseNr() {
-
-       return turn.getPhaseNr();
-    }
-
-
-
      // SAVE LOAD COMMANDS
      public void loadGame() {
         slm.loadGame();

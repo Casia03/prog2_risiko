@@ -53,16 +53,6 @@ public class Turn {
         return phase;
     }
 
-    public int getPhaseNr(){
-        if(getPhase()==Phase.VERTEILEN){
-            return 1;
-        }
-        if(getPhase()==Phase.ANGREIFFEN){
-            return 2;
-        }
-        return 3;
-    }
-
     public void loadTurn(int a) {
         turnNumber = a;
     }
@@ -77,10 +67,7 @@ public class Turn {
 
     public void nextPlayer() {
         spielerId++;
-
-        if(spielerId > anzahlSpieler ){
-            spielerId = 0;
-        }
+        spielerId = spielerId % anzahlSpieler;
         
     }
 
