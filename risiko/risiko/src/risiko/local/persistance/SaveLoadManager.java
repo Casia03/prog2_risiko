@@ -33,6 +33,9 @@ public class SaveLoadManager {
             Risiko risiko = new Risiko();
             risiko.getSpielerListe().addAll(gameData.getSpielerListe());
             risiko.loadLaender(gameData.getLandList());
+
+            risiko.laodInitializeTurn(risiko.getSpielerListe().size());
+            
             risiko.loadTurn(gameData.getTurn());
             risiko.loadJetzigerSpieler(gameData.getSpielerId());
             risiko.loadPhase(gameData.getPhase());

@@ -39,11 +39,11 @@ public class Turn {
 
     private Phase phase;
     private int turnNumber; // Track the current turn
-    private List<Spieler> spielerListe;
+    private int anzahlSpieler;
     private int spielerId;
 
-    public Turn(List<Spieler> spielerListe) {
-        this.spielerListe = spielerListe;
+    public Turn(int anzahlSpieler) {
+        this.anzahlSpieler = anzahlSpieler;
         phase = Phase.ERSTVERTEILEN;
         turnNumber = 0; // Initialize the turn number to 0
         spielerId = 0; // Initialize the player index to 0
@@ -78,7 +78,7 @@ public class Turn {
     public void nextPlayer() {
         spielerId++;
 
-        if(spielerId >= spielerListe.size()){
+        if(spielerId > anzahlSpieler ){
             spielerId = 0;
         }
         

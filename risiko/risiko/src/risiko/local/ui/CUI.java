@@ -79,11 +79,15 @@ public class CUI {
                                 int i = 0;
                                 System.out.println("The Game Starts!");
                                 startGame = true;
-                                risiko.startGame(risiko, gameloaded);
+                                if(gameloaded == false){
+                                    risiko.newGame(risiko);
+                                }else{
+                                    risiko.loadGame(risiko);
+                                }
+                                System.out.println(risiko.getPhase().toString());
                                 boolean spielende = false;
                                 while (!spielende) {
                                 
-
                                     switch (risiko.getPhase()) {
                                         case ERSTVERTEILEN: // Anfangsverteilephase 
                                             while (risiko.jetzigerSpielerHatZusatzarmee()) { // Wird abgespielt bis
@@ -297,7 +301,7 @@ public class CUI {
                     }
                     break;
                 case 2:
-                    risiko.printSavedGame();
+                    //risiko.printSavedGame();
                     risiko.loadGame();
                     // Spiel Laden, kommt spaeter
                     break;

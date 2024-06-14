@@ -1,5 +1,6 @@
 package risiko.local.domain;
 
+import java.security.cert.TrustAnchor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -38,16 +39,17 @@ public class Risiko {
         
     }
 
-    public void startGame(Risiko risiko, boolean gameLoaded){
-        List<Spieler> spielerListe;
-        if(gameLoaded == false){  
-            spielerListe = getSpielerListe(); // Spielerliste furs weiterleiten an Klassen die diese benoetigen
-            weltVerwaltung.initialisiereWelt();             // laender objekte werden erstellt 
-            weltVerwaltung.verteileLaender(spielerListe);   // Laender werden an Spielern verteilt
-            weltVerwaltung.missionenVerteilung(spielerListe);   // Missionen werden verteilt
-        }
-        spielerListe = spielerVerwaltung.getSpielerListe();
-        turn = new Turn(spielerListe);  // Turn klasse wird Initialisiert, um das spielzyklus zu gestalten
+    public void newGame(Risiko risiko){
+        List<Spieler> spielerListe = getSpielerListe(); // Spielerliste furs weiterleiten an Klassen die diese benoetigen
+        weltVerwaltung.initialisiereWelt();             // laender objekte werden erstellt 
+        turn = new Turn(spielerListe.size());                  // Turn klasse wird Initialisiert, um das spielzyklus zu gestalten 
+        weltVerwaltung.verteileLaender(spielerListe);   // Laender werden an Spielern verteilt
+        weltVerwaltung.missionenVerteilung(spielerListe);   // Missionen werden verteilt
+        kontinente = new Kontinent(weltVerwaltung.getLaeder()); //Kontinente werden Initialisiert   
+        mission = new Mission(kontinente);                      // Missionen werde Initialisiert, um spaeter die uberpruefung des statuses jeder mission zur uberpruefen
+    }
+
+    public void loadGame(Risiko risiko){
         kontinente = new Kontinent(weltVerwaltung.getLaeder()); //Kontinente werden Initialisiert   
         mission = new Mission(kontinente);                      // Missionen werde Initialisiert, um spaeter die uberpruefung des statuses jeder mission zur uberpruefen
     }
@@ -415,13 +417,17 @@ public class Risiko {
     public void loadTurn(int loadedTurn) {
         turn.loadTurn(loadedTurn);
     }
-    
+
     public void loadPhase(Phase loadedPhase){
         turn.loadPhase(loadedPhase);
     }
 
     public void loadJetzigerSpieler(int spielerId) {
         turn.loadSpieler(spielerId);
+    }
+
+    public void laodInitializeTurn(int spielerListe) {
+        turn = new Turn(spielerListe);
     }
 
 
