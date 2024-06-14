@@ -48,7 +48,7 @@ public class SaveLoadManager {
     public void printSavedGame() {
         try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(SAVE_FILE_PATH))) {
             GameData gameData = (GameData) inputStream.readObject();
-            System.out.println("Spieler:");
+            System.out.println("Spielerliste:");
             for (Spieler spieler : gameData.getSpielerListe()) {
                 System.out.println(spieler);
             }
@@ -60,6 +60,9 @@ public class SaveLoadManager {
 
             System.out.println("Turn:");
             System.out.println(gameData.getTurn());
+
+            System.out.println("Phase:");
+            System.out.println(gameData.getPhase());
 
         } catch (IOException | ClassNotFoundException e) {
             System.err.println("Die gespeicherten Spieldaten konnten nicht geladen werden: " + e);
