@@ -4,62 +4,82 @@ import java.util.Scanner;
 import risiko.local.domain.Risiko;
 
 public class CUI {
+    
     public static void main(String[] args) {
+        boolean gameloaded = false;
+        boolean startGame = false;
         Risiko risiko = new Risiko();
         Scanner scanner = new Scanner(System.in);
 
         int auswahlHauptmenu = 0;
 
         while (auswahlHauptmenu != 3) {
-            System.out.println(
-            "//                                                                 \n" + 
-            "//  ██████╗ ██╗███████╗██╗██╗  ██╗ ██████╗      ██████╗██╗   ██╗██╗\n" +
-            "//  ██╔══██╗██║██╔════╝██║██║ ██╔╝██╔═══██╗    ██╔════╝██║   ██║██║\n" +
-            "//  ██████╔╝██║███████╗██║█████╔╝ ██║   ██║    ██║     ██║   ██║██║\n" +
-            "//  ██╔══██╗██║╚════██║██║██╔═██╗ ██║   ██║    ██║     ██║   ██║██║\n" +
-            "//  ██║  ██║██║███████║██║██║  ██╗╚██████╔╝    ╚██████╗╚██████╔╝██║\n" +
-            "//  ╚═╝  ╚═╝╚═╝╚══════╝╚═╝╚═╝  ╚═╝ ╚═════╝      ╚═════╝ ╚═════╝ ╚═╝\n" +
-            "//                                                                 \n"
-            );
-            System.out.println("***MENU***");
-            System.out.println("1. New Game");
-            System.out.println("2. Load Game");
-            System.out.println("3. Quit");
+            
+            if(gameloaded != true){
+                System.out.println(
+                "//                                                                 \n" + 
+                "//  ██████╗ ██╗███████╗██╗██╗  ██╗ ██████╗      ██████╗██╗   ██╗██╗\n" +
+                "//  ██╔══██╗██║██╔════╝██║██║ ██╔╝██╔═══██╗    ██╔════╝██║   ██║██║\n" +
+                "//  ██████╔╝██║███████╗██║█████╔╝ ██║   ██║    ██║     ██║   ██║██║\n" +
+                "//  ██╔══██╗██║╚════██║██║██╔═██╗ ██║   ██║    ██║     ██║   ██║██║\n" +
+                "//  ██║  ██║██║███████║██║██║  ██╗╚██████╔╝    ╚██████╗╚██████╔╝██║\n" +
+                "//  ╚═╝  ╚═╝╚═╝╚══════╝╚═╝╚═╝  ╚═╝ ╚═════╝      ╚═════╝ ╚═════╝ ╚═╝\n" +
+                "//                                                                 \n"
+                );
 
-            auswahlHauptmenu = risiko.readInt(scanner, 1, 3);
+                    System.out.println("***MENU***");
+                    System.out.println("1. New Game");
+                    System.out.println("2. Load Game");
+                    System.out.println("3. Quit");
 
+                    auswahlHauptmenu = risiko.readInt(scanner, 1, 3);
+                    if (auswahlHauptmenu == 2){
+                        gameloaded = true;
+                    }
+                }else{
+                    auswahlHauptmenu = 1;
+                }
             switch (auswahlHauptmenu) {
                 case 1:
-                    System.out.println("You have chosen a new game!");
-                    System.out.println("Please add a player!");
+                    String name;
+                    if (gameloaded == false){
+                        System.out.println("You have chosen a new game!");
+                        System.out.println("Please add a player!");
 
-                    System.out.println("Select your name:");
-                    String name = scanner.next();
-                    risiko.spielerHinzufuegen(name);
+                        System.out.println("Select your name:");
+                        name = scanner.next();
+                        risiko.spielerHinzufuegen(name);
 
-                    //Kann man mit einer Methode austauschen in der Risiko klasse die prüft ob das spiel noch läuft
-                    boolean startGame = false;
+                        //Kann man mit einer Methode austauschen in der Risiko klasse die prüft ob das spiel noch läuft
+                        startGame = false;
+                    }else{
+                        startGame = false;
+                    }
 
                     while (!startGame) {
+                        int auswahlMenuSpielvorbereitung = 0;
+                        if(gameloaded == false){
+                            System.out.println("\n1. Would you like to start?");
+                            System.out.println("2. Or would you like to add more players? (Current number of players: " + risiko.getAnzahlSpieler() + ")");
+                            System.out.println("3. You could also look at the list of the current players!");
+                            System.out.println("// note: You cannot start with less than 2 players! //");
 
-                        System.out.println("\n1. Would you like to start?");
-                        System.out.println("2. Or would you like to add more players? (Current number of players: " + risiko.getAnzahlSpieler() + ")");
-                        System.out.println("3. You could also look at the list of the current players!");
-                        System.out.println("// note: You cannot start with less than 2 players! //");
-
-                        int auswahlMenuSpielvorbereitung = risiko.readInt(scanner, 1, 3);
-
+                            auswahlMenuSpielvorbereitung = risiko.readInt(scanner, 1, 3);
+                        }else{
+                            auswahlMenuSpielvorbereitung = 1;
+                        }
                         switch (auswahlMenuSpielvorbereitung) {
                             case 1:
-
-                                if (risiko.getAnzahlSpieler() < 2) {
-                                    System.out.println("You need at least 2 players to start the game!");
-                                    break;
+                                if (gameloaded == false){
+                                    if (risiko.getAnzahlSpieler() < 2) {
+                                        System.out.println("You need at least 2 players to start the game!");
+                                        break;
+                                    }
                                 }
                                 int i = 0;
                                 System.out.println("The Game Starts!");
                                 startGame = true;
-                                risiko.startGame(risiko);
+                                risiko.startGame(risiko, gameloaded);
                                 boolean spielende = false;
                                 while (!spielende) {
                                 

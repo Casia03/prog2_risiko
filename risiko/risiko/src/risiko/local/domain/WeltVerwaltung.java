@@ -171,4 +171,8 @@ public class WeltVerwaltung {
         }
         return getLand(landNr);
     }
+
+    public void loadLaender(List<Land> loadedLaender) {
+        lander.addAll(loadedLaender);
+    }
 }

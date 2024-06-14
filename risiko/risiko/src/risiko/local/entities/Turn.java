@@ -63,6 +63,10 @@ public class Turn {
         return 3;
     }
 
+    public void loadTurn(int a) {
+        turnNumber = a;
+    }
+
     public void setPlayerIndex(int newspielerId){
         spielerId = newspielerId;
     }
@@ -106,8 +110,29 @@ public class Turn {
         }
     }
 
+
     @Override
     public String toString() {
         return super.toString();
+    }
+
+    public void loadPhase(Phase loadedPhase) {
+        switch (loadedPhase) {
+            case ERSTVERTEILEN:
+                phase = Phase.ERSTVERTEILEN;
+                break;
+            case VERTEILEN:
+                phase = Phase.VERTEILEN;
+                break;
+            case ANGREIFFEN:
+                phase = Phase.ANGREIFFEN;
+                break;
+            case VERSCHIEBEN:
+                phase = Phase.VERSCHIEBEN;
+        }
+    }
+
+    public void loadSpieler(int loadedSpieler){
+        spielerId = loadedSpieler;
     }
 }

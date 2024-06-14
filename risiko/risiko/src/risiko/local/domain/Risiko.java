@@ -38,13 +38,17 @@ public class Risiko {
         
     }
 
-    public void startGame(Risiko risiko){
-        List<Spieler> spielerListe = getSpielerListe(); // Spielerliste furs weiterleiten an Klassen die diese benoetigen
-        weltVerwaltung.initialisiereWelt();             // laender objekte werden erstellt
-        turn = new Turn(spielerListe);                  // Turn klasse wird Initialisiert, um das spielzyklus zu gestalten
-        weltVerwaltung.verteileLaender(spielerListe);   // Laender werden an Spielern verteilt
-        kontinente = new Kontinent(weltVerwaltung.getLaeder()); //Kontinente werden Initialisiert
-        weltVerwaltung.missionenVerteilung(spielerListe);       // Missionen werden verteilt
+    public void startGame(Risiko risiko, boolean gameLoaded){
+        List<Spieler> spielerListe;
+        if(gameLoaded == false){  
+            spielerListe = getSpielerListe(); // Spielerliste furs weiterleiten an Klassen die diese benoetigen
+            weltVerwaltung.initialisiereWelt();             // laender objekte werden erstellt 
+            weltVerwaltung.verteileLaender(spielerListe);   // Laender werden an Spielern verteilt
+            weltVerwaltung.missionenVerteilung(spielerListe);   // Missionen werden verteilt
+        }
+        spielerListe = spielerVerwaltung.getSpielerListe();
+        turn = new Turn(spielerListe);  // Turn klasse wird Initialisiert, um das spielzyklus zu gestalten
+        kontinente = new Kontinent(weltVerwaltung.getLaeder()); //Kontinente werden Initialisiert   
         mission = new Mission(kontinente);                      // Missionen werde Initialisiert, um spaeter die uberpruefung des statuses jeder mission zur uberpruefen
     }
 
@@ -72,18 +76,7 @@ public class Risiko {
         turn.nextPlayer();
     }
  
-    // SAVE LOAD COMMANDS
-    public void loadGame() {
-        slm.loadGame();
-    }
-
-    public void saveGame(Risiko risiko){
-        slm.saveGame(risiko);
-    }
-
-    public void printSavedGame(){
-        slm.printSavedGame();
-    }
+   
 
     // SPIELZYKLUS
     public void erstVerteilen(int landID, int armee){
@@ -197,6 +190,8 @@ public class Risiko {
         return new ArrayList<>(spielerVerwaltung.getSpielerListe());
     }
 
+
+
     public String getJetzigerSpielerMission(){
         spieler = getJetzigerSpieler();
         int missionNummer = spieler.getMissionId();
@@ -209,6 +204,8 @@ public class Risiko {
         return weltVerwaltung.getLaeder();
         
     }
+
+ 
 
     public Land getLand(int landID) {
         Land land = weltVerwaltung.getLand(landID);
@@ -388,4 +385,44 @@ public class Risiko {
 
        return turn.getPhaseNr();
     }
+
+
+
+     // SAVE LOAD COMMANDS
+     public void loadGame() {
+        slm.loadGame();
+    }
+
+    public void saveGame(Risiko risiko){
+        slm.saveGame(risiko);
+    }
+
+    public void printSavedGame(){
+        slm.printSavedGame();
+    }
+
+
+    //      LOAD METHODEN
+
+    public void loadLaender(List<Land> loadedLaender){
+        weltVerwaltung.loadLaender(loadedLaender);
+    }
+
+    public void loadSpielerListe(List<Spieler> loadedSpieler){
+        spielerVerwaltung.loadSpieler(loadedSpieler);
+    }
+
+    public void loadTurn(int loadedTurn) {
+        turn.loadTurn(loadedTurn);
+    }
+    
+    public void loadPhase(Phase loadedPhase){
+        turn.loadPhase(loadedPhase);
+    }
+
+    public void loadJetzigerSpieler(int spielerId) {
+        turn.loadSpieler(spielerId);
+    }
+
+
 }

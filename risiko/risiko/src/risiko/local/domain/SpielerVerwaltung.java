@@ -46,4 +46,8 @@ public class SpielerVerwaltung {
         return spielerListe.get(spielerID);
     }
 
+    public void loadSpieler(List<Spieler> loadedSpieler) {
+        spielerListe.addAll(loadedSpieler);
+    }
+
 }

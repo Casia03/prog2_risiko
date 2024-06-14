@@ -15,7 +15,7 @@ public class SaveLoadManager {
     Exceptions Exceptions = new Exceptions();
 
     public void saveGame(Risiko risiko) {
-        GameData gameData = new GameData(risiko.getSpielerListe(), risiko.getLaender(), risiko.getTurn(), risiko.getPhaseNr());
+        GameData gameData = new GameData(risiko.getSpielerListe(), risiko.getLaender(), risiko.getTurn(), risiko.getJetzigerSpieler().getSpielerID(), risiko.getPhase());
 
         try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(SAVE_FILE_PATH))) {
             outputStream.writeObject(gameData);
@@ -32,8 +32,10 @@ public class SaveLoadManager {
 
             Risiko risiko = new Risiko();
             risiko.getSpielerListe().addAll(gameData.getSpielerListe());
-            risiko.getLaender().addAll(gameData.getLandList());
-            // risiko.setTurn(gameData.getTurn());
+            risiko.loadLaender(gameData.getLandList());
+            risiko.loadTurn(gameData.getTurn());
+            risiko.loadJetzigerSpieler(gameData.getSpielerId());
+            risiko.loadPhase(gameData.getPhase());
 
             // System.out.println("Game loaded successfully.");
             return risiko;
