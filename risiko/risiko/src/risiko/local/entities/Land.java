@@ -65,7 +65,7 @@ public class Land implements Serializable{
 
     @Override
     public String toString() {
-        return "Nr." + trueIndex + " / Name: " + name + " / Armee: " + anzahlArmeen + " !! EINGENOMMEN VON:  " + eingenommen +" \n ";
+        return "Nr." + trueIndex + " / Name: " + name + " / Armee: " + anzahlArmeen +/* " !! EINGENOMMEN VON:  " + eingenommen +*/" \n ";
     }
 
     public String getColour() {

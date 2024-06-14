@@ -188,12 +188,29 @@ public class MainGame extends JFrame {
         // Make the color map label invisible (transparent)
         colorImageLabel.setOpaque(false);
         colorImageLabel.setIcon(null);
-        // Position the images in the center of the layered pane (adjusting only colorImageLabel now)
-        int x = (scaleWidth - colorScaledImageIcon.getIconWidth()) / 2;
-        int y = (scaleHeight - colorScaledImageIcon.getIconHeight()) / 2;
+
+
+
+        int windowWidth = scaleWidth;  // Annehmen, dass scaleWidth die Fensterbreite ist
+        int windowHeight = scaleHeight;  // Annehmen, dass scaleHeight die Fensterhöhe ist
+
+        int imageWidth = colorScaledImageIcon.getIconWidth();
+        int imageHeight = colorScaledImageIcon.getIconHeight();
+
+        float widthRatio = (float) windowWidth / imageWidth;
+        float heightRatio = (float) windowHeight / imageHeight;
+        float scaleFactor = Math.min(widthRatio, heightRatio);  // Um das Bild proportional zu skalieren
+
+        int newImageWidth = (int) (imageWidth * scaleFactor);
+        int newImageHeight = (int) (imageHeight * scaleFactor);
+
+        int x = (windowWidth - newImageWidth) / 2;
+        int y = (windowHeight - newImageHeight) / 2;
+
+
         colorImageLabel.setBounds(x, y, colorScaledImageIcon.getIconWidth(), colorScaledImageIcon.getIconHeight());
         imageLabel.setBounds(0, 0, scaleWidth, scaleHeight);
-    
+        
         // Add a JLabel to display the selected image
         JLabel selectedImageLabel = new JLabel();
         selectedImageLabel.setBounds(0, 0, scaleWidth, scaleHeight);
@@ -305,10 +322,23 @@ public class MainGame extends JFrame {
             }
         });
         bottomPanel.add(phaseChangeButton); // Add the phase change button to the bottom panel
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+
+        // Show "Angreifen" button only during the "ANGREIFEN" phase
+
+        JButton actionButton = new JButton(risiko.getPhase().toString());
+=======
+>>>>>>> Stashed changes
     
         // Create and configure action button
         JButton actionButton = new JButton();
         actionButton.setText(risiko.getPhase().toString());
+<<<<<<< Updated upstream
+=======
+>>>>>>> c778c7d5a8ab5daf622e9fba35dab2d713728cae
+>>>>>>> Stashed changes
         actionButton.addActionListener(e -> {
             updatePhase();
             switch(currentPhase){
@@ -611,6 +641,7 @@ public class MainGame extends JFrame {
                                                                                    // SpielLogik method
         String mission = risiko.getJetzigerSpielerMission();
         int zusatzArmee = risiko.getZusatzArmee();
+       
         // Check if the spielerTable already has rows, if yes, update the existing row
         // data
         if (spielerTableModel.getRowCount() >= 1) {
@@ -618,6 +649,7 @@ public class MainGame extends JFrame {
             spielerTableModel.setValueAt(conqueredCountries, 1, 1); // Update conquered countries count
             spielerTableModel.setValueAt(mission, 2, 1); // Update mission
             spielerTableModel.setValueAt(zusatzArmee, 3, 1);
+           
         } else {
             // If no rows exist, add a new row with spieler information
             spielerTableModel.addRow(new Object[] { spielerName, conqueredCountries, mission });
