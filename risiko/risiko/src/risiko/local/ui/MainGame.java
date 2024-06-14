@@ -45,7 +45,7 @@ public class MainGame extends JFrame {
     private Risiko risiko;
     private List<Spieler> spielerListe = new ArrayList<>();
     private int turn;
-    private int scaleHeight = 600;
+    private int scaleHeight = 900;
     private int scaleWidth = (int) (scaleHeight * 1.7778);
     private int ausgewaehltesLand;
     private int beginningDistribution = 0;
@@ -290,128 +290,108 @@ public class MainGame extends JFrame {
         // Create the bottom panel
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
         bottomPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-
-        // Button to trigger phase change and show current phase
-        // JLabel showPhase = new JLabel(currentPhase.toString());
-        // showPhase.setText(risiko.getPhase().toString());
-        // bottomPanel.add(showPhase);
-
-        // ActionListener for the "Phase Change" button
+    
+        // Create and configure phase change button
         JButton phaseChangeButton = new JButton("Phase Change");
         phaseChangeButton.addActionListener(e -> {
-
-            if (zusatzArmeenVorhanden(spielerListe)) { // true if no more spare Armies
+            if (zusatzArmeenVorhanden(spielerListe)) {
                 JOptionPane.showMessageDialog(this, "Yeah broda next phase came to be");
                 risiko.nextPhase(); // change phase
-
                 currentSpieler = risiko.getJetzigerSpieler(); // update current spieler
-
                 updateTables(currentSpieler); // update tables
-                updatePhase();
-                showPhase.setText(currentPhase.toString());
+                updatePhase(); // update phase 
             } else {
-                JOptionPane.showMessageDialog(this, "Please distribute your forces first."); // incase there are spare
-                                                                                             // forces left
-                return;
+                JOptionPane.showMessageDialog(this, "Please distribute your forces first.");
             }
-
         });
         bottomPanel.add(phaseChangeButton); // Add the phase change button to the bottom panel
-
-        // Show "Angreifen" button only during the "ANGREIFEN" phase
-
-        JButton actionButton = new JButton("Action");
+    
+        // Create and configure action button
+        JButton actionButton = new JButton();
+        actionButton.setText(risiko.getPhase().toString());
         actionButton.addActionListener(e -> {
             updatePhase();
-            System.out.println(currentPhase);
-            if ("Verteilenphase".equals(currentPhase) | "AnfangsVerteilenphase".equals(currentPhase)) {
-                if (risiko.getLand(ausgewaehltesLand) != null && risiko.istDeinLand(ausgewaehltesLand)) {
-                    // Prompt the user for the amount of troops
-                    String input = JOptionPane.showInputDialog(this,
-                            "Enter the number of troops to distribute: \n You have " + currentSpieler.getZusatzArmee() + " spare Armies!","Distribute Troops", JOptionPane.PLAIN_MESSAGE);
+            switch(currentPhase){
+                case ERSTVERTEILEN:
+                    
+                    break;
+            }
 
-                    // Check if the user clicked "Cancel" or closed the dialog
+
+
+
+            if (currentPhase == ERSTVERTEILEN || currentPhase == VERTEILEN) {
+                if (risiko.getLand(ausgewaehltesLand) != null && risiko.istDeinLand(ausgewaehltesLand)) {
+                    String input = JOptionPane.showInputDialog(this,
+                            "Enter the number of troops to distribute: \n You have " + currentSpieler.getZusatzArmee() + " spare Armies!",
+                            "Distribute Troops", JOptionPane.PLAIN_MESSAGE);
+    
                     if (input != null) {
                         try {
                             int armeeAnzahl = Integer.parseInt(input);
                             risiko.verteilen(ausgewaehltesLand, armeeAnzahl);
                             updateTables(currentSpieler);
-
                         } catch (NumberFormatException ex) {
-                            // Show an error message if the input is not a valid integer
-                            JOptionPane.showMessageDialog(this, "Invalid input. Please enter a valid number.","Invalid Input", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(this, "Invalid input. Please enter a valid number.", "Invalid Input",
+                                    JOptionPane.ERROR_MESSAGE);
                         }
-                        if (currentSpieler.getZusatzArmee() == 0
-                                && beginningDistribution != spielerListe.size() - 1) { // comparing beginningDistrubution so that  after the Last spieler
-                                                                                       // noSpielerchanges occur, so that PhaseChange changes to the right spieler.
+                        if (currentSpieler.getZusatzArmee() == 0 && beginningDistribution != spielerListe.size() - 1) {
                             beginningDistribution++;
-                            phaseChange(); // nextSpieler
+                            phaseChange();
                         }
                     }
                 } else {
-                    // Show an error message if no Land object is selected
-                    JOptionPane.showMessageDialog(this, "Please select a valid Land first.", "Error",
-                            JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Please select a valid Land first.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             } else if ("Angreifenphase".equals(currentPhase)) {
                 if (isSelectingAttackingCountry) {
                     JOptionPane.showMessageDialog(this, "Choose from where you'd like to attack.");
-                    // Validate if the selected country is a valid attacking country for the current spieler
-                    if (risiko.getLand(ausgewaehltesLand) != null && risiko.istDeinLand(ausgewaehltesLand) /* && ausgewaehltesLand.hasNeighboringEnemies(currentSpieler) */) {
-                        // Save the selected attacking country
+                    if (risiko.getLand(ausgewaehltesLand) != null && risiko.istDeinLand(ausgewaehltesLand)) {
                         attackingCountry = ausgewaehltesLand;
-                        
-                        // Prompt the spieler to choose a target country
-                        
-                        isSelectingAttackingCountry = false; // Set the flag to false to switch to selecting the target country.
-                        isSelectingDefendingCountry = true; // Set the flag to true to indicate that we are now selecting the defending country.
-                        // !!!!! ausgewaehltesLand = null; !!!!!
-                        
+                        isSelectingAttackingCountry = false;
+                        isSelectingDefendingCountry = true;
                     } else {
-                        // Show an error message if the selected country is not a valid attacking country
-                        JOptionPane.showMessageDialog(this, "Please select a valid attacking country.", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "Please select a valid attacking country.", "Error",
+                                JOptionPane.ERROR_MESSAGE);
                     }
                 } else if (isSelectingDefendingCountry) {
                     JOptionPane.showMessageDialog(this, "Choose a target country to attack.");
-                    // Assuming you have a previously selected attackingCountry variable.
-                    // Validate if the selected country is a valid target country for the attack
                     String input = JOptionPane.showInputDialog(this,
-                            "Enter the number of troops to dattack: \n You have " + currentSpieler.getZusatzArmee() + " spare Armies! You can use up to Three at a time","Attack number", JOptionPane.PLAIN_MESSAGE);
-                    if(input != null){
-                        if (risiko.getLand(ausgewaehltesLand) != null && risiko.sindNachbar(attackingCountry, ausgewaehltesLand) && !risiko.istDeinLand(ausgewaehltesLand)) {
-                            // Perform the attack logic here
-                            int armeeAnzahl = Integer.parseInt(input); // EXCEPTION EINBAUEN FUR INTEGER EINGABEN ARMEE ANZAHL
-                            risiko.angreifen(attackingCountry, ausgewaehltesLand, armeeAnzahl);
-                            JOptionPane.showMessageDialog(this, "Attack happened");
-                            // Reset the defendingCountry variable for future attacks
-                            // !!!!!! defendingCountry = null;  !!!!!!!!!
-                            isSelectingDefendingCountry = false; // Set the flag back to false for future attacks.
-                            isSelectingAttackingCountry = true; // Set the flag to true to indicate that we are now selecting the attacking country for the next attack.
-                            // !!!!!! ausgewaehltesLand = null; !!!!!!!!!
+                            "Enter the number of troops to attack: \n You have " + currentSpieler.getZusatzArmee() + " spare Armies! You can use up to three at a time",
+                            "Attack number", JOptionPane.PLAIN_MESSAGE);
+                    if (input != null) {
+                        if (risiko.getLand(ausgewaehltesLand) != null && risiko.sindNachbar(attackingCountry, ausgewaehltesLand)
+                                && !risiko.istDeinLand(ausgewaehltesLand)) {
+                            try {
+                                int armeeAnzahl = Integer.parseInt(input);
+                                risiko.angreifen(attackingCountry, ausgewaehltesLand, armeeAnzahl);
+                                JOptionPane.showMessageDialog(this, "Attack happened");
+                                isSelectingDefendingCountry = false;
+                                isSelectingAttackingCountry = true;
+                            } catch (NumberFormatException ex) {
+                                JOptionPane.showMessageDialog(this, "Invalid input. Please enter a valid number.", "Invalid Input",
+                                        JOptionPane.ERROR_MESSAGE);
+                            }
                         } else {
-                            // Show an error message if the selected country is not a valid target country
-                            JOptionPane.showMessageDialog(this, "Please select a valid target country to attack.", "Error", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(this, "Please select a valid target country to attack.", "Error",
+                                    JOptionPane.ERROR_MESSAGE);
                         }
                     }
                 }
+            } else if ("Verschiebenphase".equals(currentPhase)) {
+                // Implement Verschiebenphase logic here
             }
-
-            else if ("Verschiebenphase".equals(currentPhase)) {
-
-            }
-
         });
-
-        bottomPanel.add(actionButton);
-
+    
+        bottomPanel.add(actionButton); // Add the action button to the bottom panel
+    
         bottomPanel.add(new JScrollPane(landInfoTable));
-        landInfoTable.setPreferredScrollableViewportSize(new Dimension(landInfoTable.getPreferredSize().width, 70)); // Set
-                                                                                                                     // preferred
-                                                                                                                     // height
+        landInfoTable.setPreferredScrollableViewportSize(new Dimension(landInfoTable.getPreferredSize().width, 70)); // Set preferred height
 
+    
         return bottomPanel;
     }
-
+    
     private void updatePhase() {
         currentPhase = risiko.getPhase();
     }
