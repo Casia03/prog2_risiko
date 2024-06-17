@@ -64,7 +64,7 @@ public class MainGame extends JFrame {
             risiko.spielerHinzufuegen(spielerName);
             // System.out.println("spielerHinzufuegen called with: " + spielerName);
         }
-
+        //15112512
         risiko.newGame(risiko);
         
         spielerListe = risiko.getSpielerListe();
