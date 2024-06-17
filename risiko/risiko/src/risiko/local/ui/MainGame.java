@@ -176,6 +176,9 @@ public class MainGame extends JFrame {
         // Create the JLabels for each image
         JLabel colorImageLabel = new JLabel(colorScaledImageIcon);
         JLabel imageLabel = new JLabel(scaledImageIcon);
+        // Add a JLabel to display the selected image
+
+        JLabel selectedImageLabel = new JLabel();
     
         // Create a layered pane and add the image labels with appropriate layer positions
         JLayeredPane layeredPane = new JLayeredPane();
@@ -196,7 +199,7 @@ public class MainGame extends JFrame {
         layeredPane.addComponentListener((new ComponentAdapter(){
             public void componentResized(ComponentEvent componentEvent){
                 Rectangle window = layeredPane.getBounds();
-                
+
                 int windowWidth = window.width;  // Annehmen, dass scaleWidth die Fensterbreite ist
                 int windowHeight = window.height;  // Annehmen, dass scaleHeight die Fensterhöhe ist
 
@@ -213,17 +216,20 @@ public class MainGame extends JFrame {
                 int x = (windowWidth - newImageWidth) / 2;
                 int y = (windowHeight - newImageHeight) / 2;
 
-                scaleHeight = x;
-                scaleWidth = y;
+                // FARBENKARTE ZUR KLICK ERKENNUNG
+                colorImageLabel.setBounds(0, 0, scaleWidth, scaleHeight);
+
+                // SPIELKARTE 
+                imageLabel.setBounds(0, 0, scaleWidth, scaleHeight);
+                
+                // LAND HIGHLIGHT
+                selectedImageLabel.setBounds(0, 0, scaleWidth, scaleHeight);
+                
             }
         }));
-
-        colorImageLabel.setBounds(0, 0, colorScaledImageIcon.getIconWidth(), colorScaledImageIcon.getIconHeight());
-        imageLabel.setBounds(0, 0, scaleWidth, scaleHeight);
         
-        // Add a JLabel to display the selected image
-        JLabel selectedImageLabel = new JLabel();
-        selectedImageLabel.setBounds(0, 0, scaleWidth, scaleHeight);
+        
+
         layeredPane.add(selectedImageLabel, Integer.valueOf(2)); // Add it above other layers
     
         imageLabel.addMouseListener(new java.awt.event.MouseAdapter() {
