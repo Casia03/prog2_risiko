@@ -45,7 +45,7 @@ public class MainGame extends JFrame {
     private Risiko risiko;
     private List<Spieler> spielerListe = new ArrayList<>();
     private int turn;
-    private int scaleHeight = 900;
+    private int scaleHeight = 700;
     private int scaleWidth = (int) (scaleHeight * 1.7778);
     private int ausgewaehltesLand;
     private int beginningDistribution = 0;
@@ -122,7 +122,7 @@ public class MainGame extends JFrame {
         // set menu bar in the frame
         setJMenuBar(menuBar);
 
-        setSize(800, 800);
+        setSize(scaleWidth, scaleHeight);
         setVisible(true);
 
         // Create the rightPanel first
