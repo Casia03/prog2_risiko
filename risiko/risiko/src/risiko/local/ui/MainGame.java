@@ -190,26 +190,33 @@ public class MainGame extends JFrame {
         colorImageLabel.setOpaque(false);
         colorImageLabel.setIcon(null);
 
+        
 
+        layeredPane.addComponentListener((new ComponentAdapter(){
+            public void componentResized(ComponentEvent componentEvent){
+                int windowWidth = scaleWidth;  // Annehmen, dass scaleWidth die Fensterbreite ist
+                int windowHeight = scaleHeight;  // Annehmen, dass scaleHeight die Fensterhöhe ist
 
-        int windowWidth = scaleWidth;  // Annehmen, dass scaleWidth die Fensterbreite ist
-        int windowHeight = scaleHeight;  // Annehmen, dass scaleHeight die Fensterhöhe ist
+                int imageWidth = colorScaledImageIcon.getIconWidth();
+                int imageHeight = colorScaledImageIcon.getIconHeight();
 
-        int imageWidth = colorScaledImageIcon.getIconWidth();
-        int imageHeight = colorScaledImageIcon.getIconHeight();
+                float widthRatio = (float) windowWidth / imageWidth;
+                float heightRatio = (float) windowHeight / imageHeight;
+                float scaleFactor = Math.min(widthRatio, heightRatio);  // Um das Bild proportional zu skalieren
 
-        float widthRatio = (float) windowWidth / imageWidth;
-        float heightRatio = (float) windowHeight / imageHeight;
-        float scaleFactor = Math.min(widthRatio, heightRatio);  // Um das Bild proportional zu skalieren
+                int newImageWidth = (int) (imageWidth * scaleFactor);
+                int newImageHeight = (int) (imageHeight * scaleFactor);
 
-        int newImageWidth = (int) (imageWidth * scaleFactor);
-        int newImageHeight = (int) (imageHeight * scaleFactor);
+                int x = (windowWidth - newImageWidth) / 2;
+                int y = (windowHeight - newImageHeight) / 2;
+                colorImageLabel.setBounds(x, y, colorScaledImageIcon.getIconWidth(), colorScaledImageIcon.getIconHeight());
 
-        int x = (windowWidth - newImageWidth) / 2;
-        int y = (windowHeight - newImageHeight) / 2;
+                // scaleHeight = x;
+                // scaleWidth = y;
+            }
+        }));
 
-
-        colorImageLabel.setBounds(x, y, colorScaledImageIcon.getIconWidth(), colorScaledImageIcon.getIconHeight());
+        
         imageLabel.setBounds(0, 0, scaleWidth, scaleHeight);
         
         // Add a JLabel to display the selected image
@@ -419,76 +426,6 @@ public class MainGame extends JFrame {
         landInfoTable.setPreferredScrollableViewportSize(new Dimension(landInfoTable.getPreferredSize().width, 70)); // Set preferred height
         return bottomPanel;
     }
-
-
-        //     if (currentPhase == ERSTVERTEILEN || currentPhase == VERTEILEN) {
-        //         if (risiko.getLand(ausgewaehltesLand) != null && risiko.istDeinLand(ausgewaehltesLand)) {
-        //             String input = JOptionPane.showInputDialog(this,
-        //                     "Enter the number of troops to distribute: \n You have " + currentSpieler.getZusatzArmee() + " spare Armies!",
-        //                     "Distribute Troops", JOptionPane.PLAIN_MESSAGE);
-    
-        //             if (input != null) {
-        //                 try {
-        //                     int armeeAnzahl = Integer.parseInt(input);
-        //                     risiko.verteilen(ausgewaehltesLand, armeeAnzahl);
-        //                     updateTables(currentSpieler);
-        //                 } catch (NumberFormatException ex) {
-        //                     JOptionPane.showMessageDialog(this, "Invalid input. Please enter a valid number.", "Invalid Input",
-        //                             JOptionPane.ERROR_MESSAGE);
-        //                 }
-        //                 if (currentSpieler.getZusatzArmee() == 0 && beginningDistribution != spielerListe.size() - 1) {
-        //                     beginningDistribution++;
-        //                     phaseChange();
-        //                 }
-        //             }
-        //         } else {
-        //             JOptionPane.showMessageDialog(this, "Please select a valid Land first.", "Error", JOptionPane.ERROR_MESSAGE);
-        //         }
-        //     } else if ("Angreifenphase".equals(currentPhase)) {
-        //         if (isSelectingAttackingCountry) {
-        //             JOptionPane.showMessageDialog(this, "Choose from where you'd like to attack.");
-        //             if (risiko.getLand(ausgewaehltesLand) != null && risiko.istDeinLand(ausgewaehltesLand)) {
-        //                 attackingCountry = ausgewaehltesLand;
-        //                 isSelectingAttackingCountry = false;
-        //                 isSelectingDefendingCountry = true;
-        //             } else {
-        //                 JOptionPane.showMessageDialog(this, "Please select a valid attacking country.", "Error",
-        //                         JOptionPane.ERROR_MESSAGE);
-        //             }
-        //         } else if (isSelectingDefendingCountry) {
-        //             JOptionPane.showMessageDialog(this, "Choose a target country to attack.");
-        //             String input = JOptionPane.showInputDialog(this,
-        //                     "Enter the number of troops to attack: \n You have " + currentSpieler.getZusatzArmee() + " spare Armies! You can use up to three at a time",
-        //                     "Attack number", JOptionPane.PLAIN_MESSAGE);
-        //             if (input != null) {
-        //                 if (risiko.getLand(ausgewaehltesLand) != null && risiko.sindNachbar(attackingCountry, ausgewaehltesLand)
-        //                         && !risiko.istDeinLand(ausgewaehltesLand)) {
-        //                     try {
-        //                         int armeeAnzahl = Integer.parseInt(input);
-        //                         risiko.angreifen(attackingCountry, ausgewaehltesLand, armeeAnzahl);
-        //                         JOptionPane.showMessageDialog(this, "Attack happened");
-        //                         isSelectingDefendingCountry = false;
-        //                         isSelectingAttackingCountry = true;
-        //                     } catch (NumberFormatException ex) {
-        //                         JOptionPane.showMessageDialog(this, "Invalid input. Please enter a valid number.", "Invalid Input",
-        //                                 JOptionPane.ERROR_MESSAGE);
-        //                     }
-        //                 } else {
-        //                     JOptionPane.showMessageDialog(this, "Please select a valid target country to attack.", "Error",
-        //                             JOptionPane.ERROR_MESSAGE);
-        //                 }
-        //             }
-        //         }
-        //     } else if ("Verschiebenphase".equals(currentPhase)) {
-        //         // Implement Verschiebenphase logic here
-        //     }
-        // });
-    
-        // bottomPanel.add(actionButton); // Add the action button to the bottom panel
-    
-        // bottomPanel.add(new JScrollPane(landInfoTable));
-        // landInfoTable.setPreferredScrollableViewportSize(new Dimension(landInfoTable.getPreferredSize().width, 70)); // Set preferred height
-
     
         // return bottomPanel;
     private void updatePhase() {
