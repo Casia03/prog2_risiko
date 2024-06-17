@@ -367,6 +367,11 @@ public class Risiko {
         return laender;
     }
 
+    public int[] getEigeneLaenderId(){
+        spieler = getJetzigerSpieler();
+        return weltVerwaltung.getSpielerLaenderId(spieler);
+    }
+
     public int getSpielerLaenderAnzahl() {
         spieler = getJetzigerSpieler();
         int anzahl = weltVerwaltung.getSpielerLaender(spieler).size();

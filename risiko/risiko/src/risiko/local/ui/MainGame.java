@@ -45,7 +45,7 @@ public class MainGame extends JFrame {
     private Risiko risiko;
     private List<Spieler> spielerListe = new ArrayList<>();
     private int turn;
-    private int scaleHeight = 900;
+    private int scaleHeight = 700;
     private int scaleWidth = (int) (scaleHeight * 1.7778);
     private int ausgewaehltesLand;
     private int beginningDistribution = 0;
@@ -122,7 +122,7 @@ public class MainGame extends JFrame {
         // set menu bar in the frame
         setJMenuBar(menuBar);
 
-        setSize(800, 800);
+        setSize(scaleWidth, scaleHeight);
         setVisible(true);
 
         // Create the rightPanel first
@@ -194,8 +194,6 @@ public class MainGame extends JFrame {
         colorImageLabel.setOpaque(false);
         colorImageLabel.setIcon(null);
 
-        
-
         layeredPane.addComponentListener((new ComponentAdapter(){
             public void componentResized(ComponentEvent componentEvent){
                 Rectangle window = layeredPane.getBounds();
@@ -229,9 +227,9 @@ public class MainGame extends JFrame {
         }));
         
         
-
+        displayPlayerCountries(selectedImageLabel);
         layeredPane.add(selectedImageLabel, Integer.valueOf(2)); // Add it above other layers
-    
+        
         imageLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent e) {
@@ -247,27 +245,110 @@ public class MainGame extends JFrame {
     
                 try {
                     // Load the image corresponding to the selected land
-                    String imagePath = String.format("risiko\\risiko\\src\\risiko\\local\\bilder\\42\\%d.png", ausgewaehltesLand);
-                    BufferedImage selectedImage = ImageIO.read(new File(imagePath));
-                    
-                    // Scale the image if necessary
-                    BufferedImage scaledSelectedImage = scaleImage(selectedImage, scaleWidth, scaleHeight);
+                    int[] eigeneLaender = risiko.getEigeneLaenderId();
+                    Color tint = Color.BLACK;
+
+                    for (int land : eigeneLaender) {
+                            if (land == 0) {
+                                continue; // Skip if land ID is zero
+                            }
+                            // Determine the tint color
+                            if (ausgewaehltesLand == land) {
+                                tint = Color.GREEN; // Highlight selected country in red
+                                // exit = true; // Set exit to true to break the loop after processing
+                                break;
+                            } else {
+                                tint = Color.RED; // Tint other player countries in green
+                                
+                            }
+                        }
+                        String imagePath = String.format("risiko\\risiko\\src\\risiko\\local\\bilder\\42\\%d.png", ausgewaehltesLand);
+                        BufferedImage selectedImage = ImageIO.read(new File(imagePath));
     
-                    // Update the label with the new image
-                    ImageIcon selectedImageIcon = new ImageIcon(scaledSelectedImage);
-                    selectedImageLabel.setIcon(selectedImageIcon);
-                    selectedImageLabel.setVisible(true); // Ensure the label is visible
+                        // Scale the image if necessary
+                        BufferedImage scaledSelectedImage = scaleImage(selectedImage, scaleWidth, scaleHeight);
+    
+                        // Tint the image
+                        BufferedImage tintedImage = tintImage(scaledSelectedImage, tint);
+    
+                        // Update the label with the tinted image
+                        ImageIcon selectedImageIcon = new ImageIcon(tintedImage);
+                        selectedImageLabel.setIcon(selectedImageIcon);
+                        selectedImageLabel.setVisible(true); // Ensure the label is visible
+                    
+
                 } catch (IOException ex) {
                     ex.printStackTrace();
                     // Handle the exception, e.g., by showing a default image or an error message
                 }
             }
         });
-    
+        
         // Add the layered pane to the main panel
         return layeredPane;
     }
-    
+
+    public BufferedImage tintImage(BufferedImage image, Color color) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+        
+        BufferedImage tintedImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        
+        Graphics2D g = tintedImg.createGraphics();
+        g.drawImage(image, 0, 0, null);
+        g.setComposite(AlphaComposite.SrcAtop);
+        g.setColor(color);
+        g.fillRect(0, 0, width, height);
+        g.dispose();
+        
+        return tintedImg;
+    }
+        
+    // Method to load and display the player's countries
+    private void displayPlayerCountries(JLabel selectedImageLabel) {
+        try {
+            // Clear previously displayed images
+            selectedImageLabel.removeAll();
+
+            // Load images corresponding to the player's countries
+            int[] laender = risiko.getEigeneLaenderId();
+            
+            for (int landId : laender) {
+                if(landId != 0){
+                    String imagePath = String.format("risiko\\risiko\\src\\risiko\\local\\bilder\\42\\%d.png", landId);
+                    File imageFile = new File(imagePath);
+
+                    if (!imageFile.exists()) {
+                        System.err.println("Image file not found: " + imagePath);
+                        continue; // Skip if image file does not exist
+                    }
+
+                    BufferedImage selectedImage = ImageIO.read(imageFile);
+                    BufferedImage scaledSelectedImage = scaleImage(selectedImage, scaleWidth, scaleHeight);
+
+                    // Tint the image with a specific color (example: green color)
+                    Color tint = Color.GREEN;
+                    BufferedImage tintedImage = tintImage(scaledSelectedImage, tint);
+
+                    // Create ImageIcon and JLabel for the tinted image
+                    ImageIcon selectedImageIcon = new ImageIcon(tintedImage);
+                    JLabel selectedImageJLabel = new JLabel(selectedImageIcon);
+
+                    // Add the tinted image JLabel to the selectedImageLabel
+                    selectedImageLabel.add(selectedImageJLabel);
+                }
+            }
+
+            // Ensure the selectedImageLabel is visible and repaint
+            selectedImageLabel.setVisible(true);
+            selectedImageLabel.revalidate();
+            selectedImageLabel.repaint();
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            // Handle the exception, e.g., by showing a default image or an error message
+        }
+    }
 
     private void updateLandInfo(Land currentLand, List<Spieler> spielerListe) {
         if (currentLand == null) {
@@ -345,29 +426,76 @@ public class MainGame extends JFrame {
         JButton actionButton = new JButton(risiko.getPhase().toString());
         actionButton.addActionListener(e -> {
             updatePhase();
-            switch(currentPhase){
-                case ERSTVERTEILEN:
-                    String input = JOptionPane.showInputDialog(this,
-                        "Enter the number of troops to distribute: \n You have " + currentSpieler.getZusatzArmee() + " spare Armies!",
-                        "Distribute Troops", JOptionPane.PLAIN_MESSAGE);
-
-                    if (input != null) {
-                        try {
-                            int armeeAnzahl = Integer.parseInt(input);
-                            risiko.verteilen(ausgewaehltesLand, armeeAnzahl);
-                            updateTables(currentSpieler);
-                        } catch (NumberFormatException ex) {
-                            JOptionPane.showMessageDialog(this, "Invalid input. Please enter a valid number.", "Invalid Input",
-                                    JOptionPane.ERROR_MESSAGE);
-                        }
-                        if (currentSpieler.getZusatzArmee() == 0 && beginningDistribution != spielerListe.size() - 1) {
-                            beginningDistribution++;
-                            phaseChange();
+            int zusatzArmee = risiko.getZusatzArmee();
+            
+                int[] eigeneLaender = risiko.getEigeneLaenderId();
+                boolean canProceed = false;
+                switch(currentPhase){
+                    case ERSTVERTEILEN:
+                    if(zusatzArmee != 0){
+                    for(int land : eigeneLaender){
+                        if(ausgewaehltesLand == land){
+                            canProceed = true;
+                            break;
                         }
                     }
-                    break;
+                    if(canProceed){
+                        boolean validInput = false; // Flag to check if input is valid
+                        while (!validInput) {
+                            String input = JOptionPane.showInputDialog(this,
+                                    "Enter the number of troops to distribute: \n You have " + currentSpieler.getZusatzArmee() + " spare Armies!",
+                                    "Distribute Troops", JOptionPane.PLAIN_MESSAGE);
+
+                            // Check if the input dialog was closed or canceled
+                            if (input == null || input.isEmpty()) {
+                                // Handle cancel or close window action as valid input (no action needed)
+                                break; // Exit the loop if canceled or closed window
+                            }
+
+                            try {
+                                // Validate and parse the input as an integer
+                                int armeeAnzahl = Exceptions.readInt(input, 1, currentSpieler.getZusatzArmee());
+
+                                // If valid, distribute the troops
+                                risiko.verteilen(ausgewaehltesLand, armeeAnzahl);
+                                updateTables(currentSpieler);
+                                validInput = true; // Set the flag to true to exit the loop
+
+                                // Check if all spare armies are distributed
+                                if (currentSpieler.getZusatzArmee() == 0 && beginningDistribution != spielerListe.size() - 1) {
+                                    beginningDistribution++;
+                                    phaseChange();
+                                }
+                            } catch (NumberFormatException ex) {
+                                // Handle invalid input that cannot be parsed to an integer
+                                Exceptions.showErrorDialog("Invalid input. Please enter a valid number.");
+                            } catch (IllegalArgumentException ex) {
+                                // Display error for invalid number range
+                                Exceptions.showErrorDialog("Invalid input. " + ex.getMessage());
+                            } catch (Exception ex) {
+                                // Handle any other unexpected exceptions
+                                Exceptions.showErrorDialog("An unexpected error occurred: " + ex.getMessage());
+                            }
+                        }
+                    }
+                }else{
+                    int result = JOptionPane.showConfirmDialog(
+                    null, 
+                    "Du hast keine Zusatzarmee mehr. Willst du die Phase ändern?", 
+                    "Frage", 
+                    JOptionPane.YES_NO_OPTION, 
+                    JOptionPane.QUESTION_MESSAGE
+                );
+
+                if (result == JOptionPane.YES_OPTION) {
+                    risiko.nextPhase();
+                }
+                }
+                
+                break;
+
                 case VERTEILEN:
-                    input = JOptionPane.showInputDialog(this,
+                    String input = JOptionPane.showInputDialog(this,
                         "Enter the number of troops to distribute: \n You have " + currentSpieler.getZusatzArmee() + " spare Armies!",
                         "Distribute Troops", JOptionPane.PLAIN_MESSAGE);
                     if (input != null) {

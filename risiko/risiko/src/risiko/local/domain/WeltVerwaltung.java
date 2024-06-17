@@ -175,4 +175,17 @@ public class WeltVerwaltung {
     public void loadLaender(List<Land> loadedLaender) {
         lander.addAll(loadedLaender);
     }
+
+    public int[] getSpielerLaenderId(Spieler spieler) {
+        int[] listLandId = new int[42];
+        for (int i = 0; i < lander.size(); i++) {
+            if (getLandForForLoops(i).getEingenommenVon() == spieler.getSpielerID()) {
+                //System.out.println(getLandForForLoops(i));
+                
+                listLandId[i] = getLandForForLoops(i).getTrueIndex();
+                // System.out.println(listLandId[i]);
+            }
+        }
+        return listLandId;
+    }
 }

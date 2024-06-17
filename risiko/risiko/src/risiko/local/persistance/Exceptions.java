@@ -6,20 +6,13 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.swing.JOptionPane;
+
 public class Exceptions {
     // nicht genug soldaten exception fur angriff mit 1 soldat
-    public Exceptions() {
+    public Exceptions() {}
 
-    }
-    // nicht genug spieler fur den spielstart exception fur spielbeginn mit <2
-    // spieler
-
-    public void showErrorDialog(String string) {
-        // TODO Auto-generated method stub
-        System.out.println(string);
-    }
-
-    public int readInt(Scanner scanner, int min, int max) {
+        public int readInt(Scanner scanner, int min, int max) {
         int value = -1;
         boolean valid = false;
         while (!valid) {
@@ -68,4 +61,30 @@ public class Exceptions {
     }
     return false;
     }
+
+    public String getErrorMessage(String message) {
+        return message;
+    }
+
+    public int readInt(String input, int min, int max) throws NumberFormatException {
+        int value = Integer.parseInt(input);
+        if (value < min || value > max) {
+            throw new IllegalArgumentException("Please enter a valid number between " + min + " and " + max + ".");
+        }
+        return value;
+    }
+
+    public int readLandIndexNoScanner(String input, List<Land> validIndices) throws NumberFormatException {
+        int value = Integer.parseInt(input);
+        if (!isValidLandIndex(validIndices, value)) {
+            throw new IllegalArgumentException("Please enter a valid index of a land.");
+        }
+        return value;
+    }
+
+    public void showErrorDialog(String message) {
+        JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
+    
+    }
+    
 }
