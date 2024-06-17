@@ -65,6 +65,7 @@ public class MainGame extends JFrame {
             // System.out.println("spielerHinzufuegen called with: " + spielerName);
         }
         //15112512
+        //penis
         risiko.newGame(risiko);
         
         spielerListe = risiko.getSpielerListe();
