@@ -194,8 +194,10 @@ public class MainGame extends JFrame {
 
         layeredPane.addComponentListener((new ComponentAdapter(){
             public void componentResized(ComponentEvent componentEvent){
-                int windowWidth = scaleWidth;  // Annehmen, dass scaleWidth die Fensterbreite ist
-                int windowHeight = scaleHeight;  // Annehmen, dass scaleHeight die Fensterhöhe ist
+                Rectangle window = layeredPane.getBounds();
+                
+                int windowWidth = window.width;  // Annehmen, dass scaleWidth die Fensterbreite ist
+                int windowHeight = window.height;  // Annehmen, dass scaleHeight die Fensterhöhe ist
 
                 int imageWidth = colorScaledImageIcon.getIconWidth();
                 int imageHeight = colorScaledImageIcon.getIconHeight();
@@ -209,14 +211,13 @@ public class MainGame extends JFrame {
 
                 int x = (windowWidth - newImageWidth) / 2;
                 int y = (windowHeight - newImageHeight) / 2;
-                colorImageLabel.setBounds(x, y, colorScaledImageIcon.getIconWidth(), colorScaledImageIcon.getIconHeight());
 
-                // scaleHeight = x;
-                // scaleWidth = y;
+                scaleHeight = x;
+                scaleWidth = y;
             }
         }));
 
-        
+        colorImageLabel.setBounds(0, 0, colorScaledImageIcon.getIconWidth(), colorScaledImageIcon.getIconHeight());
         imageLabel.setBounds(0, 0, scaleWidth, scaleHeight);
         
         // Add a JLabel to display the selected image
