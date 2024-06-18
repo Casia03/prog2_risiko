@@ -54,6 +54,7 @@ public class MainGame extends JFrame {
     private boolean isSelectingAttackingCountry = true;
     private boolean isSelectingDefendingCountry = false; // Initialize as false initially
     private int attackingCountry;
+    private int i = 0;
     Exceptions Exceptions = new Exceptions();
 
     public MainGame(List<String> spielerNameListe) {
@@ -227,7 +228,7 @@ public class MainGame extends JFrame {
         }));
         
         
-        displayPlayerCountries(selectedImageLabel);
+        //displayPlayerCountries(selectedImageLabel);
         layeredPane.add(selectedImageLabel, Integer.valueOf(2)); // Add it above other layers
         
         imageLabel.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -283,7 +284,7 @@ public class MainGame extends JFrame {
                 }
             }
         });
-        
+        displayPlayerCountries(selectedImageLabel);
         // Add the layered pane to the main panel
         return layeredPane;
     }
@@ -426,71 +427,71 @@ public class MainGame extends JFrame {
         JButton actionButton = new JButton(risiko.getPhase().toString());
         actionButton.addActionListener(e -> {
             updatePhase();
-            int zusatzArmee = risiko.getZusatzArmee();
-            
                 int[] eigeneLaender = risiko.getEigeneLaenderId();
                 boolean canProceed = false;
                 switch(currentPhase){
                     case ERSTVERTEILEN:
-                    if(zusatzArmee != 0){
-                    for(int land : eigeneLaender){
-                        if(ausgewaehltesLand == land){
-                            canProceed = true;
-                            break;
-                        }
-                    }
-                    if(canProceed){
-                        boolean validInput = false; // Flag to check if input is valid
-                        while (!validInput) {
-                            String input = JOptionPane.showInputDialog(this,
-                                    "Enter the number of troops to distribute: \n You have " + currentSpieler.getZusatzArmee() + " spare Armies!",
-                                    "Distribute Troops", JOptionPane.PLAIN_MESSAGE);
 
-                            // Check if the input dialog was closed or canceled
-                            if (input == null || input.isEmpty()) {
-                                // Handle cancel or close window action as valid input (no action needed)
-                                break; // Exit the loop if canceled or closed window
+                    while(risiko.jetzigerSpielerHatZusatzarmee()){
+                        for(int land : eigeneLaender){
+                            if(ausgewaehltesLand == land){
+                                canProceed = true;
+                                break;
                             }
+                        }
+                        if(canProceed){
+                            boolean validInput = false; // Flag to check if input is valid
+                            while (!validInput) {
+                                String input = JOptionPane.showInputDialog(this,
+                                        "Enter the number of troops to distribute: \n You have " + currentSpieler.getZusatzArmee() + " spare Armies!",
+                                        "Distribute Troops", JOptionPane.PLAIN_MESSAGE);
 
-                            try {
-                                // Validate and parse the input as an integer
-                                int armeeAnzahl = Exceptions.readInt(input, 1, currentSpieler.getZusatzArmee());
-
-                                // If valid, distribute the troops
-                                risiko.verteilen(ausgewaehltesLand, armeeAnzahl);
-                                updateTables(currentSpieler);
-                                validInput = true; // Set the flag to true to exit the loop
-
-                                // Check if all spare armies are distributed
-                                if (currentSpieler.getZusatzArmee() == 0 && beginningDistribution != spielerListe.size() - 1) {
-                                    beginningDistribution++;
-                                    phaseChange();
+                                // Check if the input dialog was closed or canceled
+                                if (input == null || input.isEmpty()) {
+                                    // Handle cancel or close window action as valid input (no action needed)
+                                    break; // Exit the loop if canceled or closed window
                                 }
-                            } catch (NumberFormatException ex) {
-                                // Handle invalid input that cannot be parsed to an integer
-                                Exceptions.showErrorDialog("Invalid input. Please enter a valid number.");
-                            } catch (IllegalArgumentException ex) {
-                                // Display error for invalid number range
-                                Exceptions.showErrorDialog("Invalid input. " + ex.getMessage());
-                            } catch (Exception ex) {
-                                // Handle any other unexpected exceptions
-                                Exceptions.showErrorDialog("An unexpected error occurred: " + ex.getMessage());
+
+                                try {
+                                    // Validate and parse the input as an integer
+                                    int armeeAnzahl = Exceptions.readInt(input, 1, currentSpieler.getZusatzArmee());
+
+                                    // If valid, distribute the troops
+                                    risiko.verteilen(ausgewaehltesLand, armeeAnzahl);
+                                    updateTables(currentSpieler);
+                                    validInput = true; // Set the flag to true to exit the loop
+                                } catch (NumberFormatException ex) {
+                                    // Handle invalid input that cannot be parsed to an integer
+                                    Exceptions.showErrorDialog("Invalid input. Please enter a valid number.");
+                                } catch (IllegalArgumentException ex) {
+                                    // Display error for invalid number range
+                                    Exceptions.showErrorDialog("Invalid input. " + ex.getMessage());
+                                } catch (Exception ex) {
+                                    // Handle any other unexpected exceptions
+                                    Exceptions.showErrorDialog("An unexpected error occurred: " + ex.getMessage());
+                                }
                             }
                         }
                     }
-                }else{
-                    int result = JOptionPane.showConfirmDialog(
-                    null, 
-                    "Du hast keine Zusatzarmee mehr. Willst du die Phase ändern?", 
-                    "Frage", 
-                    JOptionPane.YES_NO_OPTION, 
-                    JOptionPane.QUESTION_MESSAGE
-                );
 
-                if (result == JOptionPane.YES_OPTION) {
-                    risiko.nextPhase();
-                }
-                }
+                    int result = JOptionPane.showConfirmDialog(null,"Du hast keine Zusatzarmee mehr. Willst auf den nächsten Spieler ändern?", 
+                        "Frage", 
+                        JOptionPane.YES_NO_OPTION, 
+                        JOptionPane.QUESTION_MESSAGE);
+
+                    if (result == JOptionPane.YES_OPTION) {
+                        risiko.nextPlayer(); // Naechster spieler
+                        currentSpieler = risiko.getJetzigerSpieler();
+                        updateTables(currentSpieler);
+                        i += 1;
+                        if (i == risiko.getAnzahlSpieler()) { // wenn alle spieler zusatzarmee verteilt haben dann gehts in die naechste phase
+                            JOptionPane.showConfirmDialog(null, "Alle Spieler haben ihre zusatzarmee verteilt! Der Erste Spieler wird in die Angreifephase weitergeleitet.", 
+                            "Info",  
+                            JOptionPane.INFORMATION_MESSAGE);
+                            risiko.nextPhase();
+                        }
+                    }
+                
                 
                 break;
 

@@ -180,6 +180,7 @@ public class Risiko {
     }
     
     public int getZusatzArmee(){
+        spieler = getJetzigerSpieler();
         return spieler.getZusatzArmee();
     }
     
