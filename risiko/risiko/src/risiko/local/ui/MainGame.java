@@ -558,11 +558,62 @@ public class MainGame extends JFrame {
 
         });
         bottomPanel.add(actionButton); // Add the action button to the bottom panel
-    
-        bottomPanel.add(new JScrollPane(landInfoTable));
-        landInfoTable.setPreferredScrollableViewportSize(new Dimension(landInfoTable.getPreferredSize().width, 70)); // Set preferred height
-        return bottomPanel;
+
+    bottomPanel.add(new JScrollPane(landInfoTable));
+    landInfoTable.setPreferredScrollableViewportSize(new Dimension(landInfoTable.getPreferredSize().width, 70)); // Set preferred height
+
+    // Maiks button
+    JButton highlightButton = new JButton("Eigene Länder aufleuchten lassen");
+    highlightButton.addActionListener(e -> highlightOwnCountries());
+    bottomPanel.add(highlightButton); // Add button to the bottom panel
+
+    return bottomPanel;
+}
+
+private void highlightOwnCountries() {
+    int[] eigeneLaender = risiko.getEigeneLaenderId();
+
+    try {
+        // Create a panel to hold all the highlighted country images
+        JPanel displayPanel = new JPanel();
+        displayPanel.setLayout(new GridLayout(0, 7)); // Adjust layout as needed
+
+        for (int land : eigeneLaender) {
+            if (land == 0) {
+                continue; // Skip if land ID is zero
+            }
+
+            String imagePath = String.format("risiko/risiko/src/risiko/local/bilder/42/%d.png", land);
+            BufferedImage landImage = ImageIO.read(new File(imagePath));
+
+            // Scale the image if necessary
+            BufferedImage scaledLandImage = scaleImage(landImage, scaleWidth, scaleHeight);
+
+            // Tint the image in green
+            BufferedImage tintedImage = tintImage(scaledLandImage, Color.GREEN);
+
+            // Update the label with the tinted image
+            ImageIcon landImageIcon = new ImageIcon(tintedImage);
+            JLabel selectedImageLabel = new JLabel();
+            selectedImageLabel.setIcon(landImageIcon);
+            selectedImageLabel.setVisible(true); // Ensure the label is visible
+
+            // Add the label to the display panel
+            displayPanel.add(selectedImageLabel);
+        }
+        JLabel selectedImageLabel = new JLabel();
+        // Update the main display panel or frame with the new display panel
+        selectedImageLabel.removeAll(); // Clear previous contents
+        selectedImageLabel.add(displayPanel);
+        selectedImageLabel.revalidate();
+        selectedImageLabel.repaint();
+
+    } catch (IOException ex) {
+        ex.printStackTrace();
+        // Handle the exception, e.g., by showing a default image or an error message
     }
+}
+    
     
         // return bottomPanel;
     private void updatePhase() {
