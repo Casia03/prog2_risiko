@@ -160,20 +160,22 @@ public class AdjazenzMatrix {
         adjazenzmatrix[21][23] = 1;
 
         // Egypt
-        adjazenzmatrix[22][16] = 1;
-        adjazenzmatrix[22][18] = 1;
-        adjazenzmatrix[22][20] = 1;
-        adjazenzmatrix[22][23] = 1;
+        adjazenzmatrix[22][17] = 1;
+        adjazenzmatrix[22][24] = 1;
+        adjazenzmatrix[22][21] = 1;
+        adjazenzmatrix[22][32] = 1;
 
         // Madagascar
-        adjazenzmatrix[23][23] = 1;
-        adjazenzmatrix[23][24] = 1;
+        adjazenzmatrix[23][21] = 1;
+        adjazenzmatrix[23][25] = 1;
 
         // North Africa
         adjazenzmatrix[24][19] = 1;
         adjazenzmatrix[24][10] = 1;
         adjazenzmatrix[24][20] = 1;
         adjazenzmatrix[24][22] = 1;
+        adjazenzmatrix[24][17] = 1;
+        adjazenzmatrix[24][21] = 1;
 
         // South Africa
         adjazenzmatrix[25][20] = 1;
@@ -181,7 +183,6 @@ public class AdjazenzMatrix {
         adjazenzmatrix[25][23] = 1;
 
         // Afghanistan
-
         adjazenzmatrix[26][18] = 1;
         adjazenzmatrix[26][32] = 1;
         adjazenzmatrix[26][36] = 1;
@@ -218,9 +219,9 @@ public class AdjazenzMatrix {
         adjazenzmatrix[31][33] = 1;
         adjazenzmatrix[31][29] = 1;
         adjazenzmatrix[31][37] = 1;
+        adjazenzmatrix[31][0] = 1;
 
         // Middle East
-
         adjazenzmatrix[32][28] = 1;
         adjazenzmatrix[32][26] = 1;
         adjazenzmatrix[32][18] = 1;
