@@ -429,5 +429,25 @@ public class Risiko {
         turn = new Turn(spielerListe);
     }
 
+    public int[] getAlleGegnerLaenderIntArray() {
+        spieler = getJetzigerSpieler();
+        List<Land> laender = weltVerwaltung.getAngriffsmoeglichelaender(spieler, getAnzahlSpieler());
+        int[] gegner = new int[42];
+        for(int i = 0; i <laender.size(); i++){
+            gegner[i] = laender.get(i).getTrueIndex();
+        }
+        return gegner;
+    }
+
+    public int[] getAlleGegnerNachbars(int ausgewaehltesLand) {
+        int[] gegner = new int[42];
+        spieler = getJetzigerSpieler();
+        List<Land> laender = adj.getAlleGegnerNachbarListe(ausgewaehltesLand, spieler);
+        for(int i = 0; i <laender.size(); i++){
+            gegner[i] = laender.get(i).getTrueIndex();
+        }
+        return gegner;
+    }
+
 
 }

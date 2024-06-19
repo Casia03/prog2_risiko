@@ -166,8 +166,8 @@ public class AdjazenzMatrix {
         adjazenzmatrix[22][23] = 1;
 
         // Madagascar
-        adjazenzmatrix[23][23] = 1;
-        adjazenzmatrix[23][24] = 1;
+        adjazenzmatrix[23][21] = 1;
+        adjazenzmatrix[23][25] = 1;
 
         // North Africa
         adjazenzmatrix[24][19] = 1;
@@ -181,7 +181,6 @@ public class AdjazenzMatrix {
         adjazenzmatrix[25][23] = 1;
 
         // Afghanistan
-
         adjazenzmatrix[26][18] = 1;
         adjazenzmatrix[26][32] = 1;
         adjazenzmatrix[26][36] = 1;
