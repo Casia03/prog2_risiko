@@ -180,6 +180,8 @@ public class MainGame extends JFrame {
         // Add a JLabel to display the selected image
 
         JLabel selectedImageLabel = new JLabel();
+
+        JFrame multipleImages = new JFrame();
     
         // Create a layered pane and add the image labels with appropriate layer positions
         JLayeredPane layeredPane = new JLayeredPane();
@@ -221,15 +223,11 @@ public class MainGame extends JFrame {
                 // SPIELKARTE 
                 imageLabel.setBounds(0, 0, scaleWidth, scaleHeight);
                 
-                // LAND HIGHLIGHT
-                selectedImageLabel.setBounds(0, 0, scaleWidth, scaleHeight);
+                // // LAND HIGHLIGHT
+                // selectedImagePanel.setBounds(0, 0, scaleWidth, scaleHeight);
                 
             }
         }));
-        
-        
-        //displayPlayerCountries(selectedImageLabel);
-        layeredPane.add(selectedImageLabel, Integer.valueOf(2)); // Add it above other layers
         
         imageLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
@@ -264,6 +262,7 @@ public class MainGame extends JFrame {
                             }
                         }
                         String imagePath = String.format("risiko\\risiko\\src\\risiko\\local\\bilder\\42\\%d.png", ausgewaehltesLand);
+                        
                         BufferedImage selectedImage = ImageIO.read(new File(imagePath));
     
                         // Scale the image if necessary
@@ -274,8 +273,13 @@ public class MainGame extends JFrame {
     
                         // Update the label with the tinted image
                         ImageIcon selectedImageIcon = new ImageIcon(tintedImage);
+
                         selectedImageLabel.setIcon(selectedImageIcon);
-                        selectedImageLabel.setVisible(true); // Ensure the label is visible
+                        selectedImageLabel.setBounds(0, 0, scaleWidth, scaleHeight);
+
+                        
+                        // selectedImagePanel.pack();
+                        // selectedImagePanel.setVisible(true); // Ensure the label is visible
                     
 
                 } catch (IOException ex) {
@@ -284,7 +288,15 @@ public class MainGame extends JFrame {
                 }
             }
         });
-        displayPlayerCountries(selectedImageLabel);
+
+        displayPlayerCountries(layeredPane);
+
+        layeredPane.add(selectedImageLabel, Integer.valueOf(3));
+
+        
+
+        
+ 
         // Add the layered pane to the main panel
         return layeredPane;
     }
@@ -306,16 +318,14 @@ public class MainGame extends JFrame {
     }
         
     // Method to load and display the player's countries
-    private void displayPlayerCountries(JLabel selectedImageLabel) {
+    private void displayPlayerCountries(JLayeredPane layeredPane) {
         try {
-            // Clear previously displayed images
-            selectedImageLabel.removeAll();
-
             // Load images corresponding to the player's countries
             int[] laender = risiko.getEigeneLaenderId();
             
             for (int landId : laender) {
                 if(landId != 0){
+                    System.out.println(landId);
                     String imagePath = String.format("risiko\\risiko\\src\\risiko\\local\\bilder\\42\\%d.png", landId);
                     File imageFile = new File(imagePath);
 
@@ -328,27 +338,26 @@ public class MainGame extends JFrame {
                     BufferedImage scaledSelectedImage = scaleImage(selectedImage, scaleWidth, scaleHeight);
 
                     // Tint the image with a specific color (example: green color)
-                    Color tint = Color.GREEN;
+                    Color tint = Color.GRAY;
                     BufferedImage tintedImage = tintImage(scaledSelectedImage, tint);
 
                     // Create ImageIcon and JLabel for the tinted image
                     ImageIcon selectedImageIcon = new ImageIcon(tintedImage);
                     JLabel selectedImageJLabel = new JLabel(selectedImageIcon);
+                    selectedImageJLabel.setBounds(0, 0, scaleWidth, scaleHeight);
+                    // selectedImageJLabel.setVisible(true);
 
-                    // Add the tinted image JLabel to the selectedImageLabel
-                    selectedImageLabel.add(selectedImageJLabel);
+                    layeredPane.add(selectedImageJLabel, Integer.valueOf(2));
                 }
             }
 
-            // Ensure the selectedImageLabel is visible and repaint
-            selectedImageLabel.setVisible(true);
-            selectedImageLabel.revalidate();
-            selectedImageLabel.repaint();
 
         } catch (IOException ex) {
             ex.printStackTrace();
             // Handle the exception, e.g., by showing a default image or an error message
         }
+
+        // return multipleImages;
     }
 
     private void updateLandInfo(Land currentLand, List<Spieler> spielerListe) {
