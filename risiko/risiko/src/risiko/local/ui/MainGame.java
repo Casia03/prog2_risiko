@@ -209,6 +209,7 @@ public class MainGame extends JFrame {
         // Add the layered pane to the main panel
         return layeredPane;
     }
+    
     private void initializeMouseClickListener(JLabel imageLabel, BufferedImage scaledColorImage, JLabel selectedImageLabel) {
         imageLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
@@ -258,21 +259,21 @@ public class MainGame extends JFrame {
             selectedImageLabel.setIcon(selectedImageIcon);
             selectedImageLabel.setBounds(0, 0, scaleWidth, scaleHeight);
 
-            switch(currentPhase){
-                case ERSTVERTEILEN:
-                    if(ausgewaehltesLand != 0){
-                        displayEnemyCountries(layeredPane, ausgewaehltesLand);
-                    }
-                    break;
-                case VERTEILEN:
-                    break;
-                case ANGREIFFEN:
+            // switch(currentPhase){
+            //     case ERSTVERTEILEN:
+            //         if(ausgewaehltesLand != 0){
+            //             //displayEnemyCountries(layeredPane, ausgewaehltesLand);
+            //         }
+            //         break;
+            //     case VERTEILEN:
+            //         break;
+            //     case ANGREIFFEN:
                     
                     
-                    break;
-                case VERSCHIEBEN:
-                    break;
-            }
+            //         break;
+            //     case VERSCHIEBEN:
+            //         break;
+            // }
             
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -481,7 +482,7 @@ public class MainGame extends JFrame {
                                 }
                                 if(canProceed){
                                     boolean validInput = false; // Flag to check if input is valid
-                                    while (!validInput) {
+                                    
                                         String input = JOptionPane.showInputDialog(this,
                                                 "Enter the number of troops to distribute: \n You have " + currentSpieler.getZusatzArmee() + " spare Armies!",
                                                 "Distribute Troops", JOptionPane.PLAIN_MESSAGE);
@@ -512,26 +513,28 @@ public class MainGame extends JFrame {
                                             // Handle any other unexpected exceptions
                                             Exceptions.showErrorDialog("An unexpected error occurred: " + ex.getMessage());
                                         }
-                                    }
+                                    
                                 }
                             }
                         }
-                            int result = JOptionPane.showConfirmDialog(null,"Du hast keine Zusatzarmee mehr. Willst auf den nächsten Spieler ändern?", 
-                                "Frage", 
-                                JOptionPane.YES_NO_OPTION, 
-                                JOptionPane.QUESTION_MESSAGE);
+                            if(!risiko.jetzigerSpielerHatZusatzarmee()){
+                                int result = JOptionPane.showConfirmDialog(null,"Du hast keine Zusatzarmee mehr. Willst auf den nächsten Spieler ändern?", 
+                                    "Frage", 
+                                    JOptionPane.YES_NO_OPTION, 
+                                    JOptionPane.QUESTION_MESSAGE);
 
-                            if (result == JOptionPane.YES_OPTION) {
-                                nextPlayer();
-                                
-                                currentSpieler = risiko.getJetzigerSpieler();
-                                updateTables(currentSpieler);
-                                i += 1;
-                                if (i == risiko.getAnzahlSpieler()) { // wenn alle spieler zusatzarmee verteilt haben dann gehts in die naechste phase
-                                    JOptionPane.showConfirmDialog(null, "Alle Spieler haben ihre zusatzarmee verteilt! Der Erste Spieler wird in die Angreifephase weitergeleitet.", 
-                                    "Info",  
-                                    JOptionPane.INFORMATION_MESSAGE);
-                                    risiko.nextPhase();
+                                if (result == JOptionPane.YES_OPTION) {
+                                    nextPlayer();
+                                    
+                                    currentSpieler = risiko.getJetzigerSpieler();
+                                    updateTables(currentSpieler);
+                                    i += 1;
+                                    if (i == risiko.getAnzahlSpieler()) { // wenn alle spieler zusatzarmee verteilt haben dann gehts in die naechste phase
+                                        JOptionPane.showConfirmDialog(null, "Alle Spieler haben ihre zusatzarmee verteilt! Der Erste Spieler wird in die Angreifephase weitergeleitet.", 
+                                        "Info",  
+                                        JOptionPane.INFORMATION_MESSAGE);
+                                        risiko.nextPhase();
+                                    }
                                 }
                             }
                     
@@ -582,7 +585,7 @@ public class MainGame extends JFrame {
                             }
                         }
 
-                        result = JOptionPane.showConfirmDialog(null,"Du hast keine Zusatzarmee mehr. Willst auf die nächste Phase ändern?", 
+                        int result = JOptionPane.showConfirmDialog(null,"Du hast keine Zusatzarmee mehr. Willst auf die nächste Phase ändern?", 
                             "Frage", 
                             JOptionPane.YES_NO_OPTION, 
                             JOptionPane.QUESTION_MESSAGE);
@@ -684,12 +687,6 @@ public class MainGame extends JFrame {
         updateSpielerInfo(currentSpieler);
         updateLandInfo(risiko.getLand(ausgewaehltesLand), spielerListe);
         updateLandTable(risiko.getEigeneLaender());
-        updateButtons(currentPhase);
-    }
-
-    private void updateButtons(Phase currentPhase2) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateButtons'");
     }
 
     private void initializeLandInfoTable() {
