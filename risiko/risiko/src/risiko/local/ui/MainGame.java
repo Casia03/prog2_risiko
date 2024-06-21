@@ -51,8 +51,8 @@ public class MainGame extends JFrame {
     private int beginningDistribution = 0;
     private Risiko game;
     private Phase currentPhase;
-    private boolean isSelectingAttackingCountry = true;
-    private boolean isSelectingDefendingCountry = false; // Initialize as false initially
+    private boolean isSelectingAttackingCountry = false;
+    private boolean isSelectingDefendingCountry = false;
     private int attackingCountry;
     private int i = 0;
     Exceptions Exceptions = new Exceptions();
@@ -282,6 +282,7 @@ public class MainGame extends JFrame {
             // Handle the exception, e.g., by showing a default image or an error message
         }
     }
+    
     private void clearHighlightedCountry (JLayeredPane layeredPane){
         Component[] components = layeredPane.getComponentsInLayer(3);
         for (Component comp : components) {
@@ -289,6 +290,7 @@ public class MainGame extends JFrame {
         }
         
     }
+   
     public BufferedImage tintImage(BufferedImage image, Color color) {
         int width = image.getWidth();
         int height = image.getHeight();
@@ -365,7 +367,7 @@ public class MainGame extends JFrame {
             if(gegnerLaender == null){
                 // WENN KEINE GEGNER LAENDER
             }else{
-                for (int i = 0; i<= gegnerLaender.length; i++) {
+                for (int i = 0; i < gegnerLaender.length; i++) {
                 
                     if(gegnerLaender[i] != 0){
                         String imagePath = String.format("risiko\\risiko\\src\\risiko\\local\\bilder\\42\\%d.png", gegnerLaender[i]);
@@ -641,8 +643,7 @@ public class MainGame extends JFrame {
 
                         int attackingCountry = 0;
                         int defendingCountry = 0;
-                        boolean isSelectingAttackingCountry = false;
-                        boolean isSelectingDefendingCountry = false;
+                        
                         
                         
                         int result = JOptionPane.showConfirmDialog(null, "Hallo " + currentSpieler.getSpielerName() + "\nWillst du die Angreifephase überspringen?","Frage", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
@@ -652,19 +653,13 @@ public class MainGame extends JFrame {
                             updatePhase();
                         }else{
                             isSelectingAttackingCountry = true;
-                            
-                            // result = JOptionPane.showConfirmDialog(null, "Willst du die Angreifen? Wenn Ja, wähle erstmal ein deine Länder aus.","Frage", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-                            
-                            // if(result == JOptionPane.YES_OPTION){
-                                
-                            // } 
-
                             // ABLAUF::
                             // Wenn man die Angreifephase NICHT überspringt, dann wird isSelectingAttackingCountry = true gesetzt,
                             // nach dem man auf ein seine Laender klickt, muss mann auf dem Angreifen button klicken, dann wird man gefragt ob das 
                             // Ausgewaehlte land als Angreifeland festgelegt werden soll.
                             // Wen Ja
-                            if (isSelectingAttackingCountry) {
+
+                            if (isSelectingAttackingCountry && !isSelectingDefendingCountry) {
                                 JOptionPane.showMessageDialog(this, "Choose from where you'd like to attack.");
                                 try{
                                     if (risiko.getLand(ausgewaehltesLand) != null && risiko.istDeinLand(ausgewaehltesLand)) {
@@ -672,8 +667,8 @@ public class MainGame extends JFrame {
 
                                         if(result == JOptionPane.YES_OPTION){
                                             attackingCountry = ausgewaehltesLand;
-                                            isSelectingAttackingCountry = false;
                                             isSelectingDefendingCountry = true;
+                                            JOptionPane.showMessageDialog(this, "Choose a target country to attack.");
                                         }
                                         
                                     } else {
@@ -686,37 +681,40 @@ public class MainGame extends JFrame {
                                 }
                                 
                             } else if (isSelectingDefendingCountry) {
-                                JOptionPane.showMessageDialog(this, "Choose a target country to attack.");
+                                
                                 result = JOptionPane.showConfirmDialog(null,"Du Möchtest das Land " + risiko.getLandName(ausgewaehltesLand) + " Angreifen?", "Frage", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 
                                 if(result == JOptionPane.YES_OPTION){
                                     if(risiko.getLand(ausgewaehltesLand) != null && risiko.sindNachbar(attackingCountry, ausgewaehltesLand) && !risiko.istDeinLand(ausgewaehltesLand)){
                                         defendingCountry = ausgewaehltesLand;
-                                        isSelectingAttackingCountry = false;
-                                        isSelectingDefendingCountry = false;
-                                    }
-                                }else{
-                                    String input = JOptionPane.showInputDialog(this,
-                                            "Enter the number of troops to attack: \n You have " + currentSpieler.getZusatzArmee() + " spare Armies! You can use up to three at a time",
+
+                                        String input = JOptionPane.showInputDialog(this,
+                                            "Enter the number of troops to attack: \n You have " + currentSpieler.getZusatzArmee() + " Armies! You can use up to "+ risiko.getMaxAttackNumber(attackingCountry) +" at a time" ,
                                             "Attack number", JOptionPane.PLAIN_MESSAGE);
-                                    if (input != null) {
-                                        if (risiko.getLand(ausgewaehltesLand) != null && risiko.sindNachbar(attackingCountry, ausgewaehltesLand)
-                                                && !risiko.istDeinLand(ausgewaehltesLand)) {
-                                            try {
-                                                int armeeAnzahl = Integer.parseInt(input);
-                                                risiko.angreifen(attackingCountry, ausgewaehltesLand, armeeAnzahl);
-                                                JOptionPane.showMessageDialog(this, "Attack happened");
-                                                isSelectingDefendingCountry = false;
-                                                isSelectingAttackingCountry = true;
-                                            } catch (NumberFormatException ex) {
-                                                JOptionPane.showMessageDialog(this, "Invalid input. Please enter a valid number.", "Invalid Input",
-                                                        JOptionPane.ERROR_MESSAGE);
-                                            }
-                                        } else {
-                                            JOptionPane.showMessageDialog(this, "Please select a valid target country to attack.", "Error",
-                                                    JOptionPane.ERROR_MESSAGE);
+
+                                        Exceptions.readIntAngreifen(input, 1, risiko.getLand(attackingCountry).getArmee());
+
+                                        if (input != null) {
+                                                if (risiko.getLand(ausgewaehltesLand) != null && risiko.sindNachbar(attackingCountry, ausgewaehltesLand)
+                                                        && !risiko.istDeinLand(ausgewaehltesLand)) {
+                                                    try {
+                                                        int armeeAnzahl = Integer.parseInt(input);
+                                                        risiko.angreifen(attackingCountry, ausgewaehltesLand, armeeAnzahl);
+                                                        JOptionPane.showMessageDialog(this, "Attack happened");
+                                                        isSelectingDefendingCountry = false;
+                                                        isSelectingAttackingCountry = true;
+                                                    } catch (NumberFormatException ex) {
+                                                        JOptionPane.showMessageDialog(this, "Invalid input. Please enter a valid number.", "Invalid Input",
+                                                                JOptionPane.ERROR_MESSAGE);
+                                                    }
+                                                } else {
+                                                    JOptionPane.showMessageDialog(this, "Please select a valid target country to attack.", "Error",
+                                                            JOptionPane.ERROR_MESSAGE);
+                                                }
                                         }
                                     }
+                                }else{
+                                    
                                 }
                             }
                         }

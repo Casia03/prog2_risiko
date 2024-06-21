@@ -86,5 +86,14 @@ public class Exceptions {
         JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
     
     }
-    
+
+    public void readIntAngreifen(String input, int i, int armee) {
+        int value = Integer.parseInt(input);
+        if (value < i || value > armee) {
+            if (armee == 2){
+                throw new IllegalArgumentException("Please enter the only possible number: " + i + ".");
+            }
+            throw new IllegalArgumentException("Please enter a valid number between " + i + " and " + armee + ".");
+        }
+    }
 }

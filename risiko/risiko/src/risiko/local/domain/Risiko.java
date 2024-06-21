@@ -442,8 +442,8 @@ public class Risiko {
     public int[] getAlleGegnerNachbars(int ausgewaehltesLand) {
         int[] gegner = new int[42];
         spieler = getJetzigerSpieler();
-        List<Land> laender = adj.getAlleGegnerNachbarListe(ausgewaehltesLand, spieler);
-        for(int i = 0; i <laender.size(); i++){
+        List<Land> laender = adj.getAlleGegnerNachbarListe(ausgewaehltesLand-1, spieler);
+        for(int i = 0; i < laender.size(); i++){
             gegner[i] = laender.get(i).getTrueIndex();
         }
         return gegner;
