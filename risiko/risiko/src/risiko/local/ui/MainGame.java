@@ -368,6 +368,9 @@ public class MainGame extends JFrame {
             }
             // Load images corresponding to the player's countries
             int[] gegnerLaender = risiko.getAlleGegnerNachbars(ausgewaehltesLand);
+            if(!risiko.istDeinLand(ausgewaehltesLand)){
+
+            }else
             if(gegnerLaender == null){
                 // WENN KEINE GEGNER LAENDER
             }else{
