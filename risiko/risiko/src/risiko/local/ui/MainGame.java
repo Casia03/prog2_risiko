@@ -714,8 +714,53 @@ public class MainGame extends JFrame {
                                                 isSelectingDefendingCountry = false;
                                                 isSelectingAttackingCountry = false;
                                                 updateTables(currentSpieler);
-                                                displayPlayerCountries(layeredPane);
-                                                clearHighlightedCountry(layeredPane);
+                                                
+                                                if(risiko.landHatKeineArmee(defendingCountry)){
+
+                                                    //code fur gewonen, land besitzer saetzen usw
+
+                                                    risiko.neuerBesitzerSetzen(defendingCountry);
+                                                    risiko.einruecken(attackingCountry, defendingCountry);
+                                                    displayPlayerCountries(layeredPane);
+                                                    clearHighlightedCountry(layeredPane);
+                                                    JOptionPane.showMessageDialog(actionButton, "YOU WON YEEEEEEEEEEEEEE\n Du Hast das Land " + risiko.getLandName(defendingCountry)+ " erobert");
+                                                    result = JOptionPane.showConfirmDialog(null, "Moechtest du einruechen?" ,"Frage", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                                                    if(result == JOptionPane.NO_OPTION){
+
+                                                    }else{
+                                                        //code fur einruecken
+                                                        
+                                                    }
+                                                    
+                                                }
+                                                // if(risiko.landHatKeineArmee(nachLand)){ // WENN GEWONNEN
+                                                //     System.out.println(risiko.missionStatus());
+                                                //     if(risiko.checkIfMissionErfuelt()){
+                                                //         System.out.println("SPIEL ZU ENDE!!, SPIELER " + risiko.getJetzigerSpielerName() + " HAT GEWONNEN!");
+                                                //         //auswahlHauptmenu = 3;
+                                                //         System.exit(0);
+                                                //     }
+                                                //     risiko.neuerBesitzerSetzen(nachLand);
+                                                //     risiko.einruecken(vonLand, nachLand);
+                                                //     System.out.println("Du hast das Land " + risiko.getLandName(nachLand) + " Erobert.");
+                                                //     System.out.println("Möchtest du auf das eroberte Land mehr Einheiten einrücken?\nTippe: \n'J' für Ja \n'N' für Nein\"");
+
+                                                //     spielerWillEinruecken = scanner.next().trim().equalsIgnoreCase("j")? true: false;
+
+                                                //     if(spielerWillEinruecken){ // WENN EINRUECKEN MOECHTEN
+                                                //         System.out.println("Gib die Anzahl der Einheiten die du einruecken moechtest. \nDu hast " + (risiko.getLandArmee(vonLand)-1) + " Einheiten zur verfuegung."); 
+                                                //         int anzahlArmeeZumEinruecken = risiko.readInt(scanner, 1, (risiko.getLandArmee(vonLand)-1));
+                                                //         risiko.verschieben(vonLand, nachLand, anzahlArmeeZumEinruecken);
+                                                //         System.out.println("So sieht zurzeit die Liste deiner Angriffsbereite Laender: ");
+                                                //         String[] resultArray3 = risiko.getAngreiffeBereiteLaender();
+                                                //         for (String element : resultArray3) {
+                                                //             System.out.println(element);
+                                                //         }
+                                                //         spielerWillEinruecken = false;
+                                                //     }
+                                                // }
+
+
                                                 attackingCountry = 0;
                                                 defendingCountry = 0;
                                             } catch (NumberFormatException ex) {
