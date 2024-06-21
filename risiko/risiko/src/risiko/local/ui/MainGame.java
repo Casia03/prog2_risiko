@@ -275,6 +275,7 @@ public class MainGame extends JFrame {
             //     case VERSCHIEBEN:
             //         break;
             // }
+            displayEnemyCountries(layeredPane, ausgewaehltesLand);
             
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -313,10 +314,6 @@ public class MainGame extends JFrame {
             for (Component comp : playerCountries) {
                 layeredPane.remove(comp);
             }
-            // Component[] clickSelected = layeredPane.getComponentsInLayer(3);
-            // for (Component comp : clickSelected) {
-            //     layeredPane.remove(comp);
-            // }
             // Load images corresponding to the player's countries
             int[] laender = risiko.getEigeneLaenderId();
             
@@ -359,40 +356,44 @@ public class MainGame extends JFrame {
     private void displayEnemyCountries(JLayeredPane layeredPane, int ausgewaehltesLand) {
         try {
             // Remove all existing components from layer 2
-            Component[] components = layeredPane.getComponentsInLayer(2);
+            Component[] components = layeredPane.getComponentsInLayer(4);
             for (Component comp : components) {
                 layeredPane.remove(comp);
             }
             // Load images corresponding to the player's countries
             int[] gegnerLaender = risiko.getAlleGegnerNachbars(ausgewaehltesLand);
-            
-            for (int i = 0; i<= gegnerLaender.length; i++) {
+            if(gegnerLaender == null){
+                // WENN KEINE GEGNER LAENDER
+            }else{
+                for (int i = 0; i<= gegnerLaender.length; i++) {
                 
-                if(gegnerLaender[i] != 0){
-                    String imagePath = String.format("risiko\\risiko\\src\\risiko\\local\\bilder\\42\\%d.png", gegnerLaender[i]);
-                    File imageFile = new File(imagePath);
-
-                    if (!imageFile.exists()) {
-                        System.err.println("Image file not found: " + imagePath);
-                        continue; // Skip if image file does not exist
+                    if(gegnerLaender[i] != 0){
+                        String imagePath = String.format("risiko\\risiko\\src\\risiko\\local\\bilder\\42\\%d.png", gegnerLaender[i]);
+                        File imageFile = new File(imagePath);
+    
+                        if (!imageFile.exists()) {
+                            System.err.println("Image file not found: " + imagePath);
+                            continue; // Skip if image file does not exist
+                        }
+    
+                        BufferedImage selectedImage = ImageIO.read(imageFile);
+                        BufferedImage scaledSelectedImage = scaleImage(selectedImage, scaleWidth, scaleHeight);
+    
+                        // Tint the image with a specific color (example: green color)
+                        Color tint = Color.BLACK;
+                        BufferedImage tintedImage = tintImage(scaledSelectedImage, tint);
+    
+                        // Create ImageIcon and JLabel for the tinted image
+                        ImageIcon selectedImageIcon = new ImageIcon(tintedImage);
+                        JLabel selectedImageJLabel = new JLabel(selectedImageIcon);
+                        selectedImageJLabel.setBounds(0, 0, scaleWidth, scaleHeight);
+                        // selectedImageJLabel.setVisible(true);
+    
+                        layeredPane.add(selectedImageJLabel, Integer.valueOf(2));
                     }
-
-                    BufferedImage selectedImage = ImageIO.read(imageFile);
-                    BufferedImage scaledSelectedImage = scaleImage(selectedImage, scaleWidth, scaleHeight);
-
-                    // Tint the image with a specific color (example: green color)
-                    Color tint = Color.BLACK;
-                    BufferedImage tintedImage = tintImage(scaledSelectedImage, tint);
-
-                    // Create ImageIcon and JLabel for the tinted image
-                    ImageIcon selectedImageIcon = new ImageIcon(tintedImage);
-                    JLabel selectedImageJLabel = new JLabel(selectedImageIcon);
-                    selectedImageJLabel.setBounds(0, 0, scaleWidth, scaleHeight);
-                    // selectedImageJLabel.setVisible(true);
-
-                    layeredPane.add(selectedImageJLabel, Integer.valueOf(2));
                 }
             }
+            
         } catch (IOException ex) {
             ex.printStackTrace();
             // Handle the exception, e.g., by showing a default image or an error message
@@ -478,10 +479,10 @@ public class MainGame extends JFrame {
                     JOptionPane.showMessageDialog(null, "In die Verteilephase musst du durch klicken ein deiner Laender auswaehlen.\nDu erkenns ob das ausgewaehlte Land dein ist, an den Gruenen highlight,\noder daran, das das ausgewaehlte Land in der Liste deiner Laender ist.");
                     break;
                 case ANGREIFFEN:
-
+                    JOptionPane.showMessageDialog(null, "In die Verteilephase musst du durch klicken ein deiner Laender auswaehlen.\nDu erkenns ob das ausgewaehlte Land dein ist, an den Gruenen highlight,\noder daran, das das ausgewaehlte Land in der Liste deiner Laender ist.");
                     break;
                 case VERSCHIEBEN:
-
+                    JOptionPane.showMessageDialog(null, "In die Verteilephase musst du durch klicken ein deiner Laender auswaehlen.\nDu erkenns ob das ausgewaehlte Land dein ist, an den Gruenen highlight,\noder daran, das das ausgewaehlte Land in der Liste deiner Laender ist.");
                     break;
             }
             
@@ -565,7 +566,7 @@ public class MainGame extends JFrame {
                                             JOptionPane.INFORMATION_MESSAGE);
                                             risiko.nextPhase();
                                             updatePhase();
-                                            //SwingUtilities.invokeLater(() -> actionButton.setText("Angreifen"));
+                                            SwingUtilities.invokeLater(() -> actionButton.setText("Angreifen"));
                                         }
                                     }
                                 }
