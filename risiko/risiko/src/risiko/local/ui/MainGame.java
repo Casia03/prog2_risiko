@@ -53,7 +53,8 @@ public class MainGame extends JFrame {
     private Phase currentPhase;
     private boolean isSelectingAttackingCountry = false;
     private boolean isSelectingDefendingCountry = false;
-    private int attackingCountry;
+    private int attackingCountry = 0;
+    private int defendingCountry = 0;
     private int i = 0;
     Exceptions Exceptions = new Exceptions();
 
@@ -275,6 +276,7 @@ public class MainGame extends JFrame {
             //     case VERSCHIEBEN:
             //         break;
             // }
+
             displayEnemyCountries(layeredPane, ausgewaehltesLand);
             
         } catch (IOException ex) {
@@ -647,8 +649,7 @@ public class MainGame extends JFrame {
                         updateTables(currentSpieler);
                         displayPlayerCountries(layeredPane);
 
-                        int attackingCountry = 0;
-                        int defendingCountry = 0;
+
                         
                         
                         
@@ -712,6 +713,8 @@ public class MainGame extends JFrame {
                                                 updateTables(currentSpieler);
                                                 displayPlayerCountries(layeredPane);
                                                 clearHighlightedCountry(layeredPane);
+                                                attackingCountry = 0;
+                                                defendingCountry = 0;
                                             } catch (NumberFormatException ex) {
                                                 JOptionPane.showMessageDialog(null, "Invalid input. Please enter a valid number.", "Invalid Input",
                                                         JOptionPane.ERROR_MESSAGE);
