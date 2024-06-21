@@ -389,7 +389,7 @@ public class MainGame extends JFrame {
                         selectedImageJLabel.setBounds(0, 0, scaleWidth, scaleHeight);
                         // selectedImageJLabel.setVisible(true);
     
-                        layeredPane.add(selectedImageJLabel, Integer.valueOf(2));
+                        layeredPane.add(selectedImageJLabel, Integer.valueOf(4)); // 4 FUR DEN LAYER, NICHT AENDERN
                     }
                 }
             }
