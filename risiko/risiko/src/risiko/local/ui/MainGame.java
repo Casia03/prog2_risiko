@@ -288,6 +288,10 @@ public class MainGame extends JFrame {
         for (Component comp : components) {
             comp.setVisible(false);
         }
+        Component[] component1 = layeredPane.getComponentsInLayer(4);
+        for (Component comp : component1) {
+            comp.setVisible(false);
+        }
         
     }
    
@@ -389,6 +393,7 @@ public class MainGame extends JFrame {
                         ImageIcon selectedImageIcon = new ImageIcon(tintedImage);
                         JLabel selectedImageJLabel = new JLabel(selectedImageIcon);
                         selectedImageJLabel.setBounds(0, 0, scaleWidth, scaleHeight);
+                        selectedImageJLabel.setVisible(true);
                         // selectedImageJLabel.setVisible(true);
     
                         layeredPane.add(selectedImageJLabel, Integer.valueOf(4)); // 4 FUR DEN LAYER, NICHT AENDERN
@@ -548,12 +553,13 @@ public class MainGame extends JFrame {
                                 }
 
                                 if(risiko.getZusatzArmee() == 0){
-                                    int result = JOptionPane.showConfirmDialog(null,"Du hast keine Zusatzarmee mehr. Willst auf den nächsten Spieler ändern?", 
-                                        "Frage", 
-                                        JOptionPane.YES_NO_OPTION, 
-                                        JOptionPane.QUESTION_MESSAGE);
+                                    // int result = JOptionPane.showConfirmDialog(null,"Du hast keine Zusatzarmee mehr. Willst auf den nächsten Spieler ändern?", 
+                                    //     "Frage", 
+                                    //     JOptionPane.YES_NO_OPTION, 
+                                    //     JOptionPane.QUESTION_MESSAGE);
         
-                                    if (result == JOptionPane.YES_OPTION) {
+                                    // if (result == JOptionPane.YES_OPTION) {
+                                        JOptionPane.showMessageDialog(null,"Du hast keine Zusatzarmee mehr. Es wird auf den Naechsten Spieler Geaendert");
                                         i += 1;
                                         nextPlayer();
                                         clearHighlightedCountry (layeredPane);
@@ -570,7 +576,7 @@ public class MainGame extends JFrame {
                                             updatePhase();
                                             SwingUtilities.invokeLater(() -> actionButton.setText("Angreifen"));
                                         }
-                                    }
+                                    // }
                                 }
                             }
                         }
@@ -662,7 +668,7 @@ public class MainGame extends JFrame {
                             if (isSelectingAttackingCountry && !isSelectingDefendingCountry) {
                                 JOptionPane.showMessageDialog(this, "Choose from where you'd like to attack.");
                                 try{
-                                    if (risiko.getLand(ausgewaehltesLand) != null && risiko.istDeinLand(ausgewaehltesLand)) {
+                                    if (risiko.getLand(ausgewaehltesLand) != null && risiko.istDeinLand(ausgewaehltesLand) && risiko.getLandArmee(ausgewaehltesLand) > 1) {
                                         result = JOptionPane.showConfirmDialog(null,"Du Möchtest von " + risiko.getLandName(ausgewaehltesLand) + " Angreifen?", "Frage", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 
                                         if(result == JOptionPane.YES_OPTION){
@@ -685,34 +691,33 @@ public class MainGame extends JFrame {
                                 result = JOptionPane.showConfirmDialog(null,"Du Möchtest das Land " + risiko.getLandName(ausgewaehltesLand) + " Angreifen?", "Frage", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 
                                 if(result == JOptionPane.YES_OPTION){
-                                    if(risiko.getLand(ausgewaehltesLand) != null && risiko.sindNachbar(attackingCountry, ausgewaehltesLand) && !risiko.istDeinLand(ausgewaehltesLand)){
+                                    
                                         defendingCountry = ausgewaehltesLand;
 
                                         String input = JOptionPane.showInputDialog(this,
-                                            "Enter the number of troops to attack: \n You have " + currentSpieler.getZusatzArmee() + " Armies! You can use up to "+ risiko.getMaxAttackNumber(attackingCountry) +" at a time" ,
+                                            "Enter the number of troops to attack: \n You have " + risiko.getLandArmee(attackingCountry) + " Armies! You can use up to "+ risiko.getMaxAttackNumber(attackingCountry) +" at a time" ,
                                             "Attack number", JOptionPane.PLAIN_MESSAGE);
 
-                                        Exceptions.readIntAngreifen(input, 1, risiko.getLand(attackingCountry).getArmee());
+                                        
 
                                         if (input != null) {
-                                                if (risiko.getLand(ausgewaehltesLand) != null && risiko.sindNachbar(attackingCountry, ausgewaehltesLand)
-                                                        && !risiko.istDeinLand(ausgewaehltesLand)) {
-                                                    try {
-                                                        int armeeAnzahl = Integer.parseInt(input);
-                                                        risiko.angreifen(attackingCountry, ausgewaehltesLand, armeeAnzahl);
-                                                        JOptionPane.showMessageDialog(this, "Attack happened");
-                                                        isSelectingDefendingCountry = false;
-                                                        isSelectingAttackingCountry = true;
-                                                    } catch (NumberFormatException ex) {
-                                                        JOptionPane.showMessageDialog(this, "Invalid input. Please enter a valid number.", "Invalid Input",
-                                                                JOptionPane.ERROR_MESSAGE);
-                                                    }
-                                                } else {
-                                                    JOptionPane.showMessageDialog(this, "Please select a valid target country to attack.", "Error",
-                                                            JOptionPane.ERROR_MESSAGE);
-                                                }
+                                            
+                                            try {
+                                                Exceptions.readIntAngreifen(input, 1, risiko.getLand(attackingCountry).getArmee());
+                                                int armeeAnzahl = Integer.parseInt(input);
+                                                // risiko.angreifen(attackingCountry, defendingCountry, armeeAnzahl);
+                                                JOptionPane.showMessageDialog(null, "Attack happened \n" + risiko.angreifen(attackingCountry, defendingCountry, armeeAnzahl));
+                                                isSelectingDefendingCountry = false;
+                                                isSelectingAttackingCountry = false;
+                                                updateTables(currentSpieler);
+                                                displayPlayerCountries(layeredPane);
+                                                clearHighlightedCountry(layeredPane);
+                                            } catch (NumberFormatException ex) {
+                                                JOptionPane.showMessageDialog(null, "Invalid input. Please enter a valid number.", "Invalid Input",
+                                                        JOptionPane.ERROR_MESSAGE);
+                                            } 
                                         }
-                                    }
+                                    
                                 }else{
                                     
                                 }
