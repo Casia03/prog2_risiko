@@ -651,10 +651,6 @@ public class MainGame extends JFrame {
                         
                         updateTables(currentSpieler);
                         displayPlayerCountries(layeredPane);
-
-
-                        
-                        
                         
                         int result = JOptionPane.showConfirmDialog(null, "Hallo " + currentSpieler.getSpielerName() + "\nWillst du die Angreifephase überspringen?","Frage", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                         
@@ -711,6 +707,8 @@ public class MainGame extends JFrame {
                                                 int armeeAnzahl = Integer.parseInt(input);
                                                 // risiko.angreifen(attackingCountry, defendingCountry, armeeAnzahl);
                                                 JOptionPane.showMessageDialog(null, "Attack happened \n" + risiko.angreifen(attackingCountry, defendingCountry, armeeAnzahl));
+                                                // Wiederholung der Attacke nach bedarf
+                                                // if(risiko.g)
                                                 isSelectingDefendingCountry = false;
                                                 isSelectingAttackingCountry = false;
                                                 updateTables(currentSpieler);
@@ -718,18 +716,28 @@ public class MainGame extends JFrame {
                                                 if(risiko.landHatKeineArmee(defendingCountry)){
 
                                                     //code fur gewonen, land besitzer saetzen usw
+                                                    //TRY CATCH EINBAUEN
 
                                                     risiko.neuerBesitzerSetzen(defendingCountry);
                                                     risiko.einruecken(attackingCountry, defendingCountry);
+
                                                     displayPlayerCountries(layeredPane);
                                                     clearHighlightedCountry(layeredPane);
+
                                                     JOptionPane.showMessageDialog(actionButton, "YOU WON YEEEEEEEEEEEEEE\n Du Hast das Land " + risiko.getLandName(defendingCountry)+ " erobert");
                                                     result = JOptionPane.showConfirmDialog(null, "Moechtest du einruechen?" ,"Frage", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                                                     if(result == JOptionPane.NO_OPTION){
 
                                                     }else{
                                                         //code fur einruecken
+                                                        input = JOptionPane.showInputDialog(null,"Du kannst von das Land: " +risiko.getLandName(attackingCountry) + " bis zu " + (risiko.getLandArmee(attackingCountry)-1) + " Armeen auf das Land: " + risiko.getLandName(defendingCountry)+" rüberziehen.",
+                                                            "Distribute Troops", JOptionPane.PLAIN_MESSAGE);
                                                         
+                                                        int anzahl = Exceptions.readInt(input, 0, (risiko.getLandArmee(attackingCountry)-1));
+                                                        risiko.verschieben(attackingCountry, defendingCountry, anzahl);
+                                                        updateTables(currentSpieler);
+                                                        attackingCountry = 0;
+                                                        defendingCountry = 0;
                                                     }
                                                     
                                                 }
@@ -760,9 +768,6 @@ public class MainGame extends JFrame {
                                                 //     }
                                                 // }
 
-
-                                                attackingCountry = 0;
-                                                defendingCountry = 0;
                                             } catch (NumberFormatException ex) {
                                                 JOptionPane.showMessageDialog(null, "Invalid input. Please enter a valid number.", "Invalid Input",
                                                         JOptionPane.ERROR_MESSAGE);
