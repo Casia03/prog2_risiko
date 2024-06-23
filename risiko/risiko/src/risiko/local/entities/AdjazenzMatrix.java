@@ -391,4 +391,20 @@ public class AdjazenzMatrix {
 
         return adjazenzmatrix[angreifeLand][verteidigerLand] == 1;
     }
+
+    public List<Land> getAlleEigeneNachbarsListe(int vonLand, Spieler spieler) {
+        if (vonLand < 0 || vonLand > n ) {
+            throw new IllegalArgumentException("Ungültiger Länderindex");
+        }
+
+        List<Land> liste = new ArrayList<>();
+            for (int i = 0; i < n; i++) {
+                if (sindNachbar(vonLand, i) && (countries.get(i).getEingenommenVon() == spieler.getSpielerID())) {
+                    liste.add(countries.get(i));
+
+                }
+            }
+
+        return liste;
+    }
 }

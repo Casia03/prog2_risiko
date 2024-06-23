@@ -301,6 +301,16 @@ public class Risiko {
         return liste;
     }
 
+    public int[] getAlleEigeneNachbarsIntArray(int vonLand) {
+        int[] gegner = new int[42];
+        spieler = getJetzigerSpieler();
+        List<Land> laender = adj.getAlleEigeneNachbarsListe(vonLand-1, spieler);
+        for(int i = 0; i < laender.size(); i++){
+            gegner[i] = laender.get(i).getTrueIndex();
+        }
+        return gegner;
+    }
+
     public int berechneZusatzarmeen(Spieler spieler) {
         int anzahlTerritorien = weltVerwaltung.getSpielerLaender(spieler).size();
         int zusatzarmeen = 0;
@@ -439,7 +449,7 @@ public class Risiko {
         return gegner;
     }
 
-    public int[] getAlleGegnerNachbars(int ausgewaehltesLand) {
+    public int[] getAlleGegnerNachbarsIntArray(int ausgewaehltesLand) {
         int[] gegner = new int[42];
         spieler = getJetzigerSpieler();
         List<Land> laender = adj.getAlleGegnerNachbarListe(ausgewaehltesLand-1, spieler);

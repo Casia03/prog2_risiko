@@ -264,23 +264,23 @@ public class MainGame extends JFrame {
             selectedImageLabel.setBounds(0, 0, scaleWidth, scaleHeight);
             selectedImageLabel.setVisible(true);
 
-            // switch(currentPhase){
-            //     case ERSTVERTEILEN:
-            //         if(ausgewaehltesLand != 0){
-            //             //displayEnemyCountries(layeredPane, ausgewaehltesLand);
-            //         }
-            //         break;
-            //     case VERTEILEN:
-            //         break;
-            //     case ANGREIFFEN:
-                    
-                    
-            //         break;
-            //     case VERSCHIEBEN:
-            //         break;
-            // }
+            switch(currentPhase){
+                case ERSTVERTEILEN:
+                case VERTEILEN:
+                    break;
+                case ANGREIFFEN:
+                    if(ausgewaehltesLand != 0){
+                        displayNeighbourCountries(layeredPane, ausgewaehltesLand, Color.RED);
+                    }
+                    break;
+                case VERSCHIEBEN:
+                    if(ausgewaehltesLand != 0){
+                        displayNeighbourCountries(layeredPane, ausgewaehltesLand, Color.CYAN);
+                    }
+                    break;
+            }
 
-            displayEnemyCountries(layeredPane, ausgewaehltesLand);
+            
             
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -364,7 +364,7 @@ public class MainGame extends JFrame {
 
     }
 
-    private void displayEnemyCountries(JLayeredPane layeredPane, int ausgewaehltesLand) {
+    private void displayNeighbourCountries(JLayeredPane layeredPane, int ausgewaehltesLand, Color color) {
         try {
             // Remove all existing components from layer 2
             Component[] components = layeredPane.getComponentsInLayer(4);
@@ -372,17 +372,35 @@ public class MainGame extends JFrame {
                 layeredPane.remove(comp);
             }
             // Load images corresponding to the player's countries
-            int[] gegnerLaender = risiko.getAlleGegnerNachbars(ausgewaehltesLand);
+            int[] nachbarLaender;
+            switch(currentPhase){
+                case ANGREIFFEN:
+                    nachbarLaender = risiko.getAlleGegnerNachbarsIntArray(ausgewaehltesLand);
+                    break;
+                case VERSCHIEBEN:
+                    nachbarLaender = risiko.getAlleEigeneNachbarsIntArray(ausgewaehltesLand);
+                    break;
+                default:
+                    nachbarLaender = new int[0];
+                    break;
+            }  
+            // if(currentPh){
+            //     nachbarLaender = risiko.getAlleGegnerNachbarsIntArray(ausgewaehltesLand);
+            // }else{
+            //     nachbarLaender = risiko.getAlleEigeneNachbarsIntArray(ausgewaehltesLand);
+            // }
+            
+
             if(!risiko.istDeinLand(ausgewaehltesLand)){
 
             }else
-            if(gegnerLaender == null){
+            if(nachbarLaender == null){
                 // WENN KEINE GEGNER LAENDER
             }else{
-                for (int i = 0; i < gegnerLaender.length; i++) {
+                for (int i = 0; i < nachbarLaender.length; i++) {
                 
-                    if(gegnerLaender[i] != 0){
-                        String imagePath = String.format("risiko\\risiko\\src\\risiko\\local\\bilder\\42\\%d.png", gegnerLaender[i]);
+                    if(nachbarLaender[i] != 0){
+                        String imagePath = String.format("risiko\\risiko\\src\\risiko\\local\\bilder\\42\\%d.png", nachbarLaender[i]);
                         File imageFile = new File(imagePath);
     
                         if (!imageFile.exists()) {
@@ -394,7 +412,7 @@ public class MainGame extends JFrame {
                         BufferedImage scaledSelectedImage = scaleImage(selectedImage, scaleWidth, scaleHeight);
     
                         // Tint the image with a specific color (example: green color)
-                        Color tint = Color.BLACK;
+                        Color tint = color;
                         BufferedImage tintedImage = tintImage(scaledSelectedImage, tint);
     
                         // Create ImageIcon and JLabel for the tinted image
@@ -476,8 +494,19 @@ public class MainGame extends JFrame {
             int result;
             switch (currentPhase) {
                 case ERSTVERTEILEN:
+                    JOptionPane.showMessageDialog(null, "Du kannst nicht diese Phase überspringen solange du noch zusatzarmeen besitzt");
+                    break;
                 case VERTEILEN:
-                    JOptionPane.showMessageDialog(null, "Du kannst nicht diese Phase überspringen");
+                    if(risiko.getZusatzArmee() != 0){
+                        JOptionPane.showMessageDialog(null, "Du kannst nicht diese Phase überspringen solange du noch zusatzarmeen besitzt");
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Du wirst and die Angreifephase weitergeletet");
+                        risiko.nextPhase();
+                        updatePhase();
+                        updateTables(currentSpieler);
+                        clearHighlightedCountry(layeredPane);
+                    }
+                    
                     break;
                 case ANGREIFFEN:
                     result = JOptionPane.showConfirmDialog(null, "Hallo " + currentSpieler.getSpielerName() + "\nWillst du die Angreifephase überspringen?","Frage", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
@@ -488,32 +517,24 @@ public class MainGame extends JFrame {
                         risiko.nextPhase();
                         updatePhase();
                         updateTables(currentSpieler);
-                        
+                        clearHighlightedCountry(layeredPane);
                     }
                     break;
                 case VERSCHIEBEN:
                     result = JOptionPane.showConfirmDialog(null, "Hallo " + currentSpieler.getSpielerName() + "\nWillst du die Verschiebephase überspringen?","Frage", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                             
                     if(result == JOptionPane.YES_OPTION){
-                        risiko.nextPlayer();
+                        // risiko updated auf den naechsten spieler selbst nach der Verschiebephase.
                         risiko.nextPhase();
+                        updateCurrentPlayer();
                         updatePhase();
                         updateTables(currentSpieler);
-                        
+                        clearHighlightedCountry(layeredPane);
                     }
                     break;
                 default:
                     break;
             }
-            // if (risiko.jetzigerSpielerHatZusatzarmee()) {
-            //     JOptionPane.showMessageDialog(this, "Yeah broda next phase came to be");
-            //     risiko.nextPhase(); // change phase
-            //     currentSpieler = risiko.getJetzigerSpieler(); // update current spieler
-            //     updateTables(currentSpieler); // update tables
-            //     updatePhase(); // update phase 
-            // } else {
-            //     JOptionPane.showMessageDialog(this, "Please distribute your forces first.");
-            // }
         });
         bottomPanel.add(phaseChangeButton); // Add the phase change button to the bottom panel
 
@@ -560,7 +581,7 @@ public class MainGame extends JFrame {
                                 }
                                 if(canProceed){
                                     String input;
-                                    boolean validInput = false; // Flag to check if input is valid
+
                                         input = JOptionPane.showInputDialog(this,
                                                 "Enter the number of troops to distribute: \n You have " + currentSpieler.getZusatzArmee() + " spare Armies!",
                                                 "Distribute Troops", JOptionPane.PLAIN_MESSAGE);
@@ -579,7 +600,6 @@ public class MainGame extends JFrame {
                                             // If valid, distribute the troops
                                             risiko.verteilen(ausgewaehltesLand, armeeAnzahl);
                                             updateTables(currentSpieler);
-                                            validInput = true; // Set the flag to true to exit the loop
                                         } catch (NumberFormatException ex) {
                                             // Handle invalid input that cannot be parsed to an integer
                                             Exceptions.showErrorDialog("Invalid input. Please enter a valid number.");
@@ -615,6 +635,7 @@ public class MainGame extends JFrame {
                                             JOptionPane.INFORMATION_MESSAGE);
                                             risiko.nextPhase();
                                             updatePhase();
+                                            updateTables(currentSpieler);
                                             SwingUtilities.invokeLater(() -> actionButton.setText("Angreifen"));
                                         }
                                     // }
@@ -927,7 +948,6 @@ public class MainGame extends JFrame {
     // return bottomPanel;
     private void updatePhase() {
         currentPhase = risiko.getPhase();
-        JOptionPane.showMessageDialog(null, "Phase gewechselt auf: " + currentPhase.toString());
     }
 
     private void updateTables(Spieler currentSpieler) {
@@ -1062,7 +1082,7 @@ public class MainGame extends JFrame {
                                                                                    // SpielLogik method
         String mission = risiko.getJetzigerSpielerMission();
         int zusatzArmee = risiko.getZusatzArmee();
-        String currentphase = currentPhase.toString();
+        String currentphase = risiko.getPhase().toString();
        
         // Check if the spielerTable already has rows, if yes, update the existing row
         // data
