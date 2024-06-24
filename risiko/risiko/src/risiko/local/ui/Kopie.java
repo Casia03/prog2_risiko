@@ -22,7 +22,7 @@ import java.io.IOException;
 import risiko.local.persistance.Exceptions;
 import risiko.local.entities.Land;
 
-public class MainGame extends JFrame {
+public class Kopie extends JFrame {
     
     private JTable spielerTable;
     private DefaultTableModel spielerTableModel;
