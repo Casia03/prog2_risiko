@@ -35,9 +35,9 @@ public class CUI {
                     if (auswahlHauptmenu == 2){
                         gameloaded = true;
                     }
-                }else{
-                    auswahlHauptmenu = 1;
-                }
+            }else{
+                auswahlHauptmenu = 1;
+            }
             switch (auswahlHauptmenu) {
                 case 1:
                     String name;
@@ -121,6 +121,7 @@ public class CUI {
                                         case VERTEILEN: // Verteilen
                                             // ABFRAGE ZUR ENTHOELLUNG DER EINHEITSKARTEN
                                             risiko.addBonusArmee(); // Jetziger spieler kreigt bonus armeen je nach erobertes land anzahl
+                                            
                                             while (risiko.jetzigerSpielerHatZusatzarmee()) {
                                                 System.out.println("\n\nSpieler " + risiko.getJetzigerSpielerName() + ", es ist gerade die Verteilephase \nBitte verteile deine Zusatzarmeen.");
                                                 System.out.println("Deine Länder: ");

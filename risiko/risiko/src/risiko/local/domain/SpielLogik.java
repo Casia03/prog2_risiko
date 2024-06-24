@@ -72,7 +72,7 @@ public class SpielLogik {
                     //System.out.println("VERTEIDIGER VELOREN 1 PRINT AUS SPILLOGIK + vonlandarmee : " + nachLand.getArmee() );
 
                 }
-                if(secondHighestDefence != 0){
+                if(secondHighestDefence != 0 && secondHighestAttack != 0){
                     if(secondHighestAttack <= secondHighestDefence){ //gewinnt defender
                         // AttackArmee - 1
                         vonLand.setArmee(vonLand.getArmee() - 1);
