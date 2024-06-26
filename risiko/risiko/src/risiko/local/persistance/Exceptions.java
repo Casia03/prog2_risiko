@@ -12,7 +12,7 @@ public class Exceptions {
     // nicht genug soldaten exception fur angriff mit 1 soldat
     public Exceptions() {}
 
-        public int readInt(Scanner scanner, int min, int max) {
+        public int readInt(Scanner scanner, int min, int max) { // Read eines integer
         int value = -1;
         boolean valid = false;
         while (!valid) {
@@ -32,7 +32,7 @@ public class Exceptions {
         return value;
     }
 
-    public int readLandIndex(Scanner scanner, List<Land> validIndices) {
+    public int readLandIndex(Scanner scanner, List<Land> validIndices) { //auslessen des land index
         int value = -1;
         boolean valid = false;
         while (!valid) {
@@ -53,7 +53,7 @@ public class Exceptions {
         return value;
     }
 
-    public boolean isValidLandIndex(List<Land> landList, int inputIndex) {
+    public boolean isValidLandIndex(List<Land> landList, int inputIndex) { //prüfen ob land index gültig
     for (Land land : landList) {
         if (land.getTrueIndex() == inputIndex) {
             return true;
@@ -62,11 +62,11 @@ public class Exceptions {
     return false;
     }
 
-    public String getErrorMessage(String message) {
+    public String getErrorMessage(String message) { // Fehlermeldung ausgeben
         return message;
     }
 
-    public int readInt(String input, int min, int max) throws NumberFormatException {
+    public int readInt(String input, int min, int max) throws NumberFormatException { // auslesen des land index
         int value = Integer.parseInt(input);
         if (value < min || value > max) {
             throw new IllegalArgumentException("Please enter a valid number between " + min + " and " + max + ".");
@@ -74,7 +74,7 @@ public class Exceptions {
         return value;
     }
 
-    public int readLandIndexNoScanner(String input, List<Land> validIndices) throws NumberFormatException {
+    public int readLandIndexNoScanner(String input, List<Land> validIndices) throws NumberFormatException { // auslesen des land index ohne scanner
         int value = Integer.parseInt(input);
         if (!isValidLandIndex(validIndices, value)) {
             throw new IllegalArgumentException("Please enter a valid index of a land.");
@@ -82,12 +82,12 @@ public class Exceptions {
         return value;
     }
 
-    public void showErrorDialog(String message) {
+    public void showErrorDialog(String message) { // Fehlermeldung anzeigen
         JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
     
     }
 
-    public void readIntAngreifen(String input, int i, int armee) {
+    public void readIntAngreifen(String input, int i, int armee) { //prüfen ob angreifen gültig
         int value = Integer.parseInt(input);
         if (value < i || value > armee) {
             if (armee == 2){

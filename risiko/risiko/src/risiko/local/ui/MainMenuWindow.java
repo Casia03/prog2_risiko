@@ -16,7 +16,7 @@ public class MainMenuWindow extends JFrame {
 
     private boolean playerInitializationComplete;
     
-    public MainMenuWindow() {
+    public MainMenuWindow() { 
         setTitle("Main Menu");
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -59,7 +59,7 @@ public class MainMenuWindow extends JFrame {
         setVisible(true);
     }
 
-    private void customizeButton(JButton button) {
+    private void customizeButton(JButton button) { // bersonalizirung des buttons
         button.setBackground(new Color(44, 62, 80));
         button.setForeground(Color.WHITE);
         button.setFont(new Font("Arial", Font.PLAIN, 18));
@@ -79,22 +79,22 @@ public class MainMenuWindow extends JFrame {
         });
     }
 
-    private void startPlayerInitialization() {
+    private void startPlayerInitialization() { // code für das starten der Spielerinitialisierung
         // Code to handle starting player initialization
         PlayerInitializationWindow playerInitWindow = new PlayerInitializationWindow();
         setVisible(false); // Hide the MainMenuWindow while player initialization is ongoing
     }
 
-    public void playerInitializationComplete() {
+    public void playerInitializationComplete() { // completirung der Spielerinitialisierung
         playerInitializationComplete = true;
         setVisible(false); // Hide the MainMenuWindow after player initialization is complete
     }
 
-    public boolean isPlayerInitializationComplete() {
+    public boolean isPlayerInitializationComplete() { // prüfen ob die Spielerinitialisierung abgeschlossen ist
         return playerInitializationComplete;
     }
 
-    private void loadGame() {
+    private void loadGame() { // code für das laden eines Spiels
         // Create a new Risiko object
         Risiko risiko = new Risiko();
     
@@ -109,7 +109,7 @@ public class MainMenuWindow extends JFrame {
         startMainGame(emptyList, risiko, true);
     }
     
-    private void startMainGame(List<String> playerNames, Risiko risiko, boolean isLoaded) {
+    private void startMainGame(List<String> playerNames, Risiko risiko, boolean isLoaded) { // code für das starten des Hauptspiels
         // Instantiate the MainGame class with the provided parameters
         MainGame mainGame = new MainGame(playerNames, risiko, isLoaded);
     
@@ -118,7 +118,7 @@ public class MainMenuWindow extends JFrame {
     }
     
 
-    public static void main(String[] args) {
+    public static void main(String[] args) { // das ist die main-Methode
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {

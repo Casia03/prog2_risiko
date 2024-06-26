@@ -18,14 +18,14 @@ public class Spieler implements Serializable {
         this.einheitsKarten = einheitsKarten;
     }
     
-    public void setSpielerID(int spielerId){
+    public void setSpielerID(int spielerId){ // SpielerID setzen
         this.spielerId = spielerId;
     }
-    public int getSpielerID(){
+    public int getSpielerID(){ // SpielerID abfragen
         return spielerId;
     }
 
-    public void addEinheitskarte(int karte){
+    public void addEinheitskarte(int karte){ // Einheitenkarte hinzufuegen
         if (karte == 1){ // Infanterie karte addieren
             einheitsKarten[0] += 1;
         }
@@ -37,33 +37,33 @@ public class Spieler implements Serializable {
         }
     }
     
-    public void setSpielerName(String spielerName){
+    public void setSpielerName(String spielerName){ // Spielername setzen
         this.spielerName = spielerName;
     }
-    public String getSpielerName(){
+    public String getSpielerName(){ // Spielername abfragen
         return spielerName;
     }
     
-    public void setZusatzArmee(int zusatzArmee){
+    public void setZusatzArmee(int zusatzArmee){ // Zusatzarmee setzen
         this.zusatzArmee = zusatzArmee;
     }
-    public int getZusatzArmee(){
+    public int getZusatzArmee(){ // Zusatzarmee abfragen
         return zusatzArmee;
     }
 
-    public void setMissionId(int missionId){
+    public void setMissionId(int missionId){ // MissionId setzen
         this.missionId = missionId;
     }
-    public int getMissionId(){
+    public int getMissionId(){ // MissionId abfragen
         return missionId;
     }
     
-    public void addZusatzarmee(int zusatzArmee){
+    public void addZusatzarmee(int zusatzArmee){ // Zusatzarmee hinzufuegen
         this.zusatzArmee += zusatzArmee;
     }
 
     @Override
-    public String toString(){
+    public String toString(){ // toString Methode
         return 
             "Spieler-Name= " + spielerName + '\'';
     }

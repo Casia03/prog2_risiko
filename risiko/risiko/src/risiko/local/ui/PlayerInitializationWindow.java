@@ -76,7 +76,7 @@ public class PlayerInitializationWindow extends JFrame {
         continueButton.setForeground(Color.WHITE); // Set button text color
         continueButton.setFont(new Font("Arial", Font.PLAIN, 18)); // Set button font
         continueButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e) { // "Continue" onclick event händler
                 if (playerNames.size() < 2) {
                     //JOptionPane.showMessageDialog(PlayerInitializationWindow.this, "Please add at least two players.");
                     Exceptions.showErrorDialog("du musst mindestens 2 spieler hinzufügen");
@@ -113,7 +113,7 @@ public class PlayerInitializationWindow extends JFrame {
         setVisible(true);
     }
 
-    private List<String> readPlayerNamesFromTable() {
+    private List<String> readPlayerNamesFromTable() { // liest die spielernamen aus der JTable
         playerNames.clear(); // Clear the list before adding player names from the table
         int rowCount = tableModel.getRowCount();
         for (int i = 0; i < rowCount; i++) {
@@ -137,7 +137,7 @@ public class PlayerInitializationWindow extends JFrame {
         });
     }
 
-    private class ButtonRenderer extends JButton implements TableCellRenderer {
+    private class ButtonRenderer extends JButton implements TableCellRenderer { //
         public ButtonRenderer() {
             setOpaque(true);
             setBorderPainted(false);
