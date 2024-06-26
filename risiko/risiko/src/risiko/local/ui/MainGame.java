@@ -87,18 +87,15 @@ public class MainGame extends JFrame {
             updateTables(currentSpieler);
             displayPlayerCountries(layeredPane);
         }
-<<<<<<< Updated upstream
         
-=======
-        // 15112512
-        // penis
+        
+        
         risiko.newGame(risiko);
         currentPhase = risiko.getPhase();
 
         spielerListe = risiko.getSpielerListe();
 
         initializeGUI(spielerListe);
->>>>>>> Stashed changes
     }
 
     private void initializeGUI(List<Spieler> spielerListe) {
@@ -115,18 +112,10 @@ public class MainGame extends JFrame {
         JMenuItem saveMenuItem = new JMenuItem("Save Game");
         saveMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-<<<<<<< Updated upstream
               
                 risiko.save(risiko);
                 JOptionPane.showMessageDialog(null,"Spiel gespeichert");
                 
-=======
-                JFileChooser fileChooser = new JFileChooser();
-                if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
-                    File file = fileChooser.getSelectedFile();
-                    risiko.save(risiko);
-                }
->>>>>>> Stashed changes
             }
         });
 

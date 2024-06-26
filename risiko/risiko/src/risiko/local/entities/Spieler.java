@@ -1,3 +1,4 @@
+
 package risiko.local.entities;
 
 import java.io.Serializable;

@@ -14,7 +14,7 @@ public class SpielerVerwaltung {
         
     }
 
-    public void spielerHinzufuegen(String name) {
+    public void spielerHinzufuegen(String name) { // Hinzufuegen eines neuen Spielers
         try {
             for(Spieler s : spielerListe) {
                 if(s.getSpielerName().equals(name)) {
@@ -30,23 +30,23 @@ public class SpielerVerwaltung {
         }
     }
 
-    public int getAnzahlSpieler() {
+    public int getAnzahlSpieler() { // Gibt die Anzahl der Spieler zurueck
         return spielerListe.size();
     }
 
-    public Spieler returnSpieler(int spielerID) {
+    public Spieler returnSpieler(int spielerID) { // Gibt den Spieler anhand seiner ID zurueck
         return spielerListe.get(spielerID);
     }
 
-    public List<Spieler> getSpielerListe() {
+    public List<Spieler> getSpielerListe() { // Gibt die Liste der Spieler zurueck
         return new ArrayList<>(spielerListe);
     }
 
-    public Spieler getSpielerByID(int spielerID){
+    public Spieler getSpielerByID(int spielerID){ // Gibt den Spieler anhand seiner ID zurueck
         return spielerListe.get(spielerID);
     }
 
-    public void loadSpieler(List<Spieler> loadedSpieler) {
+    public void loadSpieler(List<Spieler> loadedSpieler) { // Laden einer gespeicherten Spielerliste
         for(int i = 0; i < loadedSpieler.size(); i++){
             spielerListe.add(loadedSpieler.get(i));
         }

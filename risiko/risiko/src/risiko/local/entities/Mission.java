@@ -16,7 +16,7 @@ public class Mission {
 	private List<Land> southAmericaTerritories = new ArrayList<Land>();
 	private List<Land> northAmericaTerritories = new ArrayList<Land>();
 
-    public enum MissionType {
+    public enum MissionType { //fügt missionen hinzu
         CONQUER_NORTH_AMERICA_AFRICA,
         CONQUER_NORTH_AMERICA_AUSTRALIA,
         CONQUER_24_COUNTRIES,
@@ -26,13 +26,13 @@ public class Mission {
         CONQUER_AFRICA_ASIA,
     }
 
-	public enum EinheitsKarten{
+	public enum EinheitsKarten{ //fügt Einheitskarten hinzu
 		INFANTERIE,
 		KAVALLERIE,
 		ARTILLERIE
 	}
 
-	public Mission(Kontinent kontinente){
+	public Mission(Kontinent kontinente){ //erstellt eine Mission
 		africaTerritories = kontinente.returnAfrica();
 		asiaTerritories = kontinente.returnAsia();
 		australiaTerritories = kontinente.returnAustralia();
@@ -49,16 +49,16 @@ public class Mission {
 		beschreibung[6] = "CONQUER_AFRICA_ASIA";
 	}
 
-	public int generiereRandomEinheitskarte(){
+	public int generiereRandomEinheitskarte(){ //generiert eine zufällige Einheitskarte
 		int karte = (int)(Math.random() * 3);
 		return karte;
 	}
 
-	public void anzahlEnthoellteKartenErhoehen(){
+	public void anzahlEnthoellteKartenErhoehen(){ //erhöht die Anzahl von enthollten Karten
 		enthoelltekarten++;
 	}
 
-	public int anzahlVonEinheitenNachEnthoellen(){
+	public int anzahlVonEinheitenNachEnthoellen(){ //zählt die Einheiten nach Enthoellen
 		if(enthoelltekarten < 5){
 			anzahlDerZusatzarmeen += 2;
 			anzahlEnthoellteKartenErhoehen();
@@ -72,40 +72,40 @@ public class Mission {
 		return anzahlDerZusatzarmeen;
 	}
     
-	public String getMissionBeschreibung(int mission){
+	public String getMissionBeschreibung(int mission){ //gibt die Beschreibung einer Mission zurück
         return beschreibung[mission];
     }
 	
 	// Methods for checking player's conquests and conditions
-	public boolean hasConqueredAfrica(List<Land> playerTerritories) {
+	public boolean hasConqueredAfrica(List<Land> playerTerritories) { //schaut ob der spieler africa erobert hat
 		return playerTerritories.containsAll(africaTerritories);
 	}
 
-	public boolean hasConqueredAsia(List<Land> playerTerritories) {
+	public boolean hasConqueredAsia(List<Land> playerTerritories) { //schaut ob der spieler asia erobert hat
 		return playerTerritories.containsAll(asiaTerritories);
 	}
 
-	public boolean hasConqueredAustralia(List<Land> playerTerritories) {
+	public boolean hasConqueredAustralia(List<Land> playerTerritories) { //schaut ob der spieler australien erobert hat
 		return playerTerritories.containsAll(australiaTerritories);
 	}
 
-	public boolean hasConqueredEurope(List<Land> playerTerritories) {
+	public boolean hasConqueredEurope(List<Land> playerTerritories) { //schaut ob der spieler europe erobert hat
 		return playerTerritories.containsAll(europeTerritories);
 	}
 
-	public boolean hasConqueredSouthAmerica(List<Land> playerTerritories) {
+	public boolean hasConqueredSouthAmerica(List<Land> playerTerritories) { //schaut ob der spieler südamerika erobert hat
 		return playerTerritories.containsAll(southAmericaTerritories);
 	}
 
-	public boolean hasConqueredNorthAmerica(List<Land> playerTerritories) {
+	public boolean hasConqueredNorthAmerica(List<Land> playerTerritories) { //schaut ob der spieler nordamerika erobert hat
 		return playerTerritories.containsAll(northAmericaTerritories);
 	}
 
-	public boolean hasFreedAllCountries(List<Land> playerTerritories) {
+	public boolean hasFreedAllCountries(List<Land> playerTerritories) { //schaut ob der spieler alle kontinente frei gegeben hat
 		return playerTerritories.isEmpty();
 	}
 
-	public boolean hasConquered18CountriesWithMinArmies(List<Land> playerTerritories) {
+	public boolean hasConquered18CountriesWithMinArmies(List<Land> playerTerritories) { //schaut ob der spieler 18 kontinente mit mindestens 2
 		int i = 0;
 		for (Land land : playerTerritories) {
 			if (land.getArmee() >= 2) {
@@ -115,7 +115,7 @@ public class Mission {
 		return i >= 18;
 	}
 
-	public boolean hasConqueredThirdContinent(List<Land> playerTerritories) {
+	public boolean hasConqueredThirdContinent(List<Land> playerTerritories) { //schaut ob der spieler den dritten kontinent erobert hat
 		int africa = 0;
 		int asia = 0;
 		int australia = 0;
@@ -151,11 +151,11 @@ public class Mission {
 				|| (northAmerica == 9);
 	}
 
-	public int getConqueredTerritoryCount(List<Land> playerTerritories) {
+	public int getConqueredTerritoryCount(List<Land> playerTerritories) { //gibt die Anzahl der eroberten Territorien zurück
 		return playerTerritories.size();
 	}
 
-	public boolean hasConquered24Countries(List<Land> playerTerritories){
+	public boolean hasConquered24Countries(List<Land> playerTerritories){ //schaut ob der spieler 24 kontinente erobert hat
 		if(playerTerritories.size() >= 24){
 			return true;
 		}else{
@@ -163,7 +163,7 @@ public class Mission {
 		}
 	}
 	
-	public boolean checkIfMissionErfuelt(List<Land> spielerTerritorien, int spielerMission){
+	public boolean checkIfMissionErfuelt(List<Land> spielerTerritorien, int spielerMission){ //prüft ob die Mission erfüllt ist
 		switch(spielerMission){
 			case 1:
 

@@ -24,7 +24,7 @@ public class Land implements Serializable{
         this.colour = colour;
     }
 
-    public String getName() {
+    public String getName() { // Getters und Setters
         return name;
     }
 
@@ -64,7 +64,7 @@ public class Land implements Serializable{
     }
 
     @Override
-    public String toString() {
+    public String toString() { // Fur TextAusgabe
         return "Nr." + trueIndex + " / Name: " + name + " / Armee: " + anzahlArmeen +/* " !! EINGENOMMEN VON:  " + eingenommen +*/" \n ";
     }
 

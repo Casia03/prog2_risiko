@@ -15,7 +15,7 @@ public class AdjazenzMatrix {
     List<Land> countries;
     int[][] adjazenzmatrix = new int[n][n];
 
-    public AdjazenzMatrix(WeltVerwaltung wv) {
+    public AdjazenzMatrix(WeltVerwaltung wv) { // Constructor
         this.wv = wv;   
         countries = wv.getLaeder();
         //    adjazenzMatrix matrix = new adjazenzMatrix();
@@ -324,7 +324,7 @@ public class AdjazenzMatrix {
             return bereiteLaender.toArray(new String[0]);
         }
     
-    public String[] getAlleEigeneNachbars(int verteilungsLand, Spieler spieler) {
+    public String[] getAlleEigeneNachbars(int verteilungsLand, Spieler spieler) { // gibt eine String[] zuruck mit allen eigen nachbarn die von dem verteil Land zugreifbar sind.
         if (verteilungsLand < 0 || verteilungsLand > n) {
             throw new IllegalArgumentException("Ungültiger Länderindex");
         }
@@ -384,7 +384,7 @@ public class AdjazenzMatrix {
         return liste;
     }
 
-    public boolean sindNachbar(int angreifeLand, int verteidigerLand) {
+    public boolean sindNachbar(int angreifeLand, int verteidigerLand) { // Prüft ob zwei Länder Nachbarn sind
         if (angreifeLand < 0 || angreifeLand > n || verteidigerLand < 0 || verteidigerLand > n) {
             throw new IllegalArgumentException("Invalid country index");
         }
@@ -392,7 +392,8 @@ public class AdjazenzMatrix {
         return adjazenzmatrix[angreifeLand][verteidigerLand] == 1;
     }
 
-    public List<Land> getAlleEigeneNachbarsListe(int vonLand, Spieler spieler) {
+    public List<Land> getAlleEigeneNachbarsListe(int vonLand, Spieler spieler) { // Gibt eine List<Land> Liste zuruck mit allen eigen nachbarn
+        
         if (vonLand < 0 || vonLand > n ) {
             throw new IllegalArgumentException("Ungültiger Länderindex");
         }

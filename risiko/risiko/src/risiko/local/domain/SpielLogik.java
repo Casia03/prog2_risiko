@@ -29,7 +29,7 @@ public class SpielLogik {
         }
     }
     
-    public String angreifen(Land vonLand, Land nachLand, int attackArmeeNumber){ 
+    public String angreifen(Land vonLand, Land nachLand, int attackArmeeNumber){  // ist für das anfreifen zuständig
         StringBuilder resultatBuilder = new StringBuilder();
         //String[] resultat = new String[2];
         int defendArmeeNumber = 1;
@@ -106,7 +106,7 @@ public class SpielLogik {
         vonLand.setArmee(vonLand.getArmee() - 1);
     }
 
-    public void verschieben(Land vonLand, Land nachLand, int armee){
+    public void verschieben(Land vonLand, Land nachLand, int armee){ // Funktion zum verschieben von Armeen
         if(!adj.sindNachbar(vonLand.getTrueIndex()-1, nachLand.getTrueIndex()-1)){
             //exception nicht nachbar kanns nicht verschieben
         }
@@ -120,7 +120,7 @@ public class SpielLogik {
 
     }
 
-    public boolean landErobert(Spieler angreifer, Land nachLand) {
+    public boolean landErobert(Spieler angreifer, Land nachLand) { //Funktion zum eroben eines Landes
         if(nachLand.getArmee() == 0){
             nachLand.setEigenommen(angreifer.getSpielerID());
             return true;
@@ -129,7 +129,7 @@ public class SpielLogik {
         }
     }
 
-    private boolean defendNumberStimmt(Land nachLand, int defendArmeeNumber) {
+    private boolean defendNumberStimmt(Land nachLand, int defendArmeeNumber) { //Funktion zum pruefen ob ausgewaehlte Angriffsarmeenummer stimmt oder nicht
         int landArmee = nachLand.getArmee();
         if (landArmee < defendArmeeNumber && defendArmeeNumber > 2 || defendArmeeNumber < 1){ // wenn ausgewehlte armee groesser ist als existierende, und auserhalb der geregelte anzahl liegt, fehler
             return false; // Exception mit erklaerung des Fehlers
@@ -140,7 +140,7 @@ public class SpielLogik {
 
     }
 
-    private boolean attackNumberStimmt(Land vonLand, int attackArmeeNumber) {
+    private boolean attackNumberStimmt(Land vonLand, int attackArmeeNumber) { //Funktion zum pruefen ob ausgewaehlte Angriffsarmeenummer
         int landArmee = vonLand.getArmee();
         if (landArmee < attackArmeeNumber && attackArmeeNumber > 3 || attackArmeeNumber < 1){ // wenn ausgewehlte armee grosser ist als existierendee, und auserhalb der mit Regele festgestellten bereiches liegt, fehler
             return false; // Exception mit erklaerung des Fehlers
@@ -186,7 +186,7 @@ public class SpielLogik {
             return wurfel;
     }  
 
-    private boolean angriffMoeglich(Land vonLand, Land nachLand){ //Methode zum pruefen ob der Angreifer sein eigenes Land angreiff
+    private boolean angriffMoeglich(Land vonLand, Land nachLand){ //Methode zum pruefen ob der Angreifer sein eigenes Land angreiff moeglich
         int angreifer = vonLand.getEingenommenVon();
         int verteidiger = nachLand.getEingenommenVon();
 
@@ -202,7 +202,7 @@ public class SpielLogik {
         }  
     }
     
-    private boolean istAngreifer(Land angreiferLand, Spieler spieler){
+    private boolean istAngreifer(Land angreiferLand, Spieler spieler){ //schaut nach ober der spieler der angreifer ist
         boolean istAngreifer = false;
         if(angreiferLand.getEingenommenVon() == spieler.getSpielerID()){
             istAngreifer = true;
@@ -210,7 +210,7 @@ public class SpielLogik {
         return istAngreifer;
     }
     
-    private boolean istVerteidiger(Land verteidigerLand, Spieler spieler){
+    private boolean istVerteidiger(Land verteidigerLand, Spieler spieler){//schaut nach ober der spieler der verteidiger ist
         boolean istVerteidiger = false;
         if(verteidigerLand.getEingenommenVon() == spieler.getSpielerID()){
             istVerteidiger = true;
@@ -218,7 +218,7 @@ public class SpielLogik {
         return istVerteidiger;
     }
 
-    public int getMaxAttackNumber(int armeeAnzahl) {
+    public int getMaxAttackNumber(int armeeAnzahl) { //Methode zur Berechnung der maximalen Angriffsarmeenummer
         if(armeeAnzahl >= 4){
             return 3;
         }else if (armeeAnzahl == 3){

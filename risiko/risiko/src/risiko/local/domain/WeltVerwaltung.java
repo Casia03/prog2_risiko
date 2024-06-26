@@ -26,7 +26,7 @@ public class WeltVerwaltung {
 
     }
 
-    public void initialisiereWelt() {
+    public void initialisiereWelt() { // Einlesen der Länder aus einer Textdatei
         try {
             // Der Pfad wird an Scanner uebergeben
             Scanner s = new Scanner(new File("landtext.txt")); // C:\\Users\\Casia\\Desktop\\PROG_2\\risiko\\risiko\\
@@ -55,7 +55,7 @@ public class WeltVerwaltung {
 
     }
 
-    public void verteileLaender(List<Spieler> spieler) {
+    public void verteileLaender(List<Spieler> spieler) { // Verteilung die Laender auf die Spieler
 
         List<Land> countries = new ArrayList<>(lander);
         Collections.shuffle(countries); // Kopie Vermischen
@@ -79,25 +79,25 @@ public class WeltVerwaltung {
         }
     }
 
-    public ArrayList<Land> getLaeder() {
+    public ArrayList<Land> getLaeder() { // Gibt alle Länder zurueck
         return lander;
     }
 
-    public Land getLand(int landID) {
+    public Land getLand(int landID) { // Gibt ein Land anhand seiner ID zurueck
         return lander.get(landID - 1); 
     }
 
-    public void setNeueBesitzer(int nachLand, Spieler spieler){
+    public void setNeueBesitzer(int nachLand, Spieler spieler){ // Setzt den neuen Besitzer eines Lands
         getLand(nachLand).setEigenommen(spieler.getSpielerID());
     }
 
-    private Land getLandForForLoops(int id){
+    private Land getLandForForLoops(int id){ 
         return lander.get(id); // minus 1 weill spieler laender 1 bis 42 auswaehlen koennen und nicht 0 vis 41
         // aber in der liste hat das erste emelent (Alaska) den Index 0 nicht 1, an sich
         // hat alaska index 1 ja aber nur als objekt aber nicht als listen element
     }
 
-    public List<Land> getSpielerLaender(Spieler spieler) {
+    public List<Land> getSpielerLaender(Spieler spieler) { // Gibt alle Länder eines Spielers zurueck
         List<Land> spielerLaender = new ArrayList<Land>();
         for (int i = 0; i < lander.size(); i++) {
             if (getLandForForLoops(i).getEingenommenVon() == spieler.getSpielerID()) {
@@ -108,7 +108,7 @@ public class WeltVerwaltung {
         return spielerLaender;
     }
 
-    public String[] getSpielerLaenderAusgabe(List<Land> listeLand){
+    public String[] getSpielerLaenderAusgabe(List<Land> listeLand){ // Gibt alle Länder eines Spielers zurueck
         List<String> liste = new ArrayList<>();
         for (int i = 0; i < listeLand.size(); i++){
             String nachbarInfo = String.format("%s", listeLand.get(i));
@@ -119,7 +119,7 @@ public class WeltVerwaltung {
         return listeArray;
     }
 
-    public List<Land> getSpielerAngriffsbereiteLaender(Spieler spieler) {
+    public List<Land> getSpielerAngriffsbereiteLaender(Spieler spieler) { // Gibt alle Länder eines Spielers zurueck, auf denen es moeg
         List<Land> spielerLaender = new ArrayList<Land>();
         for (int i = 0; i < lander.size(); i++) {
             if (getLandForForLoops(i).getEingenommenVon() == spieler.getSpielerID() && getLandForForLoops(i).getArmee() > 1) {
@@ -129,7 +129,7 @@ public class WeltVerwaltung {
         return spielerLaender;
     }
 
-    public List<Land> getAngriffsmoeglichelaender(Spieler spieler, int vonLand) {
+    public List<Land> getAngriffsmoeglichelaender(Spieler spieler, int vonLand) { // Gibt alle Länder eines Spielers zurueck, auf denen es moeglich ist ein land anzugereifen
         List<Land> spielerLaender = new ArrayList<Land>();
         for (int i = 0; i < lander.size(); i++) {
             if (getLandForForLoops(i).getEingenommenVon() == spieler.getSpielerID() && getLandForForLoops(i).getArmee() > 1) {
@@ -138,7 +138,7 @@ public class WeltVerwaltung {
         }
         return spielerLaender;
     }
-    private void shuffleArray(int[] initialArray){
+    private void shuffleArray(int[] initialArray){ // Fisher-Yates shuffle algorükmus zum randomisen
         Random rnd = new Random();
         for (int i = initialArray.length - 1; i > 0; i--){
             int index = rnd.nextInt(i + 1);
@@ -148,7 +148,7 @@ public class WeltVerwaltung {
             initialArray[i] = a;
         }
     }
-    public void missionenVerteilung(List<Spieler> spielerList) {
+    public void missionenVerteilung(List<Spieler> spielerList) { // Verteilung der Missionstypen auf die Spieler
         // Create a list of mission types from the enumerator
         int[] mission = new int[7];
         for (int i = 0; i < 7; i++){
@@ -172,11 +172,11 @@ public class WeltVerwaltung {
         return getLand(landNr);
     }
 
-    public void loadLaender(List<Land> loadedLaender) {
+    public void loadLaender(List<Land> loadedLaender) { // fügt die geladenen Länder hinzu
         lander.addAll(loadedLaender);
     }
 
-    public int[] getSpielerLaenderId(Spieler spieler) {
+    public int[] getSpielerLaenderId(Spieler spieler) { // Gibt die IDs der Länder eines Spielers zurueck
         int[] listLandId = new int[42];
         for (int i = 0; i < lander.size(); i++) {
             if (getLandForForLoops(i).getEingenommenVon() == spieler.getSpielerID()) {
