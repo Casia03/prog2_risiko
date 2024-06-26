@@ -14,7 +14,7 @@ public class SaveLoadManager {
     private static final String SAVE_FILE_PATH = "risiko/risiko/src/risiko/local/saveFiles/game.dat";
     Exceptions Exceptions = new Exceptions();
 
-    public void saveGame(Risiko risiko) {
+    public void saveGame(Risiko risiko) { // speichert Spieldaten in eine Datei
         GameData gameData = new GameData(risiko.getSpielerListe(), risiko.getLaender(), risiko.getTurn(), risiko.getJetzigerSpieler().getSpielerID(), risiko.getPhase());
 
         try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(SAVE_FILE_PATH))) {
@@ -26,7 +26,7 @@ public class SaveLoadManager {
         }
     }
 
-    public Risiko loadGame(Risiko risiko) {
+    public Risiko loadGame(Risiko risiko) { // lädt Spieldaten aus einer Datei
         try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(SAVE_FILE_PATH))) {
             GameData gameData = (GameData) inputStream.readObject();
 
@@ -50,7 +50,7 @@ public class SaveLoadManager {
         }
     }
 
-    public void printSavedGame() {
+    public void printSavedGame() { // gibt gespeicherte Spieldaten aus
         try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(SAVE_FILE_PATH))) {
             GameData gameData = (GameData) inputStream.readObject();
             System.out.println("Spielerliste:");
