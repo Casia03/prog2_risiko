@@ -1,11 +1,16 @@
 package risiko.local.ui;
 
 import javax.swing.*;
+
+import risiko.local.domain.Risiko;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainMenuWindow extends JFrame {
 
@@ -90,9 +95,28 @@ public class MainMenuWindow extends JFrame {
     }
 
     private void loadGame() {
-        // Code to handle loading a saved game
-        // Implement this based on your requirements
+        // Create a new Risiko object
+        Risiko risiko = new Risiko();
+    
+        // Load game data
+        risiko.load(risiko);
+        risiko.loadGame(risiko);
+    
+        // Create an empty list of player names (adjust as needed)
+        List<String> emptyList = new ArrayList<>();
+    
+        // Start the main game with the loaded data
+        startMainGame(emptyList, risiko, true);
     }
+    
+    private void startMainGame(List<String> playerNames, Risiko risiko, boolean isLoaded) {
+        // Instantiate the MainGame class with the provided parameters
+        MainGame mainGame = new MainGame(playerNames, risiko, isLoaded);
+    
+        // Close the current window (this assumes you're in MainMenuWindow)
+        dispose();
+    }
+    
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {

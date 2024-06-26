@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
+import risiko.local.domain.Risiko;
 import risiko.local.persistance.Exceptions;
 
 import java.awt.*;
@@ -17,6 +18,7 @@ public class PlayerInitializationWindow extends JFrame {
     private List<String> playerNames;
     private JTable playerTable;
     private DefaultTableModel tableModel;
+    private boolean gameLoaded;
     Exceptions Exceptions = new Exceptions();
     public PlayerInitializationWindow() {
         playerNames = new ArrayList<>();
@@ -80,10 +82,10 @@ public class PlayerInitializationWindow extends JFrame {
                     Exceptions.showErrorDialog("du musst mindestens 2 spieler hinzufügen");
                     return;
                 }
-
+                
                 List<String> playerNamesList = readPlayerNamesFromTable();
-
-                startMainGame(playerNamesList);
+                Risiko risiko = new Risiko();
+                startMainGame(playerNamesList, risiko, false);
             }
         });
 
@@ -121,8 +123,8 @@ public class PlayerInitializationWindow extends JFrame {
         return playerNames;
     }
 
-    private void startMainGame(List<String> playerNames) {
-        MainGame mainGame = new MainGame(playerNames);
+    private void startMainGame(List<String> playerNames, Risiko risiko, boolean isLoaded) {
+        MainGame mainGame = new MainGame(playerNames, risiko, isLoaded);
         dispose(); // Close the PlayerInitializationWindow after starting the MainGame
     }
 

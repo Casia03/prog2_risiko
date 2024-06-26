@@ -28,25 +28,30 @@ public class Risiko {
     private SaveLoadManager slm;
 
     public Risiko(){
+        //Initialisierung der Verwaltungsobjekten und anderen Noetigen kramm
         weltVerwaltung = new WeltVerwaltung();
         spielerVerwaltung = new SpielerVerwaltung();
         spielLogik = new SpielLogik(weltVerwaltung);
         adj = new AdjazenzMatrix(weltVerwaltung);
         e = new Exceptions();
         slm = new SaveLoadManager();
-        //Entweder hier muss das gemacht werden oer in Start game methode. 
-        //SaveLoadGameManager = new SaveLoadGameManager();
-        
     }
 
     public void newGame(Risiko risiko){
         List<Spieler> spielerListe = getSpielerListe(); // Spielerliste furs weiterleiten an Klassen die diese benoetigen
-        weltVerwaltung.initialisiereWelt();             // laender objekte werden erstellt 
-        turn = new Turn(spielerListe.size());                  // Turn klasse wird Initialisiert, um das spielzyklus zu gestalten 
-        weltVerwaltung.verteileLaender(spielerListe);   // Laender werden an Spielern verteilt
-        weltVerwaltung.missionenVerteilung(spielerListe);   // Missionen werden verteilt
+
+        weltVerwaltung.initialisiereWelt();                     // laender objekte werden erstellt 
+
+        turn = new Turn(spielerListe.size());                   // Turn klasse wird Initialisiert, um das spielzyklus zu gestalten 
+
+        weltVerwaltung.verteileLaender(spielerListe);           // Laender werden an Spielern verteilt
+
+        weltVerwaltung.missionenVerteilung(spielerListe);       // Missionen werden verteilt
+
         kontinente = new Kontinent(weltVerwaltung.getLaeder()); //Kontinente werden Initialisiert   
+
         mission = new Mission(kontinente);                      // Missionen werde Initialisiert, um spaeter die uberpruefung des statuses jeder mission zur uberpruefen
+
     }
 
     public void loadGame(Risiko risiko){
