@@ -181,7 +181,7 @@ public class WeltVerwaltung {
         for (int i = 0; i < lander.size(); i++) {
             if (getLandForForLoops(i).getEingenommenVon() == spieler.getSpielerID()) {
                 //System.out.println(getLandForForLoops(i));
-                
+                System.out.println(i); 
                 listLandId[i] = getLandForForLoops(i).getTrueIndex();
                 // System.out.println(listLandId[i]);
             }

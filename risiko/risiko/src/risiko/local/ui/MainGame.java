@@ -88,14 +88,6 @@ public class MainGame extends JFrame {
             displayPlayerCountries(layeredPane);
         }
         
-        
-        
-        risiko.newGame(risiko);
-        currentPhase = risiko.getPhase();
-
-        spielerListe = risiko.getSpielerListe();
-
-        initializeGUI(spielerListe);
     }
 
     private void initializeGUI(List<Spieler> spielerListe) {
@@ -754,7 +746,6 @@ public class MainGame extends JFrame {
 
                     // Selektierung des Angrifflandes
                     if (isSelectingAttackingCountry && !isSelectingDefendingCountry) {
-                        JOptionPane.showMessageDialog(null, "Choose from where you'd like to attack.");
                         try { // try catch fur falsche Auswahl von Land
                             if (risiko.getLand(ausgewaehltesLand) != null && risiko.istDeinLand(ausgewaehltesLand)
                                     && risiko.getLandArmee(ausgewaehltesLand) > 1) {
