@@ -10,6 +10,7 @@ import risiko.local.entities.Spieler;
 import risiko.local.entities.Turn.Phase;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -55,6 +56,7 @@ public class MainGame extends JFrame {
     private boolean isSelectingDefendingCountry = false;
     private boolean isSelectingVerschiebeVonCountry = false;
     private boolean isSelectingVerschiebeNachCountry = false;
+    private boolean hatEinheitskarteBekommen = false;
     private int attackingCountry = 0;
     private int defendingCountry = 0;
     private int i = 0;
@@ -63,7 +65,7 @@ public class MainGame extends JFrame {
     public MainGame(List<String> spielerNameListe, Risiko risiko, boolean isLoaded) {
         this.risiko = risiko; // Use the class-level property instead of declaring a new local variable
 
-        if(!isLoaded){
+        if(!isLoaded){ // Neues Spiel Falls nicht geladen
             // Initialize spielers in the Risiko class using the spielerNames list
             for (String spielerName : spielerNameListe) {
                 risiko.spielerHinzufuegen(spielerName);
@@ -75,7 +77,7 @@ public class MainGame extends JFrame {
             spielerListe = risiko.getSpielerListe();
 
             initializeGUI(spielerListe);
-        }else{
+        }else{ // Geladenes Spiel
             currentPhase = risiko.getPhase();
 
             spielerListe = risiko.getSpielerListe();
@@ -547,6 +549,7 @@ public class MainGame extends JFrame {
                         risiko.addBonusArmee();// Addieren der Bonusarmee zu dem naechsten Spieler
                         updateTables(currentSpieler);
                         displayPlayerCountries(layeredPane);
+                        hatEinheitskarteBekommen = false;
                         
                     }
                     break;
@@ -834,6 +837,10 @@ public class MainGame extends JFrame {
                                         updateTables(currentSpieler);
                                         //Wenn Gewonnen, also wenn defendingCountry keine Armee mehr hat
                                         if (risiko.landHatKeineArmee(defendingCountry)) {
+                                            if(!hatEinheitskarteBekommen){
+                                                risiko.einheitskarteAusgabe();
+                                                hatEinheitskarteBekommen = true;
+                                            }
                                             if(risiko.getSpielerLaenderAnzahl() == 42){
                                                 // spieler hat alle laender erobert
                                             }
@@ -902,6 +909,7 @@ public class MainGame extends JFrame {
                     break;
                 case VERSCHIEBEN:
                     // risiko.save(risiko);
+                    hatEinheitskarteBekommen = false;
                     SwingUtilities.invokeLater(() -> actionButton.setText("Verschieben"));
 
                     // Wenn keine verschiebebereite Laender vorhanden sind, nächste phase + naechster Spieler
@@ -1111,16 +1119,17 @@ public class MainGame extends JFrame {
 
     private void initializeSpielerTable() {
         // Define the data for the three rows
-        String[] rowNames = { "Spieler Name", "Conquered Countries", "Mission", "Zusatzarmee", "Phase" };
+        String[] rowNames = { "Spieler Name", "Conquered Countries", "Mission", "Zusatzarmee", "Phase", "Einheitskarten" };
 
         // Create the spieler table model with the data for the three rows
-        Object[][] tableData = new Object[5][5];
-        for (int i = 0; i < 5; i++) {
+        Object[][] tableData = new Object[6][6];
+        for (int i = 0; i < 6; i++) {
             tableData[i][0] = rowNames[i];
             tableData[i][1] = ""; // Placeholder for spieler information
             tableData[i][2] = "";
             tableData[i][3] = "";
             tableData[i][4] = "";
+            tableData[i][5] = "";
         }
 
         // Create the custom table model for spielerTable
@@ -1180,6 +1189,7 @@ public class MainGame extends JFrame {
         String mission = risiko.getJetzigerSpielerMission();
         int zusatzArmee = risiko.getZusatzArmee();
         String currentphase = risiko.getPhase().toString();
+        int[] einheitsKarten = risiko.getEinheitskarten();
 
         // Check if the spielerTable already has rows, if yes, update the existing row
         // data
@@ -1189,6 +1199,7 @@ public class MainGame extends JFrame {
             spielerTableModel.setValueAt(mission, 2, 1); // Update mission
             spielerTableModel.setValueAt(zusatzArmee, 3, 1);
             spielerTableModel.setValueAt(currentphase, 4, 1);
+            spielerTableModel.setValueAt(Arrays.toString(einheitsKarten), 5, 1);
 
         } else {
             // If no rows exist, add a new row with spieler information

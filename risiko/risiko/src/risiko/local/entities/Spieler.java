@@ -36,6 +36,10 @@ public class Spieler implements Serializable {
             einheitsKarten[2] += 1;
         }
     }
+
+    public int[] getEinheitskarten (){
+        return einheitsKarten;
+    }
     
     public void setSpielerName(String spielerName){ // Spielername setzen
         this.spielerName = spielerName;

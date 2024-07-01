@@ -122,6 +122,11 @@ public class Risiko {
 
     }
 
+    public void einheitskarteAusgabe (){
+        spieler = getJetzigerSpieler();
+        int karte = mission.generiereRandomEinheitskarte();
+        spieler.addEinheitskarte(karte);
+    }
     /*       SPIELER METHODEN          */
     public int jetzigerSpielerNummer(){ // Gibt die Nummer des jetzigen spielers zuruck
         return turn.getSpieler();
@@ -457,6 +462,10 @@ public class Risiko {
             gegner[i] = laender.get(i).getTrueIndex();
         }
         return gegner;
+    }
+
+    public int[] getEinheitskarten() {
+        return getJetzigerSpieler().getEinheitskarten();
     }
 
 
