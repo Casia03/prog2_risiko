@@ -45,7 +45,7 @@ public class MainGame extends JFrame {
     private Risiko risiko;
     private List<Spieler> spielerListe = new ArrayList<>();
     private int turn;
-    private int scaleHeight = 700;
+    private int scaleHeight = 600;
     private int scaleWidth = (int) (scaleHeight * 1.7778);
     private int ausgewaehltesLand;
     private int beginningDistribution = 0;
@@ -82,6 +82,8 @@ public class MainGame extends JFrame {
             
             updateCurrentPlayer();
             updatePhase();
+
+            ausgewaehltesLand = 1;
 
             initializeGUI(spielerListe);
             updateTables(currentSpieler);

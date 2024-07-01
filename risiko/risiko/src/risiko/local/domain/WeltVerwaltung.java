@@ -3,18 +3,14 @@ package risiko.local.domain;
 import java.io.FileNotFoundException;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
 import risiko.local.persistance.Exceptions;
-import risiko.local.entities.AdjazenzMatrix;
-import risiko.local.entities.Kontinent;
 import risiko.local.entities.Land;
 import risiko.local.entities.Spieler;
-import risiko.local.entities.Mission;
 
 public class WeltVerwaltung {
     Exceptions Exceptions = new Exceptions();
@@ -181,7 +177,7 @@ public class WeltVerwaltung {
         for (int i = 0; i < lander.size(); i++) {
             if (getLandForForLoops(i).getEingenommenVon() == spieler.getSpielerID()) {
                 //System.out.println(getLandForForLoops(i));
-                System.out.println(i); 
+                // System.out.println(i); 
                 listLandId[i] = getLandForForLoops(i).getTrueIndex();
                 // System.out.println(listLandId[i]);
             }
