@@ -582,14 +582,14 @@ public class MainGame extends JFrame {
         bottomPanel.add(infoButton);
         // Show "Angreifen " button only during the "ANGREIFEN" phase
 
-        JButton actionButton = new JButton("Verteilen");
+        JButton actionButton = new JButton("Action");
         actionButton.addActionListener(e -> {
             // updatePhase();
             boolean canProceed;
             switch (currentPhase) {
                 case ERSTVERTEILEN:
                     // risiko.save(risiko);
-                    SwingUtilities.invokeLater(() -> actionButton.setText("Armee Verteilen"));
+                    // SwingUtilities.invokeLater(() -> actionButton.setText("Armee Verteilen"));
                     boolean richtigesLand = falschAusgewähltesLand();
                     canProceed = false;
                     if (ausgewaehltesLand == 0 || !richtigesLand) {
@@ -659,7 +659,7 @@ public class MainGame extends JFrame {
                                     risiko.nextPhase();
                                     updatePhase();
                                     updateTables(currentSpieler);
-                                    SwingUtilities.invokeLater(() -> actionButton.setText("Angreifen"));
+                                    // SwingUtilities.invokeLater(() -> actionButton.setText("Angreifen"));
                                 }
                                 // }
                             }
@@ -670,7 +670,7 @@ public class MainGame extends JFrame {
 
                 case VERTEILEN:
                     // risiko.save(risiko);
-                    SwingUtilities.invokeLater(() -> actionButton.setText("Armee Verteilen"));
+                    // SwingUtilities.invokeLater(() -> actionButton.setText("Armee Verteilen"));
                     updateCurrentPlayer();
                     updateTables(currentSpieler);
                     clearHighlightedCountry(layeredPane);
@@ -728,7 +728,7 @@ public class MainGame extends JFrame {
 
                 case ANGREIFFEN:
                     // risiko.save(risiko);
-                    SwingUtilities.invokeLater(() -> actionButton.setText("Angreiffen"));
+                    // SwingUtilities.invokeLater(() -> actionButton.setText("Angreiffen"));
                     updateTables(currentSpieler);
                     displayPlayerCountries(layeredPane);
 
@@ -837,8 +837,10 @@ public class MainGame extends JFrame {
                                         updateTables(currentSpieler);
                                         //Wenn Gewonnen, also wenn defendingCountry keine Armee mehr hat
                                         if (risiko.landHatKeineArmee(defendingCountry)) {
+                                            // Eine Einheitskarte an den Spieler Verteilen
                                             if(!hatEinheitskarteBekommen){
                                                 risiko.einheitskarteAusgabe();
+                                                updateTables(currentSpieler);
                                                 hatEinheitskarteBekommen = true;
                                             }
                                             if(risiko.getSpielerLaenderAnzahl() == 42){
@@ -937,7 +939,6 @@ public class MainGame extends JFrame {
 
                     //Auswahl VerschiebeVonCountry
                     if (isSelectingVerschiebeVonCountry && !isSelectingVerschiebeNachCountry) {
-                        JOptionPane.showMessageDialog(null, "Choose from where you'd like to attack.");
                         try {
                             if (risiko.getLand(ausgewaehltesLand) != null && risiko.istDeinLand(ausgewaehltesLand)
                                     && risiko.getLandArmee(ausgewaehltesLand) > 1) {
@@ -948,11 +949,11 @@ public class MainGame extends JFrame {
                                 if (result == JOptionPane.YES_OPTION) {
                                     attackingCountry = ausgewaehltesLand;
                                     isSelectingVerschiebeNachCountry = true;
-                                    JOptionPane.showMessageDialog(null, "Choose a target country to attack.");
+                                    // JOptionPane.showMessageDialog(null, "Choose a target country to attack.");
                                 }
 
                             } else {
-                                JOptionPane.showMessageDialog(null, "Please select a valid attacking country.", "Error",
+                                JOptionPane.showMessageDialog(null, "Please select a valid country.", "Error",
                                         JOptionPane.ERROR_MESSAGE);
                             }
                         } catch (Exception ex) {
@@ -989,6 +990,8 @@ public class MainGame extends JFrame {
                                         JOptionPane.showMessageDialog(null,
                                                 "Du hast Erfolgreich\n" + armeeAnzahl + " Einheiten auf das Land "
                                                         + risiko.getLandName(defendingCountry) + " rübergebracht.");
+                                        
+                                        risiko.verschieben(attackingCountry,defendingCountry,armeeAnzahl);
 
                                         isSelectingVerschiebeNachCountry = false;
                                         isSelectingVerschiebeVonCountry = false;
