@@ -242,6 +242,11 @@ public class Risiko {
         return list;
     }
 
+    public boolean hatAngreifbareNachbarn(int vonLand) {
+        Spieler spieler = getJetzigerSpieler();
+        return adj.hatAngreifbareNachbarn(vonLand, spieler);
+    }
+
     public String[] getVerschiebebereiteLaender(){ // Gibt eine liste von den eigenen Laender, die genug Armee fur eine verschiebung besitzen
         String[] bereiteLaender;
         spieler = getJetzigerSpieler();
