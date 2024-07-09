@@ -513,7 +513,9 @@ public class MainGame extends JFrame {
         bottomPanel.add(actionButton); // Add the action button to the bottom panel
 
         bottomPanel.add(new JScrollPane(landInfoTable));
-        landInfoTable.setPreferredScrollableViewportSize(new Dimension(landInfoTable.getPreferredSize().width, 70)); // Set preferred height                                                                                                             
+        landInfoTable.setPreferredScrollableViewportSize(new Dimension(landInfoTable.getPreferredSize().width, 70)); // Set
+                                                                                                                     // preferred
+                                                                                                                     // height
         return bottomPanel;
     }
 
@@ -862,7 +864,7 @@ public class MainGame extends JFrame {
                     updatePhase();
                     updateTables(currentSpieler);
                     clearHighlightedCountry(layeredPane);
-                    
+
                 }
                 break;
             case ANGREIFFEN:
@@ -877,7 +879,7 @@ public class MainGame extends JFrame {
                     updatePhase();
                     updateTables(currentSpieler);
                     clearHighlightedCountry(layeredPane);
-                    
+
                 }
                 break;
             case VERSCHIEBEN:
@@ -896,7 +898,7 @@ public class MainGame extends JFrame {
                     updateTables(currentSpieler);
                     displayPlayerCountries(layeredPane);
                     hatEinheitskarteBekommen = false;
-                    
+
                 }
                 break;
             default:
@@ -1022,36 +1024,42 @@ public class MainGame extends JFrame {
                 updateTables(currentSpieler);
                 clearHighlightedCountry(layeredPane);
                 displayPlayerCountries(layeredPane);
+                richtigesLand = falschAusgewähltesLand();
+                String input;
 
-                String input = JOptionPane.showInputDialog(this,
-                        "Enter the number of troops to distribute: \n You have "
-                                + currentSpieler.getZusatzArmee() + " spare Armies!",
-                        "Distribute Troops", JOptionPane.PLAIN_MESSAGE);
+                if (ausgewaehltesLand == 0 || !richtigesLand) {
+                    Exceptions.showErrorDialog("Du musst zuerst dein Land Auswählen");
+                } else {
 
-                // Check if the input dialog was closed or canceled
-                if (input == null || input.isEmpty()) {
-                    // Handle cancel or close window action as valid input (no action needed)
-                    break; // Exit the loop if canceled or closed window
+                    input = JOptionPane.showInputDialog(this,
+                            "Enter the number of troops to distribute: \n You have "
+                                    + currentSpieler.getZusatzArmee() + " spare Armies!",
+                            "Distribute Troops", JOptionPane.PLAIN_MESSAGE);
+
+                    // Check if the input dialog was closed or canceled
+                    if (input == null || input.isEmpty()) {
+                        // Handle cancel or close window action as valid input (no action needed)
+                        break; // Exit the loop if canceled or closed window
+                    }
+
+                    try {
+                        // Validate and parse the input as an integer
+                        int armeeAnzahl = Exceptions.readInt(input, 1, currentSpieler.getZusatzArmee());
+
+                        // If valid, distribute the troops
+                        risiko.verteilen(ausgewaehltesLand, armeeAnzahl);
+                        updateTables(currentSpieler);
+                    } catch (NumberFormatException ex) {
+                        // Handle invalid input that cannot be parsed to an integer
+                        Exceptions.showErrorDialog("Invalid input. Please enter a valid number.");
+                    } catch (IllegalArgumentException ex) {
+                        // Display error for invalid number range
+                        Exceptions.showErrorDialog("Invalid input. " + ex.getMessage());
+                    } catch (Exception ex) {
+                        // Handle any other unexpected exceptions
+                        Exceptions.showErrorDialog("An unexpected error occurred: " + ex.getMessage());
+                    }
                 }
-
-                try {
-                    // Validate and parse the input as an integer
-                    int armeeAnzahl = Exceptions.readInt(input, 1, currentSpieler.getZusatzArmee());
-
-                    // If valid, distribute the troops
-                    risiko.verteilen(ausgewaehltesLand, armeeAnzahl);
-                    updateTables(currentSpieler);
-                } catch (NumberFormatException ex) {
-                    // Handle invalid input that cannot be parsed to an integer
-                    Exceptions.showErrorDialog("Invalid input. Please enter a valid number.");
-                } catch (IllegalArgumentException ex) {
-                    // Display error for invalid number range
-                    Exceptions.showErrorDialog("Invalid input. " + ex.getMessage());
-                } catch (Exception ex) {
-                    // Handle any other unexpected exceptions
-                    Exceptions.showErrorDialog("An unexpected error occurred: " + ex.getMessage());
-                }
-
                 if (!risiko.jetzigerSpielerHatZusatzarmee()) {
                     int result = JOptionPane.showConfirmDialog(null,
                             "Du hast keine Zusatzarmee mehr. Willst auf die nächste Phase ändern?",
@@ -1101,7 +1109,8 @@ public class MainGame extends JFrame {
                 if (isSelectingAttackingCountry && !isSelectingDefendingCountry) {
                     try { // try catch fur falsche Auswahl von Land
                         if (risiko.getLand(ausgewaehltesLand) != null && risiko.istDeinLand(ausgewaehltesLand)
-                                && risiko.getLandArmee(ausgewaehltesLand) > 1 && risiko.hatAngreifbareNachbarn(ausgewaehltesLand) == true) {
+                                && risiko.getLandArmee(ausgewaehltesLand) > 1
+                                && risiko.hatAngreifbareNachbarn(ausgewaehltesLand) == true) {
 
                             int result = JOptionPane.showConfirmDialog(null, // Bestaetigung des Angiffslandes
                                     "Du Möchtest von " + risiko.getLandName(ausgewaehltesLand) + " Angreifen?",
@@ -1174,13 +1183,14 @@ public class MainGame extends JFrame {
                                                     armeeAnzahl));
 
                                     // Wiederholung der Attacke nach bedarf
-                                    while (!risiko.landHatKeineArmee(defendingCountry) || risiko.getLandArmee(attackingCountry) <= 1) {
+                                    while (!risiko.landHatKeineArmee(defendingCountry)
+                                            || risiko.getLandArmee(attackingCountry) <= 1) {
                                         result = JOptionPane.showConfirmDialog(null,
                                                 "Moechtest du nochmal Eingreifen?", "Frage",
                                                 JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                                         if (result == JOptionPane.NO_OPTION) {
                                             break;
-                                        } else { // Hier muss noch was gemacht werden damit man nicht mehr armeen auswählen kann las in getMaxAttackNumber angegeben
+                                        } else { // Hier muss noch was gemacht werden damit man nicht mehr armeen auswählen kann als in getMaxAttackNumber angegeben
                                             input = JOptionPane.showInputDialog(this,
                                                     "Enter the number of troops to attack: \n You have "
                                                             + risiko.getLandArmee(attackingCountry)
@@ -1314,7 +1324,8 @@ public class MainGame extends JFrame {
                 if (isSelectingVerschiebeVonCountry && !isSelectingVerschiebeNachCountry) {
                     try {
                         if (risiko.getLand(ausgewaehltesLand) != null && risiko.istDeinLand(ausgewaehltesLand)
-                                && risiko.getLandArmee(ausgewaehltesLand) > 1 && risiko.getAlleEigeneNachbars(ausgewaehltesLand).length != 0) {
+                                && risiko.getLandArmee(ausgewaehltesLand) > 1
+                                && risiko.getAlleEigeneNachbars(ausgewaehltesLand).length != 0) {
                             int result = JOptionPane.showConfirmDialog(null,
                                     "Du Möchtest von " + risiko.getLandName(ausgewaehltesLand) + " Verschieben?",
                                     "Frage", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
