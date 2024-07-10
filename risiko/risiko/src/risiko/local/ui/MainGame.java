@@ -1108,9 +1108,10 @@ public class MainGame extends JFrame {
                 // Selektierung des Angrifflandes
                 if (isSelectingAttackingCountry && !isSelectingDefendingCountry) {
                     try { // try catch fur falsche Auswahl von Land
+
                         if (risiko.getLand(ausgewaehltesLand) != null && risiko.istDeinLand(ausgewaehltesLand)
                                 && risiko.getLandArmee(ausgewaehltesLand) > 1
-                                && risiko.hatAngreifbareNachbarn(ausgewaehltesLand) == true) {
+                                && risiko.getAngriffGegnerLaender(ausgewaehltesLand).length != 0) {
 
                             int result = JOptionPane.showConfirmDialog(null, // Bestaetigung des Angiffslandes
                                     "Du Möchtest von " + risiko.getLandName(ausgewaehltesLand) + " Angreifen?",
@@ -1169,6 +1170,14 @@ public class MainGame extends JFrame {
                                             + risiko.getMaxAttackNumber(attackingCountry) + " Angreiffen",
                                     "Attack number", JOptionPane.PLAIN_MESSAGE);
 
+                                    if (input != null && risiko.getLandArmee(attackingCountry) - Integer.parseInt(input) < 1) {
+                                        JOptionPane.showMessageDialog(null,
+                                                "am ende des angriffes soll noch eine arme übrichbleiben",
+                                                "Invalid Input",
+                                                JOptionPane.ERROR_MESSAGE);
+                                        break;
+                                    } else {
+                                        
                             if (input != null) {
                                 // Eingabe von
                                 try {
@@ -1176,12 +1185,12 @@ public class MainGame extends JFrame {
                                             risiko.getLand(attackingCountry).getArmee()); // Eingabe prüffen
 
                                     int armeeAnzahl = Integer.parseInt(input);
-
+                                
                                     // Angriffsergebniss
                                     JOptionPane.showMessageDialog(null, "Attack passiert, Resultat: \n"
                                             + risiko.angreifen(attackingCountry, defendingCountry,
                                                     armeeAnzahl));
-
+                                    
                                     // Wiederholung der Attacke nach bedarf
                                     while (!risiko.landHatKeineArmee(defendingCountry)
                                             || risiko.getLandArmee(attackingCountry) <= 1) {
@@ -1190,7 +1199,8 @@ public class MainGame extends JFrame {
                                                 JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                                         if (result == JOptionPane.NO_OPTION) {
                                             break;
-                                        } else { // Hier muss noch was gemacht werden damit man nicht mehr armeen auswählen kann als in getMaxAttackNumber angegeben
+                                        } else { // Hier muss noch was gemacht werden damit man nicht mehr armeen
+                                                 // auswählen kann als in getMaxAttackNumber angegeben
                                             input = JOptionPane.showInputDialog(this,
                                                     "Enter the number of troops to attack: \n You have "
                                                             + risiko.getLandArmee(attackingCountry)
@@ -1200,12 +1210,21 @@ public class MainGame extends JFrame {
                                                     "Attack number", JOptionPane.PLAIN_MESSAGE);
                                             Exceptions.readIntAngreifen(input, 1,
                                                     risiko.getLand(attackingCountry).getArmee());
-                                            armeeAnzahl = Integer.parseInt(input);
-                                            JOptionPane.showMessageDialog(null, "Attack happened \n" + risiko
-                                                    .angreifen(attackingCountry, defendingCountry,
-                                                            armeeAnzahl));
-                                            updateTables(currentSpieler); // Update die Tabellen nach dem
-                                                                          // Angriff
+
+                                            if (input != null && risiko.getLandArmee(attackingCountry) - Integer.parseInt(input) < 1) {
+                                                JOptionPane.showMessageDialog(null,
+                                                        "am ende des angriffes soll noch eine arme übrichbleiben",
+                                                        "Invalid Input",
+                                                        JOptionPane.ERROR_MESSAGE);
+                                                break;
+                                            } else {
+                                                armeeAnzahl = Integer.parseInt(input);
+                                                JOptionPane.showMessageDialog(null, "Attack happened \n" + risiko
+                                                        .angreifen(attackingCountry, defendingCountry,
+                                                                armeeAnzahl));
+                                                updateTables(currentSpieler); // Update die Tabellen nach dem
+                                                                              // Angriff
+                                            }
                                         }
                                     }
                                     isSelectingDefendingCountry = false;
@@ -1282,7 +1301,7 @@ public class MainGame extends JFrame {
                                             "An unexpected error occurred: " + ex.getMessage());
                                 }
                             }
-
+                        }
                         } else {
 
                         }
