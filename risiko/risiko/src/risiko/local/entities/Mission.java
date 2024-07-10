@@ -164,7 +164,7 @@ public class Mission {
 	}
 	
 	public boolean checkIfMissionErfuelt(List<Land> spielerTerritorien, int spielerMission){ //prüft ob die Mission erfüllt ist
-		switch(spielerMission){
+		switch(spielerMission+1){
 			case 1:
 
 				if(hasConqueredNorthAmerica(spielerTerritorien) && hasConqueredAfrica(spielerTerritorien)){ //CONQUER_NORTH_AMERICA_AFRICA
