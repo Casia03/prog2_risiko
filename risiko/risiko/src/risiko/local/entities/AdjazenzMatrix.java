@@ -368,19 +368,6 @@ public class AdjazenzMatrix {
         return nachbarnArray;
     }
 
-    public boolean hatAngreifbareNachbarn(int angreifeLand, Spieler spieler) {
-        if (angreifeLand < 0 || angreifeLand > n) {
-            throw new IllegalArgumentException("Ungültiger Länderindex");
-        }
-    
-        for (int i = 0; i < n; i++) {
-            if (sindNachbar(angreifeLand, i) && (countries.get(i).getEingenommenVon() != spieler.getSpielerID())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public List<Land> getAlleGegnerNachbarListe(int angreifeLand, Spieler spieler){ // Gibt eine List<Land> Liste zuruck mit allen gegner nachbarn die von das angreifeland zugreifbar sind.
         if (angreifeLand < 0 || angreifeLand > n ) {
             throw new IllegalArgumentException("Ungültiger Länderindex");
