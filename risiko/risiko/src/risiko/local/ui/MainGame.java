@@ -926,9 +926,31 @@ public class MainGame extends JFrame {
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+                risiko.tauscheDreiGleicheKartenEin(1);        
             }
         });
+
+        button2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                risiko.tauscheDreiGleicheKartenEin(2);        
+            }
+        });
+
+        button3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                risiko.tauscheDreiGleicheKartenEin(3);        
+            }
+        });
+
+        button4.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                risiko.tauscheDreiGUnterschiedlicheKartenEin();       
+            }
+        });
+
         // Add the buttons to the frame
         frame.add(button1);
         frame.add(button2);
@@ -1352,7 +1374,9 @@ public class MainGame extends JFrame {
                     risiko.nextPhase();
                     updatePhase();
                     updateCurrentPlayer();
-                    einheitenkartenAustauschen();
+                    if(risiko.darfTauschen()){
+                        einheitenkartenAustauschen();
+                    }
                     risiko.addBonusArmee();// Addieren der Bonusarmee zu dem naechsten Spieler
                     updateTables(currentSpieler);
                 }

@@ -41,6 +41,28 @@ public class Spieler implements Serializable {
         return einheitsKarten;
     }
     
+    public boolean darfTauschen(int[] einheitsKarten) {
+        // Prüfen, ob mindestens drei Karten von irgendeinem Typ vorhanden sind
+        boolean mindestensDreiVonEinemTyp = false;
+        for (int karte : einheitsKarten) {
+            if (karte >= 3) {
+                mindestensDreiVonEinemTyp = true;
+                break;
+            }
+        }
+    
+        // Prüfen, ob genau drei unterschiedliche Kartentypen vorhanden sind
+        boolean dreiUnterschiedlicheTypen = true;
+        for (int karte : einheitsKarten) {
+            if (karte == 0) {
+                dreiUnterschiedlicheTypen = false;
+                break;
+            }
+        }
+    
+        return mindestensDreiVonEinemTyp || dreiUnterschiedlicheTypen;
+    }
+
     public void setSpielerName(String spielerName){ // Spielername setzen
         this.spielerName = spielerName;
     }

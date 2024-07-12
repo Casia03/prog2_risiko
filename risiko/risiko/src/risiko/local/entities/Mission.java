@@ -58,78 +58,81 @@ public class Mission {
 	}
 
 	// Austausch 3 gleicher Einheitenkarten
-	public int tauscheDreiGleicheKartenEin(List<EinheitsKarten> einheitsKartenList, int select) {
-		EinheitsKarten selectedType = null;
-		switch (select) {
-			case 1:
-				selectedType = EinheitsKarten.INFANTERIE;
-				break;
-			case 2:
-				selectedType = EinheitsKarten.KAVALLERIE;
-				break;
-			case 3:
-				selectedType = EinheitsKarten.ARTILLERIE;
-				break;
-			default:
-				return -1; // Wenn keine gültige Auswahl = ungültig
-		}
+    public int tauscheDreiGleicheKartenEin(int[] einheitsKarten, int select) {
+        EinheitsKarten selectedType = null;
+        int index = -1;
 
-		List<EinheitsKarten> AusgewaehlteKarten = new ArrayList<>();
-		for (EinheitsKarten karte : einheitsKartenList) {
-			if (karte == selectedType) {
-				selectedType.add(einheitsKartenList, karte);
-			}
-		}
+        switch (select) {
+            case 1:
+                selectedType = EinheitsKarten.INFANTERIE;
+                index = 0;
+                break;
+            case 2:
+                selectedType = EinheitsKarten.KAVALLERIE;
+                index = 1;
+                break;
+            case 3:
+                selectedType = EinheitsKarten.ARTILLERIE;
+                index = 2;
+                break;
+            default:
+                return -1; // Ungültige Auswahl
+        }
 
-		int[] einheitsKartenCount = countEinheitsKarten(AusgewaehlteKarten);
-		if (hatDreiGleicheKarten(einheitsKartenCount)) {
-			int zusatzArmee = zusatzArmeenBerechnen();
-			entferneDreiGleicheKarten(einheitsKartenList, selectedType, 3);
-			eingetauschteKarten++;
-			return zusatzArmee;
-		} else {
-			return -1; // Wenn bedingung nicht erfüllt = ungültig
-		}
-	}
+        if (index != -1 && einheitsKarten[index] >= 3) {
+            int zusatzArmee = zusatzArmeenBerechnen();
+            einheitsKarten[index] -= 3;
+            eingetauschteKarten++;
+            return zusatzArmee;
+        } else {
+            return -1; // Nicht genügend Karten zum Eintauschen
+        }
+    }
 
-	// Austausch 3 unterschiedliche Einheitenkarten
-	public int tauscheDreiGUnterschiedlicheKartenEin(List<EinheitsKarten> einheitsKartenList) {
-		int[] einheitsKartenCount = countEinheitsKarten(einheitsKartenList);
-		if (hatDreiUnterschielicheKarten(einheitsKartenCount)) {
-			int zusatzArmee = zusatzArmeenBerechnen();
-			entferneDreiUnterschiedlicheKarten(einheitsKartenList);
-			eingetauschteKarten++;
-			return zusatzArmee;
-		} else {
-			return -1; // Wenn bedingung nicht erfüllt = ungültig
-		}
-	}
+    // Austausch 3 unterschiedliche Einheitenkarten
+    public int tauscheDreiGUnterschiedlicheKartenEin(int[] einheitsKarten) {
+        if (hatDreiUnterschiedlicheKarten(einheitsKarten)) {
+            int zusatzArmee = zusatzArmeenBerechnen();
+            entferneDreiUnterschiedlicheKarten(einheitsKarten);
+            eingetauschteKarten++;
+            return zusatzArmee;
+        } else {
+            return -1; // Wenn Bedingung nicht erfüllt = ungültig
+        }
+    }
 
-	private boolean hatDreiGleicheKarten(int[] einheitsKarten) {
-		return einheitsKarten[0] >= 3 || einheitsKarten[1] >= 3 || einheitsKarten[2] >= 3;
-	}
+    private boolean hatDreiUnterschiedlicheKarten(int[] einheitsKarten) {
+        List<Integer> vorhandeneKarten = new ArrayList<>();
+        for (int karte : einheitsKarten) {
+            if (karte > 0 && !vorhandeneKarten.contains(karte)) {
+                vorhandeneKarten.add(karte);
+            }
+        }
+        return vorhandeneKarten.size() == 3;
+    }
 
-	private boolean hatDreiUnterschielicheKarten(int[] einheitsKartenCount) {
-		return einheitsKartenCount[0] > 0 && einheitsKartenCount[1] > 0 && einheitsKartenCount[2] > 0;
-	}
-
-	private int[] countEinheitsKarten(List<EinheitsKarten> einheitsKartenList) {
-		int[] count = new int[3]; // INFANTERIE, KAVALLERIE, ARTILLERIE
-		for (EinheitsKarten karte : einheitsKartenList) {
-			switch (karte) {
-				case INFANTERIE:
-					count[0]++;
-					break;
-				case KAVALLERIE:
-					count[1]++;
-					break;
-				case ARTILLERIE:
-					count[2]++;
-					break;
-			}
-		}
-		return count;
-	}
+	private void entferneDreiUnterschiedlicheKarten(int[] einheitsKarten) {
+        List<Integer> entfernteIndizes = new ArrayList<>();
+        List<Integer> vorhandeneKarten = new ArrayList<>();
+        for (int i = 0; i < einheitsKarten.length; i++) {
+            int karte = einheitsKarten[i];
+            if (karte > 0 && !vorhandeneKarten.contains(karte)) {
+                vorhandeneKarten.add(karte);
+            }
+            if (vorhandeneKarten.size() == 3) {
+                break;
+            }
+        }
+        for (int karte : vorhandeneKarten) {
+            for (int i = 0; i < einheitsKarten.length; i++) {
+                if (einheitsKarten[i] == karte) {
+                    einheitsKarten[i] = 0;
+                    entfernteIndizes.add(i);
+                    break;
+                }
+            }
+        }
+    }
 
 	private int zusatzArmeenBerechnen() { // zählt die Einheiten nach Enthoellen
 		if (eingetauschteKarten == 0) {
@@ -143,31 +146,6 @@ public class Mission {
 		} else {
 			return 15 + (eingetauschteKarten - 3) * 5;
 		}
-	}
-
-	private void entferneDreiGleicheKarten(List<EinheitsKarten> einheitsKartenList, EinheitsKarten type,
-			int initialCount) {
-		int[] countToRemove = { initialCount };
-		einheitsKartenList.removeIf(karte -> {
-			if (karte == type && countToRemove[0] > 0) {
-				countToRemove[0]--;
-				return true;
-			}
-			return false;
-		});
-	}
-
-	private void entferneDreiUnterschiedlicheKarten(List<EinheitsKarten> einheitsKartenList) {
-		einheitsKartenList.removeIf(karte -> {
-			switch (karte) {
-				case INFANTERIE:
-				case KAVALLERIE:
-				case ARTILLERIE:
-					return true;
-				default:
-					return false;
-			}
-		});
 	}
 
 	public String getMissionBeschreibung(int mission) { // gibt die Beschreibung einer Mission zurück

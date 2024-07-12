@@ -9,6 +9,7 @@ import risiko.local.entities.AdjazenzMatrix;
 import risiko.local.entities.Kontinent;
 import risiko.local.entities.Land;
 import risiko.local.entities.Mission;
+import risiko.local.entities.Mission.EinheitsKarten;
 import risiko.local.entities.Spieler;
 import risiko.local.persistance.SaveLoadManager;
 import risiko.local.persistance.Exceptions;
@@ -468,10 +469,22 @@ public class Risiko {
         return getJetzigerSpieler().getEinheitskarten();
     }
 
-/*     public int tauscheDreiGleicheKartenEin(int select) {
+    public void tauscheDreiGleicheKartenEin(int select) {
         spieler = getJetzigerSpieler();
         int[] einheitsKarten = spieler.getEinheitskarten();
-        return mission.tauscheDreiGleicheKartenEin(einheitsKarten, select);
+        spieler.addZusatzarmee(mission.tauscheDreiGleicheKartenEin(einheitsKarten, select));
     }
-*/
+
+    public void tauscheDreiGUnterschiedlicheKartenEin() {
+        spieler = getJetzigerSpieler();
+        int[] einheitsKarten = spieler.getEinheitskarten();
+        spieler.addZusatzarmee(mission.tauscheDreiGUnterschiedlicheKartenEin(einheitsKarten));
+    }
+
+    public boolean darfTauschen(){
+        spieler = getJetzigerSpieler();
+        int[] einheitsKarten = spieler.getEinheitskarten();
+        return spieler.darfTauschen(einheitsKarten);
+
+    }
 }
