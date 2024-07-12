@@ -908,39 +908,42 @@ public class MainGame extends JFrame {
 
     // Methode für Info Button um die richtige Info für die richtige Phase
     // auszugeben?
+
+    private void einheitenkartenAustauschen() {
+        // Create a new JFrame
+        JFrame frame = new JFrame("einheiten karten verteilen");
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setSize(600, 200);
+        frame.setLayout(new GridLayout(1, 5)); // 5 buttons in a single row
+
+        // Create 5 JButtons
+        JButton button1 = new JButton("3 INFANTERIE");
+        JButton button2 = new JButton("3 KAVALLERIE");
+        JButton button3 = new JButton("3 ARTILLERIE");
+        JButton button4 = new JButton("3 unterschidliche");
+
+        // Add action listeners to the buttons
+        button1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+            }
+        });
+        // Add the buttons to the frame
+        frame.add(button1);
+        frame.add(button2);
+        frame.add(button3);
+        frame.add(button4);
+
+        // Display the frame
+        frame.setVisible(true);
+    }
+
     private void showPhaseInformation() {
         currentPhase = risiko.getPhase();
         switch (currentPhase) {
             case ERSTVERTEILEN:
-                 // Create a new JFrame
-            JFrame frame = new JFrame("einheiten karten verteilen");
-            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            frame.setSize(600, 200);
-            frame.setLayout(new GridLayout(1, 5)); // 5 buttons in a single row
-
-            // Create 5 JButtons
-            JButton button1 = new JButton("3 INFANTERIE");
-            JButton button2 = new JButton("3 KAVALLERIE");
-            JButton button3 = new JButton("3 ARTILLERIE");
-            JButton button4 = new JButton("3 unterschidliche");
-
-            // Add action listeners to the buttons
-            button1.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    // Handle button 1 click action
-                    // Code to select a country
-                }
-            });
-            // Add the buttons to the frame
-            frame.add(button1);
-            frame.add(button2);
-            frame.add(button3);
-            frame.add(button4);
-
-            // Display the frame
-            frame.setVisible(true);
-            break; 
+                break;
             case VERTEILEN:
                 JOptionPane.showMessageDialog(null,
                         "In der Verteilphase musst du durch Klicken ein deiner Länder auswählen.\n"
@@ -1349,6 +1352,7 @@ public class MainGame extends JFrame {
                     risiko.nextPhase();
                     updatePhase();
                     updateCurrentPlayer();
+                    einheitenkartenAustauschen();
                     risiko.addBonusArmee();// Addieren der Bonusarmee zu dem naechsten Spieler
                     updateTables(currentSpieler);
                 }

@@ -468,5 +468,10 @@ public class Risiko {
         return getJetzigerSpieler().getEinheitskarten();
     }
 
-
+/*     public int tauscheDreiGleicheKartenEin(int select) {
+        spieler = getJetzigerSpieler();
+        int[] einheitsKarten = spieler.getEinheitskarten();
+        return mission.tauscheDreiGleicheKartenEin(einheitsKarten, select);
+    }
+*/
 }
