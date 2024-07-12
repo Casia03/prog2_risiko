@@ -58,36 +58,32 @@ public class Mission {
 	}
 
 	// Austausch 3 gleicher Einheitenkarten
-    public int tauscheDreiGleicheKartenEin(int[] einheitsKarten, int select) {
-        EinheitsKarten selectedType = null;
-        int index = -1;
-
-        switch (select) {
-            case 1:
-                selectedType = EinheitsKarten.INFANTERIE;
-                index = 0;
-                break;
-            case 2:
-                selectedType = EinheitsKarten.KAVALLERIE;
-                index = 1;
-                break;
-            case 3:
-                selectedType = EinheitsKarten.ARTILLERIE;
-                index = 2;
-                break;
-            default:
-                return -1; // Ungültige Auswahl
-        }
-
-        if (index != -1 && einheitsKarten[index] >= 3) {
-            int zusatzArmee = zusatzArmeenBerechnen();
-            einheitsKarten[index] -= 3;
-            eingetauschteKarten++;
-            return zusatzArmee;
-        } else {
-            return -1; // Nicht genügend Karten zum Eintauschen
-        }
-    }
+	public int tauscheDreiGleicheKartenEin(int[] einheitsKarten, int select) {
+		int index = -1;
+	
+		switch (select) {
+			case 1:
+				index = 0;
+				break;
+			case 2:
+				index = 1;
+				break;
+			case 3:
+				index = 2;
+				break;
+			default:
+				return -1; // Ungültige Auswahl
+		}
+	
+		if (index != -1 && einheitsKarten[index] >= 3) {
+			int zusatzArmee = zusatzArmeenBerechnen();
+			einheitsKarten[index] -= 3;
+			eingetauschteKarten++;
+			return zusatzArmee;
+		} else {
+			return -1; // Nicht genügend Karten zum Eintauschen
+		}
+	}
 
     // Austausch 3 unterschiedliche Einheitenkarten
     public int tauscheDreiGUnterschiedlicheKartenEin(int[] einheitsKarten) {
@@ -144,8 +140,16 @@ public class Mission {
 		} else if (eingetauschteKarten == 3) {
 			return 10;
 		} else {
-			return 15 + (eingetauschteKarten - 3) * 5;
+			return 10 + (eingetauschteKarten - 3) * 5;
 		}
+	}
+
+	public void loadEingetauschteKarten(int eK) {
+		eingetauschteKarten = eK;
+	}
+
+	public int getEingetauschteKarten(){
+		return eingetauschteKarten;
 	}
 
 	public String getMissionBeschreibung(int mission) { // gibt die Beschreibung einer Mission zurück

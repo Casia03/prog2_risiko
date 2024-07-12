@@ -15,7 +15,7 @@ public class SaveLoadManager {
     Exceptions Exceptions = new Exceptions();
 
     public void saveGame(Risiko risiko) { // speichert Spieldaten in eine Datei
-        GameData gameData = new GameData(risiko.getSpielerListe(), risiko.getLaender(), risiko.getTurn(), risiko.getJetzigerSpieler().getSpielerID(), risiko.getPhase());
+        GameData gameData = new GameData(risiko.getSpielerListe(), risiko.getLaender(), risiko.getTurn(), risiko.getJetzigerSpieler().getSpielerID(), risiko.getPhase(), risiko.getEingetauschteKarten());
 
         try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(SAVE_FILE_PATH))) {
             outputStream.writeObject(gameData);
@@ -34,11 +34,12 @@ public class SaveLoadManager {
             risiko.loadSpielerListe(gameData.getSpielerListe());
             risiko.loadLaender(gameData.getLandList());
 
-            risiko.laodInitializeTurn(risiko.getSpielerListe().size());
+            risiko.loadInitializeTurn(risiko.getSpielerListe().size());
             
             risiko.loadTurn(gameData.getTurn());
             risiko.loadJetzigerSpieler(gameData.getSpielerId());
             risiko.loadPhase(gameData.getPhase());
+            risiko.loadEingetauschteKarten(gameData.getEingetauschteKarten());
 
             // System.out.println("Game loaded successfully.");
             return risiko;
@@ -53,7 +54,7 @@ public class SaveLoadManager {
     public void printSavedGame() { // gibt gespeicherte Spieldaten aus
         try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(SAVE_FILE_PATH))) {
             GameData gameData = (GameData) inputStream.readObject();
-            System.out.println("Spielerliste:");
+/*            System.out.println("Spielerliste:");
             for (Spieler spieler : gameData.getSpielerListe()) {
                 System.out.println(spieler);
             }
@@ -67,7 +68,10 @@ public class SaveLoadManager {
             System.out.println(gameData.getTurn());
 
             System.out.println("Phase:");
-            System.out.println(gameData.getPhase());
+            System.out.println(gameData.getPhase());*/ 
+
+            System.out.println("Eingetauschte Einheitenkarten:");
+            System.out.println(gameData.getEingetauschteKarten());
 
         } catch (IOException | ClassNotFoundException e) {
             System.err.println("Die gespeicherten Spieldaten konnten nicht geladen werden: " + e);

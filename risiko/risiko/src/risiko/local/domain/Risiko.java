@@ -71,6 +71,10 @@ public class Risiko {
         return turn.getPhase();
     } 
    
+    public int getEingetauschteKarten(){
+        return mission.getEingetauschteKarten();
+    }
+
     public void nextPhase(){ // aendert die Phase auf die naechste, wobei nach der Verschiebephase noch der Jetziger Spieler geaendert wird
         turn.nextPhase();
     }
@@ -412,6 +416,7 @@ public class Risiko {
 
     public void save(Risiko risiko){ // Speichert das Spiel
         slm.saveGame(risiko);
+        slm.printSavedGame();
     }
 
     public void printSavedGame(){ // anzeigen was gespeichert wurde
@@ -441,9 +446,13 @@ public class Risiko {
         turn.loadSpieler(spielerId);
     }
 
-    public void laodInitializeTurn(int spielerListe) { // gespeicherte 
+    public void loadInitializeTurn(int spielerListe) { // gespeicherte 
         turn = new Turn(spielerListe);
     }
+
+    public void loadEingetauschteKarten(int eingetauschteKarten) {
+        mission.loadEingetauschteKarten(eingetauschteKarten);
+    } 
 
     public int[] getAlleGegnerLaenderIntArray() { // Gibt ein Array der gegnerischen Landes zurueck
         spieler = getJetzigerSpieler();

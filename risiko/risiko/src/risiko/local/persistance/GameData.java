@@ -14,13 +14,15 @@ public class GameData implements Serializable {
     private int turn;
     private int spielerId;
     private Phase phase;
+    private int eingetauschteKarten;
 
-    public GameData(List<Spieler> spielerListe, List<Land> landList, int turn, int spielerId, Phase phase) { // constructor
+    public GameData(List<Spieler> spielerListe, List<Land> landList, int turn, int spielerId, Phase phase, int eingetauschteKarten) { // constructor
         this.spielerListe = spielerListe;
         this.landList = landList;
         this.turn = turn;
         this.spielerId = spielerId;
         this.phase = phase;
+        this.eingetauschteKarten = eingetauschteKarten;
     }
 
     public List<Spieler> getSpielerListe() { // getter for spielerListe
@@ -42,4 +44,8 @@ public class GameData implements Serializable {
     public Phase getPhase() { // getter für phase
         return phase;
     }
+
+    public int getEingetauschteKarten(){
+		return eingetauschteKarten;
+	}
 }

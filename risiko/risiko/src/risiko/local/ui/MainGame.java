@@ -852,14 +852,20 @@ public class MainGame extends JFrame {
         switch (currentPhase) {
             case ERSTVERTEILEN:
                 JOptionPane.showMessageDialog(null,
-                        "Du kannst nicht diese Phase überspringen solange du noch zusatzarmeen besitzt");
+                        "Du kannst nicht diese Phase überspringen solange du noch zusatzarmeen besitzt",
+                        "Error", JOptionPane.ERROR_MESSAGE);
                 break;
             case VERTEILEN:
+                hatEinheitskarteBekommen = false;
                 if (risiko.getZusatzArmee() != 0) {
                     JOptionPane.showMessageDialog(null,
-                            "Du kannst nicht diese Phase überspringen solange du noch zusatzarmeen besitzt");
+                            "Du kannst nicht diese Phase überspringen solange du noch zusatzarmeen besitzt",
+                            "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
-                    JOptionPane.showMessageDialog(null, "Du wirst an die Angreifephase weitergeleitet");
+                    JOptionPane.showMessageDialog(null,
+                            "Du wirst an die Angreifephase weitergeleitet",
+                            "Info", JOptionPane.INFORMATION_MESSAGE);
+
                     risiko.nextPhase();
                     updatePhase();
                     updateTables(currentSpieler);
@@ -883,6 +889,7 @@ public class MainGame extends JFrame {
                 }
                 break;
             case VERSCHIEBEN:
+                hatEinheitskarteBekommen = false;
                 result = JOptionPane.showConfirmDialog(null,
                         "Hallo " + currentSpieler.getSpielerName()
                                 + "\nWillst du die Verschiebephase überspringen?",
@@ -894,10 +901,12 @@ public class MainGame extends JFrame {
                     risiko.nextPhase();
                     updateCurrentPlayer();
                     updatePhase();
+                    // if (risiko.darfTauschen()) {
+                    einheitenkartenAustauschen();
+                    // }
                     risiko.addBonusArmee(); // Addieren der Bonusarmee zu dem naechsten Spieler
                     updateTables(currentSpieler);
                     displayPlayerCountries(layeredPane);
-                    hatEinheitskarteBekommen = false;
 
                 }
                 break;
@@ -910,13 +919,12 @@ public class MainGame extends JFrame {
     // auszugeben?
 
     private void einheitenkartenAustauschen() {
-        // Create a new JFrame
-        JFrame frame = new JFrame("einheiten karten verteilen");
+
+        JFrame frame = new JFrame("Einheitenkarten Tauschen");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setSize(600, 200);
-        frame.setLayout(new GridLayout(1, 5)); // 5 buttons in a single row
+        frame.setLayout(new GridLayout(1, 5));
 
-        // Create 5 JButtons
         JButton button1 = new JButton("3 INFANTERIE");
         JButton button2 = new JButton("3 KAVALLERIE");
         JButton button3 = new JButton("3 ARTILLERIE");
@@ -926,28 +934,61 @@ public class MainGame extends JFrame {
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                risiko.tauscheDreiGleicheKartenEin(1);        
+                if (risiko.darfTauschen()) {
+                    risiko.tauscheDreiGleicheKartenEin(1);
+                    updateTables(currentSpieler);
+                    JOptionPane.showMessageDialog(null,
+                            "Einheitenkarten erfolgreich eingetauscht",
+                            "Info", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    Exceptions.showErrorDialog("Nicht genügend Einheitenkarten");
+                }
+
             }
         });
 
         button2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                risiko.tauscheDreiGleicheKartenEin(2);        
+                if (risiko.darfTauschen()) {
+                    risiko.tauscheDreiGleicheKartenEin(2);
+                    updateTables(currentSpieler);
+                    JOptionPane.showMessageDialog(null,
+                            "Einheitenkarten erfolgreich eingetauscht",
+                            "Info", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    Exceptions.showErrorDialog("Nicht genügend Einheitenkarten");
+                }
             }
         });
 
         button3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                risiko.tauscheDreiGleicheKartenEin(3);        
+                if (risiko.darfTauschen()) {
+                    risiko.tauscheDreiGleicheKartenEin(3);
+                    updateTables(currentSpieler);
+                    JOptionPane.showMessageDialog(null,
+                            "Einheitenkarten erfolgreich eingetauscht",
+                            "Info", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    Exceptions.showErrorDialog("Nicht genügend Einheitenkarten");
+                }
             }
         });
 
         button4.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                risiko.tauscheDreiGUnterschiedlicheKartenEin();       
+                if (risiko.darfTauschen()) {
+                    risiko.tauscheDreiGUnterschiedlicheKartenEin();
+                    updateTables(currentSpieler);
+                    JOptionPane.showMessageDialog(null,
+                            "Einheitenkarten erfolgreich eingetauscht",
+                            "Info", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    Exceptions.showErrorDialog("Nicht genügend Einheitenkarten");
+                }
             }
         });
 
@@ -1083,6 +1124,8 @@ public class MainGame extends JFrame {
 
                 if (ausgewaehltesLand == 0 || !richtigesLand) {
                     Exceptions.showErrorDialog("Du musst zuerst dein Land Auswählen");
+                } else if (currentSpieler.getZusatzArmee() == 0) {
+                    Exceptions.showErrorDialog("Keine Zusatzarmeen über.");
                 } else {
 
                     input = JOptionPane.showInputDialog(this,
@@ -1114,26 +1157,30 @@ public class MainGame extends JFrame {
                         Exceptions.showErrorDialog("An unexpected error occurred: " + ex.getMessage());
                     }
                 }
-                if (!risiko.jetzigerSpielerHatZusatzarmee()) { // Brauchen wir das hier wirklich?
-                    int result = JOptionPane.showConfirmDialog(null,
-                            "Du hast keine Zusatzarmee mehr. Willst auf die nächste Phase ändern?",
-                            "Frage",
-                            JOptionPane.YES_NO_OPTION,
-                            JOptionPane.QUESTION_MESSAGE);
-
-                    if (result == JOptionPane.YES_OPTION) {
-                        if (i == risiko.getAnzahlSpieler()) { // wenn alle spieler zusatzarmee verteilt haben dann
-                                                              // gehts in die naechste phase
-                            JOptionPane.showConfirmDialog(null,
-                                    "Du wirst in die Angreifephase weitergeleitet.",
-                                    "Info",
-                                    JOptionPane.INFORMATION_MESSAGE);
-                            risiko.nextPhase();
-                            updatePhase();
-                            updateTables(currentSpieler);
-                        }
-                    }
-                }
+                /*
+                 * if (!risiko.jetzigerSpielerHatZusatzarmee()) { // Brauchen wir das hier
+                 * wirklich?
+                 * int result = JOptionPane.showConfirmDialog(null,
+                 * "Du hast keine Zusatzarmee mehr. Willst auf die nächste Phase ändern?",
+                 * "Frage",
+                 * JOptionPane.YES_NO_OPTION,
+                 * JOptionPane.QUESTION_MESSAGE);
+                 * 
+                 * if (result == JOptionPane.YES_OPTION) {
+                 * if (i == risiko.getAnzahlSpieler()) { // wenn alle spieler zusatzarmee
+                 * verteilt haben dann
+                 * // gehts in die naechste phase
+                 * JOptionPane.showConfirmDialog(null,
+                 * "Du wirst in die Angreifephase weitergeleitet.",
+                 * "Info",
+                 * JOptionPane.INFORMATION_MESSAGE);
+                 * risiko.nextPhase();
+                 * updatePhase();
+                 * updateTables(currentSpieler);
+                 * }
+                 * }
+                 * }
+                 */
                 break;
 
             case ANGREIFFEN:
@@ -1374,9 +1421,6 @@ public class MainGame extends JFrame {
                     risiko.nextPhase();
                     updatePhase();
                     updateCurrentPlayer();
-                    if(risiko.darfTauschen()){
-                        einheitenkartenAustauschen();
-                    }
                     risiko.addBonusArmee();// Addieren der Bonusarmee zu dem naechsten Spieler
                     updateTables(currentSpieler);
                 }
