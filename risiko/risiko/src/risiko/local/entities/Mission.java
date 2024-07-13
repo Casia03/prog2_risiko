@@ -53,7 +53,7 @@ public class Mission {
 	}
 
 	public int generiereRandomEinheitskarte() { // generiert eine zufällige Einheitskarte
-		int karte = (int) (Math.random() * 3);
+		int karte = (int) (Math.random() * 3) + 1;
 		return karte;
 	}
 
