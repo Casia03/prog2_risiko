@@ -99,8 +99,9 @@ public class MainMenuWindow extends JFrame {
         Risiko risiko = new Risiko();
     
         // Load game data
-        risiko.load(risiko);
         risiko.loadGame(risiko);
+        risiko.load(risiko);
+        
     
         // Create an empty list of player names (adjust as needed)
         List<String> emptyList = new ArrayList<>();

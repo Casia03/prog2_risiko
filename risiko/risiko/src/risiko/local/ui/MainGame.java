@@ -735,6 +735,7 @@ public class MainGame extends JFrame {
         return null; // Return null if the clicked coordinates are out of bounds
     }
 
+    //
     private String getColorName(Color color) {
         // Compare the color RGB values with the predefined colors and return the
         // corresponding color code
