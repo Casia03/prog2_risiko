@@ -42,6 +42,8 @@ public class SaveLoadManager {
             risiko.loadJetzigerSpieler(gameData.getSpielerId());
             risiko.loadPhase(gameData.getPhase());
             risiko.loadEingetauschteKarten(gameData.getEingetauschteKarten());
+            risiko.loadKontinente(gameData.getLandList());
+            risiko.loadMission();
 
             // System.out.println("Game loaded successfully.");
             return risiko;
