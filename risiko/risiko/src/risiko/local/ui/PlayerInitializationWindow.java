@@ -82,6 +82,10 @@ public class PlayerInitializationWindow extends JFrame {
                     Exceptions.showErrorDialog("du musst mindestens 2 spieler hinzufügen");
                     return;
                 }
+                if(playerNames.size() > 5){
+                    Exceptions.showErrorDialog("maximale spieleranzahl ist 5.");
+                    return;
+                }
                 
                 List<String> playerNamesList = readPlayerNamesFromTable();
                 Risiko risiko = new Risiko();

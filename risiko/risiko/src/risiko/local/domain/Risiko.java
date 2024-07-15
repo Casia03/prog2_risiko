@@ -454,6 +454,38 @@ public class Risiko {
         mission.loadEingetauschteKarten(eingetauschteKarten);
     } 
 
+    public void loadKontinente(List<Land> list){
+        for(Land land : list){
+            switch (land.getKontinent()) {
+                case "Africa":
+                    kontinente.returnAfrica().add(land);
+                    break;
+                case "Australia":
+                    kontinente.returnAustralia().add(land);
+                    break;
+                case "Asia":
+                    kontinente.returnAsia().add(land);
+                    break;
+                case "Europe":
+                    kontinente.returnEurope().add(land);
+                    break;
+                case "North_America":
+                    kontinente.returnNorthAmerica().add(land);
+                    break;
+                case "South_America":
+                    kontinente.returnSouthAmerica().add(land);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+    }
+
+    public void loadMission(){
+        mission.setArrays(kontinente);
+    }
+
     public int[] getAlleGegnerLaenderIntArray() { // Gibt ein Array der gegnerischen Landes zurueck
         spieler = getJetzigerSpieler();
         List<Land> laender = weltVerwaltung.getAngriffsmoeglichelaender(spieler, getAnzahlSpieler());
