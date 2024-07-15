@@ -51,8 +51,8 @@ public class SpielLogik {
                 int highestDefence = wurfelResultat[4];
                 int secondHighestDefence = wurfelResultat[3];
 
-                String attackerLostOne = "Angreifer verloren Eine Einheit\n";
-                String defenderLostOne = "Verteidiger verloren Eine Einheit\n";
+                String attackerLostOne = "Angreifer verloren. Verluste: Eine Einheit\n";
+                String defenderLostOne = "Verteidiger verloren. Verluste: Eine Einheit\n";
                 if(highestAttack <= highestDefence){ //wenn attackWurfel kleiner Gleich defendWurfel, dann gewinnt defend 
                     // AttackArmee - 1
                     vonLand.setArmee(vonLand.getArmee() - 1);

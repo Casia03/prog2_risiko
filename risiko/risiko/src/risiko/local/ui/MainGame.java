@@ -996,12 +996,15 @@ public class MainGame extends JFrame {
                 break;
             case ANGREIFFEN:
                 JOptionPane.showMessageDialog(null,
-                        "In der Angriffsphase musst du durch Klicken des Angriff-Buttons\n"
+                        "In der Angriffsphase musst du durch Klicken des Actoin-Buttons\n"
                                 + "das vorher selektierte Land als Angriffsland festlegen. Dann das gleiche für ein gegnerisches Land,\n"
                                 + "danach die Anzahl der zum Angreifen benötigten Truppen. Der Angriff ist danach abgeschlossen.");
                 break;
             case VERSCHIEBEN:
-                JOptionPane.showMessageDialog(null, "In der Verschiebephase bla bla bla.");
+                JOptionPane.showMessageDialog(null,
+                        "Du musst als erstes eines deiner Länder auswählen.\n"
+                                + "Dann Werden dir Nachbarländer die dir gehören in türkis angzeigt.\n"
+                                + "Wähle das Land aus und gibt die Anzahl der Truppen die das Land übertragen soll, an.");
                 break;
             default:
                 JOptionPane.showMessageDialog(null, "Unbekannte Phase.");
@@ -1074,10 +1077,10 @@ public class MainGame extends JFrame {
                             if (i == risiko.getAnzahlSpieler()) {
 
                                 JOptionPane.showConfirmDialog(null,
-                                        "Alle Spieler haben ihre zusatzarmee verteilt!"
-                                        + "Der Erste Spieler wird in die Angreifephase weitergeleitet.",
+                                        "Alle Spieler haben ihre Zusatzarmee verteilt!\n"
+                                        + "Der Erste Spieler wird in die Angriffsphase weitergeleitet.",
                                         "Info",
-                                        JOptionPane.INFORMATION_MESSAGE);
+                                        JOptionPane.PLAIN_MESSAGE);
                                 risiko.nextPhase();
                                 updatePhase();
                                 updateTables(currentSpieler);

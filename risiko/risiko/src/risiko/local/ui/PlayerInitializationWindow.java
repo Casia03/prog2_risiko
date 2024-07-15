@@ -70,7 +70,7 @@ public class PlayerInitializationWindow extends JFrame {
         // Panel for "Continue" and "Add player" button
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         buttonPanel.setBackground(new Color(44, 62, 80)); // Set background color
-        JButton continueButton = new JButton("Continue");
+        JButton continueButton = new JButton("Fortfahren");
         continueButton.setBackground(new Color(34, 153, 84)); // Set button background color
         continueButton.setForeground(Color.WHITE); // Set button text color
         continueButton.setFont(new Font("Arial", Font.PLAIN, 18)); // Set button font
@@ -78,11 +78,11 @@ public class PlayerInitializationWindow extends JFrame {
             public void actionPerformed(ActionEvent e) { // "Continue" onclick event händler
                 if (playerNames.size() < 2) {
                     //JOptionPane.showMessageDialog(PlayerInitializationWindow.this, "Please add at least two players.");
-                    Exceptions.showErrorDialog("du musst mindestens 2 spieler hinzufügen");
+                    Exceptions.showErrorDialog("Du must mindestens 2 Spieler hinzufügen");
                     return;
                 }
                 if(playerNames.size() > 5){
-                    Exceptions.showErrorDialog("maximale spieleranzahl ist 5.");
+                    Exceptions.showErrorDialog("Maximale Spieleranzahl ist 5.");
                     return;
                 }
                 
@@ -92,7 +92,7 @@ public class PlayerInitializationWindow extends JFrame {
             }
         });
 
-        JButton addButton = new JButton("Add Player");
+        JButton addButton = new JButton("Spieler hinzufügen");
         addButton.setBackground(new Color(34, 153, 84)); // Set button background color
         addButton.setForeground(Color.WHITE); // Set button text color
         addButton.setFont(new Font("Arial", Font.PLAIN, 18)); // Set button font
@@ -153,7 +153,7 @@ public class PlayerInitializationWindow extends JFrame {
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
                 int row, int column) {
-            setText("Delete");
+            setText("Löschen");
             setBackground(new Color(220, 20, 60)); // Set button background color
             setForeground(Color.WHITE);
             return this;
@@ -182,7 +182,7 @@ public class PlayerInitializationWindow extends JFrame {
         public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row,
                 int column) {
             playerName = (String) table.getValueAt(row, 0);
-            button.setText("Delete");
+            button.setText("Löschen");
             button.setBackground(new Color(220, 20, 60));
             button.setForeground(Color.WHITE);
             return button;
