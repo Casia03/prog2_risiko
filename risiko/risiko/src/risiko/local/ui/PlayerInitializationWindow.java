@@ -1,12 +1,13 @@
 package risiko.local.ui;
 
+import risiko.local.domain.Risiko;
+import risiko.local.server.Client;
+import risiko.local.server.Server;
+import risiko.local.persistance.Exceptions;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
-
-import risiko.local.domain.Risiko;
-import risiko.local.persistance.Exceptions;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,6 +21,7 @@ public class PlayerInitializationWindow extends JFrame {
     private DefaultTableModel tableModel;
     private boolean gameLoaded;
     Exceptions Exceptions = new Exceptions();
+
     public PlayerInitializationWindow() {
         playerNames = new ArrayList<>();
 
@@ -88,8 +90,7 @@ public class PlayerInitializationWindow extends JFrame {
                 }
                 
                 List<String> playerNamesList = readPlayerNamesFromTable();
-                Risiko risiko = new Risiko();
-                startMainGame(playerNamesList, risiko, false);
+                initializeClientsAndStartGames(playerNamesList);
             }
         });
 
@@ -127,10 +128,41 @@ public class PlayerInitializationWindow extends JFrame {
         return playerNames;
     }
 
-    private void startMainGame(List<String> playerNames, Risiko risiko, boolean isLoaded) {
-        MainGame mainGame = new MainGame(playerNames, risiko, isLoaded);
-        dispose(); // Close the PlayerInitializationWindow after starting the MainGame
+    private void initializeClientsAndStartGames(List<String> playerNamesList) {
+        List<Client> clients = new ArrayList<>();
+        Risiko risiko = new Risiko();
+    
+        try {
+            // Close the PlayerInitializationWindow
+            dispose();
+    
+            // Start the server in a new thread
+            new Thread(() -> {
+                try {
+                    Server server = new Server();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }).start();
+    
+            // Wait for a short time for the server to start (adjust this as needed)
+            Thread.sleep(1000); // 1 second delay, adjust as necessary
+    
+            // Connect clients and start MainGame for each client
+            for (String playerName : playerNamesList) {
+                Client client = new Client("localhost", 12345); // Assuming server is local
+                clients.add(client);
+                // Start MainGame for each client
+                SwingUtilities.invokeLater(() -> {
+                    new MainGame(playerNamesList, risiko, false).setVisible(true);
+                });
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+    
+
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
