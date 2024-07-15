@@ -1,5 +1,12 @@
 package risiko.local.ui;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.util.List;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -20,12 +27,42 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.Socket;
+
 import risiko.local.persistance.Exceptions;
 import risiko.local.entities.Land;
 
 public class MainGame extends JFrame {
+    private Socket socket;
+    private PrintWriter out;
+    private BufferedReader in;
+    //
+    //  KOMMANDOS ZUR BENUTZUNG FUR SERVER
+    //  BLABLALBA
+    
+    
+    // -------- CLIENT SEITE --------
+    //  PHASEUPDATE / PHASECHANGE
+    //  SPIELERUPDATE / SPIELERCHANGE
+    //  LANDUPDATE / LANDCHANGE
+    //  MOUSELISTEnER -> GET IMOUSE CLICKED / GET MOUSE POSx POSy
+    //  
+    //  ACTIONBUTTON ->  
+    //                  
+    //  PHASEINFOBUTTON ->
+    //  
+    //  PHASECHANGEBUTTON ->
+    
+    
+    // -------- SERVER SEITE --------
+    //  
+    //  
+    //  
+    //  
 
     private boolean colorMapVisible = true;
     private JTable spielerTable;

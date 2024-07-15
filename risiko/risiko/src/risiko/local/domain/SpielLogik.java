@@ -202,22 +202,6 @@ public class SpielLogik {
         }  
     }
     
-    private boolean istAngreifer(Land angreiferLand, Spieler spieler){ //schaut nach ober der spieler der angreifer ist
-        boolean istAngreifer = false;
-        if(angreiferLand.getEingenommenVon() == spieler.getSpielerID()){
-            istAngreifer = true;
-        }
-        return istAngreifer;
-    }
-    
-    private boolean istVerteidiger(Land verteidigerLand, Spieler spieler){//schaut nach ober der spieler der verteidiger ist
-        boolean istVerteidiger = false;
-        if(verteidigerLand.getEingenommenVon() == spieler.getSpielerID()){
-            istVerteidiger = true;
-        }
-        return istVerteidiger;
-    }
-
     public int getMaxAttackNumber(int armeeAnzahl) { //Methode zur Berechnung der maximalen Angriffsarmeenummer
         if(armeeAnzahl >= 4){
             return 3;
