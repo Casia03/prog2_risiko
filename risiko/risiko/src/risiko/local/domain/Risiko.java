@@ -216,6 +216,22 @@ public class Risiko {
         
     }
 
+    public int[] getNachbarLandFurDisplayCountries(int ausgewaehltesLand){
+        int[] nachbarLaender;
+        switch (turn.getPhase()) {
+            case ANGREIFFEN:
+                nachbarLaender = this.getAlleGegnerNachbarsIntArray(ausgewaehltesLand);
+                break;
+            case VERSCHIEBEN:
+                nachbarLaender = this.getAlleEigeneNachbarsIntArray(ausgewaehltesLand);
+                break;
+            default:
+                nachbarLaender = new int[0];
+                break;
+        }
+
+        return nachbarLaender;
+    }
  
 
     public Land getLand(int landID) { // Gibt das Land zuruck mit der eingegebenen landID
@@ -525,5 +541,15 @@ public class Risiko {
         int[] einheitsKarten = spieler.getEinheitskarten();
         return spieler.darfTauschen(einheitsKarten);
 
+    }
+
+    public boolean falschAusgewähltesLand(int ausgewaehltesLand) {
+        int[] meineLaender = this.getEigeneLaenderId();
+        for (int land : meineLaender) {
+            if (ausgewaehltesLand == land) {
+                return true;
+            }
+        }
+        return false;
     }
 }

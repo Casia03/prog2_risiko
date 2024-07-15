@@ -27,43 +27,12 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.Socket;
 
 import risiko.local.persistance.Exceptions;
 import risiko.local.entities.Land;
 
 public class MainGame extends JFrame {
-    private Socket socket;
-    private PrintWriter out;
-    private BufferedReader in;
-    //
-    //  KOMMANDOS ZUR BENUTZUNG FUR SERVER
-    //  BLABLALBA
-    
-    
-    // -------- CLIENT SEITE --------
-    //  PHASEUPDATE / PHASECHANGE
-    //  SPIELERUPDATE / SPIELERCHANGE
-    //  LANDUPDATE / LANDCHANGE
-    //  MOUSELISTEnER -> GET IMOUSE CLICKED / GET MOUSE POSx POSy
-    //  
-    //  ACTIONBUTTON ->  
-    //                  
-    //  PHASEINFOBUTTON ->
-    //  
-    //  PHASECHANGEBUTTON ->
-    
-    
-    // -------- SERVER SEITE --------
-    //  
-    //  
-    //  
-    //  
-
     private JTable spielerTable;
     private DefaultTableModel spielerTableModel;
 
@@ -80,7 +49,7 @@ public class MainGame extends JFrame {
     private Spieler currentSpieler;
     private Risiko risiko;
     private List<Spieler> spielerListe = new ArrayList<>();
-    private int scaleHeight = 600;
+    private int scaleHeight = 500;
     private int scaleWidth = (int) (scaleHeight * 1.7778);
     private int ausgewaehltesLand;
     private Phase currentPhase;
@@ -95,7 +64,7 @@ public class MainGame extends JFrame {
     Exceptions Exceptions = new Exceptions();
 
     public MainGame(List<String> spielerNameListe, Risiko risiko, boolean isLoaded) {
-        this.risiko = risiko; // Use the class-level property instead of declaring a new local variable
+        this.risiko = risiko; // risiko von playerinitialise window rüberkopieren
 
         if (!isLoaded) { // Neues Spiel Falls nicht geladen
             newGame(spielerNameListe, risiko);
@@ -105,43 +74,50 @@ public class MainGame extends JFrame {
  
     }
 
-    private void loadGame(){
+    private void loadGame(){ // geladenes spiel
+        // phase setzen
         currentPhase = risiko.getPhase();
-
+        // spielerliste setzer
         spielerListe = risiko.getSpielerListe();
-
+        // variablen updaten
         updateCurrentPlayer();
         updatePhase();
-
+        // ausgewehltes land auf 1 setzen weil kein bock zuletzt gecklicktes land speichern
+        // das ist zu kompliziert und unnoetig
         ausgewaehltesLand = 1;
-
+        // gui initialisieren und tabellen updated
         initializeGUI(spielerListe);
         updateTables(currentSpieler);
+        // spieler laender anzeigen
         displayPlayerCountries(layeredPane);
     }
 
-    private void newGame(List<String> spielerNameListe, Risiko risiko){
-        // Initialize spielers in the Risiko class using the spielerNames list
+    private void newGame(List<String> spielerNameListe, Risiko risiko){ // neues spiel, nicht erwatet eh?
+        // spieler initialiseren
         for (String spielerName : spielerNameListe) {
             risiko.spielerHinzufuegen(spielerName);
-            // System.out.println("spielerHinzufuegen called with: " + spielerName);
         }
-        risiko.newGame(risiko);
-        currentPhase = risiko.getPhase();
 
+        // alle spielrelevante objecte initialisieren
+        risiko.newGame(risiko);
+
+        // gui globale variablen initialisieren
+        currentPhase = risiko.getPhase();
         spielerListe = risiko.getSpielerListe();
 
+        // wie der name schon sagt
         initializeGUI(spielerListe);
     }
 
-    private void initializeGUI(List<Spieler> spielerListe) {
+    private void initializeGUI(List<Spieler> spielerListe) { // Initialisation der GUi
+        //Fenstertitel
         setTitle("RISIKO");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // JMenuBar
         JMenuBar menuBar = new JMenuBar();
 
-        // JMenu for game actions
+        // JMenu for game actions, nur Save, ist auch genug haha
         JMenu gameMenu = new JMenu("Menu");
 
         // JMenuItem Save
@@ -149,7 +125,6 @@ public class MainGame extends JFrame {
         saveMenuItem.addActionListener(new ActionListener() {
         
         public void actionPerformed(ActionEvent e) {
-
                 risiko.save(risiko);
                 JOptionPane.showMessageDialog(null, "Spiel gespeichert");
 
@@ -265,7 +240,7 @@ public class MainGame extends JFrame {
     }
 
     private void handleMapClick(java.awt.event.MouseEvent e, BufferedImage scaledColorImage,
-            JLabel selectedImageLabel) {
+            JLabel selectedImageLabel) { // fur auswahl der Laender noetig
         // X Y position der maus werden abgelesen
         int x = e.getX();
         int y = e.getY();
@@ -307,22 +282,8 @@ public class MainGame extends JFrame {
             selectedImageLabel.setIcon(selectedImageIcon);
             selectedImageLabel.setBounds(0, 0, scaleWidth, scaleHeight);
             selectedImageLabel.setVisible(true);
-
-            switch (currentPhase) {
-                case ERSTVERTEILEN:
-                case VERTEILEN:
-                    break;
-                case ANGREIFFEN:
-                    if (ausgewaehltesLand != 0) {
-                        displayNeighbourCountries(layeredPane, ausgewaehltesLand, Color.RED);
-                    }
-                    break;
-                case VERSCHIEBEN:
-                    if (ausgewaehltesLand != 0) {
-                        displayNeighbourCountries(layeredPane, ausgewaehltesLand, Color.CYAN);
-                    }
-                    break;
-            }
+            // Faerbt nachbarlaender basierend auf phase
+            colorSelectedImages();
 
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -330,7 +291,25 @@ public class MainGame extends JFrame {
         }
     }
 
-    private void clearHighlightedCountry(JLayeredPane layeredPane) {
+    private void colorSelectedImages(){ // Einfaerben basierend auf phase 
+        switch (currentPhase) {
+            case ERSTVERTEILEN:
+            case VERTEILEN:
+                break;
+            case ANGREIFFEN:
+                if (ausgewaehltesLand != 0) {
+                    displayNeighbourCountries(layeredPane, ausgewaehltesLand, Color.RED);
+                }
+                break;
+            case VERSCHIEBEN:
+                if (ausgewaehltesLand != 0) {
+                    displayNeighbourCountries(layeredPane, ausgewaehltesLand, Color.CYAN);
+                }
+                break;
+        }
+    }
+
+    private void clearHighlightedCountry(JLayeredPane layeredPane) { // reinigt das ausgewaehlte/geheileitete land
         Component[] components = layeredPane.getComponentsInLayer(3);
         for (Component comp : components) {
             comp.setVisible(false);
@@ -371,7 +350,6 @@ public class MainGame extends JFrame {
 
             for (int landId : laender) {
                 if (landId != 0) {
-                    // System.out.println(landId);
                     String imagePath = String.format("risiko\\risiko\\src\\risiko\\local\\bilder\\42\\%d.png", landId);
                     File imageFile = new File(imagePath);
 
@@ -404,6 +382,7 @@ public class MainGame extends JFrame {
 
     }
 
+    
     private void displayNeighbourCountries(JLayeredPane layeredPane, int ausgewaehltesLand, Color color) {
         try {
             // Remove all existing components from layer 2
@@ -412,35 +391,26 @@ public class MainGame extends JFrame {
                 layeredPane.remove(comp);
             }
             // Load images corresponding to the player's countries
-            int[] nachbarLaender;
-            switch (currentPhase) {
-                case ANGREIFFEN:
-                    nachbarLaender = risiko.getAlleGegnerNachbarsIntArray(ausgewaehltesLand);
-                    break;
-                case VERSCHIEBEN:
-                    nachbarLaender = risiko.getAlleEigeneNachbarsIntArray(ausgewaehltesLand);
-                    break;
-                default:
-                    nachbarLaender = new int[0];
-                    break;
-            }
-
+            int[] nachbarLaender = risiko.getNachbarLandFurDisplayCountries(ausgewaehltesLand);
+            
             if (!risiko.istDeinLand(ausgewaehltesLand)) {
-
+                //wenn nicht dein land
             } else if (nachbarLaender == null) {
                 // WENN KEINE GEGNER LAENDER
             } else {
+                // zeige alle laender
                 for (int i = 0; i < nachbarLaender.length; i++) {
-
-                    if (nachbarLaender[i] != 0) {
+                    if (nachbarLaender[i] == 0) {}
+                    else{
                         String imagePath = String.format("risiko\\risiko\\src\\risiko\\local\\bilder\\42\\%d.png",
                                 nachbarLaender[i]);
                         File imageFile = new File(imagePath);
 
-                        if (!imageFile.exists()) {
-                            System.err.println("Image file not found: " + imagePath);
-                            continue; // Skip if image file does not exist
-                        }
+                        //Eig nich nötig da die bilder existieren, macht den ganzen kram langsamer nur
+                        // if (!imageFile.exists()) {
+                        //     System.err.println("Image file not found: " + imagePath);
+                        //     continue; // Skip if image file does not exist
+                        // }
 
                         BufferedImage selectedImage = ImageIO.read(imageFile);
                         BufferedImage scaledSelectedImage = scaleImage(selectedImage, scaleWidth, scaleHeight);
@@ -469,10 +439,7 @@ public class MainGame extends JFrame {
 
     private void updateLandInfo(Land currentLand, List<Spieler> spielerListe) {
         if (currentLand == null) {
-            // If the selected land is null, clear the table or show a message indicating no
-            // land is selected.
-            // You can implement this based on your application's requirements.
-            // For example, you can set all the values in the table to an empty string.
+            // Falls kein land ausgewaehlt, tabelle entleeren
             for (int i = 0; i < landInfoTableModel.getRowCount(); i++) {
                 landInfoTableModel.setValueAt("", i, 1);
             }
@@ -500,8 +467,8 @@ public class MainGame extends JFrame {
             }
         }
     }
-
-    private JPanel createRightPanel() {
+    
+    private JPanel createRightPanel() { //Rechter teil des spiel Fensters
 
         rightPanel = new JPanel(new BorderLayout());
         rightPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -515,7 +482,7 @@ public class MainGame extends JFrame {
         return rightPanel;
     }
 
-    private JPanel createBottomPanel() {
+    private JPanel createBottomPanel() { // Unterer teil des Spiel Fensters
         // Create the bottom panel
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
         bottomPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -540,38 +507,30 @@ public class MainGame extends JFrame {
         return bottomPanel;
     }
 
-    private boolean falschAusgewähltesLand() {
-        int[] meineLaender = risiko.getEigeneLaenderId();
-        for (int land : meineLaender) {
-            if (ausgewaehltesLand == land) {
-                return true;
-            }
-        }
-        return false;
-    }
 
-    private void nextPlayer() {
+
+    private void nextPlayer() { // Aendert den spieler
         risiko.nextPlayer(); // Naechster spieler
         updateCurrentPlayer();
         displayPlayerCountries(layeredPane);
 
     }
 
-    private void updateCurrentPlayer() {
+    private void updateCurrentPlayer() { // updated die globale Spieler variable
         currentSpieler = risiko.getJetzigerSpieler();
     }
 
-    private void updatePhase() {
+    private void updatePhase() { // Updated die globale Phase variable
         currentPhase = risiko.getPhase();
     }
 
-    private void updateTables(Spieler currentSpieler) {
+    private void updateTables(Spieler currentSpieler) { // updated alle tabellen des Spielfensters
         updateSpielerInfo(currentSpieler);
         updateLandInfo(risiko.getLand(ausgewaehltesLand), spielerListe);
         updateLandTable(risiko.getEigeneLaender());
     }
 
-    private void initializeLandInfoTable() {
+    private void initializeLandInfoTable() { // Initialisation der Land Info tabelle 
         // Define the data for the rows
         String[] landProperties = { "Land Name", "Land Armies", "Land Occupant" };
 
@@ -734,7 +693,7 @@ public class MainGame extends JFrame {
         }
     }
 
-    private BufferedImage scaleImage(BufferedImage originalImage, int width, int height) {
+    private BufferedImage scaleImage(BufferedImage originalImage, int width, int height) { // Scaliert die von uns benutzte bilder fur die Angegebene breite und hoehe
         BufferedImage scaledImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = scaledImage.createGraphics();
         g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
@@ -1053,13 +1012,13 @@ public class MainGame extends JFrame {
         boolean canProceed;
         switch (currentPhase) {
             case ERSTVERTEILEN:
-                boolean richtigesLand = falschAusgewähltesLand();
+                boolean richtigesLand = risiko.falschAusgewähltesLand(ausgewaehltesLand);
                 canProceed = false;
                 if (ausgewaehltesLand == 0 || !richtigesLand) {
                     Exceptions.showErrorDialog("Du musst zuerst dein Land Auswählen");
                 } else {
                     while (risiko.getZusatzArmee() != 0) {
-                        richtigesLand = falschAusgewähltesLand();
+                        richtigesLand = risiko.falschAusgewähltesLand(ausgewaehltesLand);
                         if (richtigesLand) {
                             canProceed = true;
                         } else {
@@ -1132,7 +1091,7 @@ public class MainGame extends JFrame {
                 updateTables(currentSpieler);
                 clearHighlightedCountry(layeredPane);
                 displayPlayerCountries(layeredPane);
-                richtigesLand = falschAusgewähltesLand();
+                richtigesLand = risiko.falschAusgewähltesLand(ausgewaehltesLand);
                 String input;
 
                 if (ausgewaehltesLand == 0 || !richtigesLand) {
