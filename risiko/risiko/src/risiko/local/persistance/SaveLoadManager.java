@@ -4,7 +4,9 @@ import java.io.*;
 import java.util.List;
 
 import risiko.local.domain.Risiko;
+import risiko.local.entities.Kontinent;
 import risiko.local.entities.Land;
+import risiko.local.entities.Mission;
 import risiko.local.entities.Spieler;
 import risiko.local.entities.Turn;
 import risiko.local.persistance.Exceptions;
@@ -40,6 +42,8 @@ public class SaveLoadManager {
             risiko.loadJetzigerSpieler(gameData.getSpielerId());
             risiko.loadPhase(gameData.getPhase());
             risiko.loadEingetauschteKarten(gameData.getEingetauschteKarten());
+            risiko.loadKontinente(gameData.getLandList());
+            risiko.loadMission();
 
             // System.out.println("Game loaded successfully.");
             return risiko;

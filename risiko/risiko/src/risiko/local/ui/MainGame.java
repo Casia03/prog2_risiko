@@ -66,32 +66,40 @@ public class MainGame extends JFrame {
         this.risiko = risiko; // Use the class-level property instead of declaring a new local variable
 
         if (!isLoaded) { // Neues Spiel Falls nicht geladen
-            // Initialize spielers in the Risiko class using the spielerNames list
-            for (String spielerName : spielerNameListe) {
-                risiko.spielerHinzufuegen(spielerName);
-                // System.out.println("spielerHinzufuegen called with: " + spielerName);
-            }
-            risiko.newGame(risiko);
-            currentPhase = risiko.getPhase();
-
-            spielerListe = risiko.getSpielerListe();
-
-            initializeGUI(spielerListe);
+            newGame(spielerNameListe, risiko);
         } else { // Geladenes Spiel
-            currentPhase = risiko.getPhase();
-
-            spielerListe = risiko.getSpielerListe();
-
-            updateCurrentPlayer();
-            updatePhase();
-
-            ausgewaehltesLand = 1;
-
-            initializeGUI(spielerListe);
-            updateTables(currentSpieler);
-            displayPlayerCountries(layeredPane);
+            loadGame();
         }
+ 
+    }
 
+    private void loadGame(){
+        currentPhase = risiko.getPhase();
+
+        spielerListe = risiko.getSpielerListe();
+
+        updateCurrentPlayer();
+        updatePhase();
+
+        ausgewaehltesLand = 1;
+
+        initializeGUI(spielerListe);
+        updateTables(currentSpieler);
+        displayPlayerCountries(layeredPane);
+    }
+
+    private void newGame(List<String> spielerNameListe, Risiko risiko){
+        // Initialize spielers in the Risiko class using the spielerNames list
+        for (String spielerName : spielerNameListe) {
+            risiko.spielerHinzufuegen(spielerName);
+            // System.out.println("spielerHinzufuegen called with: " + spielerName);
+        }
+        risiko.newGame(risiko);
+        currentPhase = risiko.getPhase();
+
+        spielerListe = risiko.getSpielerListe();
+
+        initializeGUI(spielerListe);
     }
 
     private void initializeGUI(List<Spieler> spielerListe) {
@@ -107,7 +115,8 @@ public class MainGame extends JFrame {
         // JMenuItem Save
         JMenuItem saveMenuItem = new JMenuItem("Save Game");
         saveMenuItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+        
+        public void actionPerformed(ActionEvent e) {
 
                 risiko.save(risiko);
                 JOptionPane.showMessageDialog(null, "Spiel gespeichert");

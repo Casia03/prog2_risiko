@@ -15,6 +15,16 @@ public class Mission {
 	private List<Land> southAmericaTerritories = new ArrayList<Land>();
 	private List<Land> northAmericaTerritories = new ArrayList<Land>();
 
+
+	public void setArrays(Kontinent kontinente){
+		africaTerritories = kontinente.returnAfrica();
+		asiaTerritories = kontinente.returnAsia();
+		australiaTerritories = kontinente.returnAustralia();
+		europeTerritories = kontinente.returnEurope();
+		southAmericaTerritories = kontinente.returnSouthAmerica();
+		northAmericaTerritories = kontinente.returnNorthAmerica();
+	}
+
 	public enum MissionType { // fügt missionen hinzu
 		CONQUER_NORTH_AMERICA_AFRICA,
 		CONQUER_NORTH_AMERICA_AUSTRALIA,

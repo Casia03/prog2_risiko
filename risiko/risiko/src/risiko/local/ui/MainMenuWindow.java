@@ -99,7 +99,7 @@ public class MainMenuWindow extends JFrame {
         Risiko risiko = new Risiko();
     
         // Load game data
-        risiko.loadGame(risiko);
+        // risiko.loadGame(risiko);
         risiko.load(risiko);
         
     
