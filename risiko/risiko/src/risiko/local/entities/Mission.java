@@ -2,7 +2,6 @@ package risiko.local.entities;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class Mission {
 	private int eingetauschteKarten = 0;

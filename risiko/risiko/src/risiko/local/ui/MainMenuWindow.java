@@ -95,6 +95,7 @@ public class MainMenuWindow extends JFrame {
     }
 
     private void loadGame() { // code für das laden eines Spiels
+        try{
         // Create a new Risiko object
         Risiko risiko = new Risiko();
     
@@ -108,6 +109,10 @@ public class MainMenuWindow extends JFrame {
     
         // Start the main game with the loaded data
         startMainGame(emptyList, risiko, true);
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Fehler beim Laden des Spiels: " + e.getMessage());
+        }
     }
     
     private void startMainGame(List<String> playerNames, Risiko risiko, boolean isLoaded) { // code für das starten des Hauptspiels

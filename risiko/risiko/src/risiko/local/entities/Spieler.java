@@ -27,13 +27,13 @@ public class Spieler implements Serializable {
 
     public void addEinheitskarte(int karte){ // Einheitenkarte hinzufuegen
         if (karte == 1){ // Infanterie karte addieren
-            einheitsKarten[0] += 9;
+            einheitsKarten[0] += 1;
         }
         else if (karte == 2){ // Kavallerie karte addieren
-            einheitsKarten[1] += 9;
+            einheitsKarten[1] += 1;
         }
         else if (karte == 3){ // Artillerie karte addieren
-            einheitsKarten[2] += 9;
+            einheitsKarten[2] += 1;
         }
     }
 

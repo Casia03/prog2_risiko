@@ -64,7 +64,6 @@ public class MainGame extends JFrame {
     //  
     //  
 
-    private boolean colorMapVisible = true;
     private JTable spielerTable;
     private DefaultTableModel spielerTableModel;
 
@@ -76,18 +75,14 @@ public class MainGame extends JFrame {
     private JLayeredPane layeredPane = new JLayeredPane();
     private JPanel rightPanel;
     private JPanel bottomPanel;
-    private JLabel showPhase;
     private JPanel mainPanel;
 
     private Spieler currentSpieler;
     private Risiko risiko;
     private List<Spieler> spielerListe = new ArrayList<>();
-    private int turn;
     private int scaleHeight = 600;
     private int scaleWidth = (int) (scaleHeight * 1.7778);
     private int ausgewaehltesLand;
-    private int beginningDistribution = 0;
-    private Risiko game;
     private Phase currentPhase;
     private boolean isSelectingAttackingCountry = false;
     private boolean isSelectingDefendingCountry = false;
@@ -161,24 +156,8 @@ public class MainGame extends JFrame {
             }
         });
 
-        // JMenuItem Load
-        JMenuItem loadMenuItem = new JMenuItem("Load Game");
-        loadMenuItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JFileChooser fileChooser = new JFileChooser();
-                if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-                    File file = fileChooser.getSelectedFile();
-                    risiko.load(risiko);
-                    if (game == null) {
-                        // handle the error in loading
-                    }
-                }
-            }
-        });
-
         // add menu items to the game menu
         gameMenu.add(saveMenuItem);
-        // gameMenu.add(loadMenuItem);
 
         // add game menu to the menu bar
         menuBar.add(gameMenu);
@@ -196,13 +175,13 @@ public class MainGame extends JFrame {
         initializeLandInfoTable();
         initializeLandTable(); // Creates an empty table initially
 
-        JPanel bottomPanel = createBottomPanel();
+        bottomPanel = createBottomPanel();
 
         // Initialize the spieler table
         initializeSpielerTable();
 
         // Create the main panel
-        JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel = new JPanel(new BorderLayout());
         mainPanel.add(bottomPanel, BorderLayout.SOUTH);
         mainPanel.add(rightPanel, BorderLayout.EAST);
         JLayeredPane middlePanel = null;
@@ -556,9 +535,8 @@ public class MainGame extends JFrame {
         bottomPanel.add(actionButton); // Add the action button to the bottom panel
 
         bottomPanel.add(new JScrollPane(landInfoTable));
-        landInfoTable.setPreferredScrollableViewportSize(new Dimension(landInfoTable.getPreferredSize().width, 70)); // Set
-                                                                                                                     // preferred
-                                                                                                                     // height
+        landInfoTable.setPreferredScrollableViewportSize(new Dimension(landInfoTable.getPreferredSize().width, 70)); // Set height
+                                                                                                                     
         return bottomPanel;
     }
 
@@ -583,7 +561,6 @@ public class MainGame extends JFrame {
         currentSpieler = risiko.getJetzigerSpieler();
     }
 
-    // return bottomPanel;
     private void updatePhase() {
         currentPhase = risiko.getPhase();
     }
@@ -895,16 +872,11 @@ public class MainGame extends JFrame {
         int result;
         switch (currentPhase) {
             case ERSTVERTEILEN:
-                JOptionPane.showMessageDialog(null,
-                        "Du kannst nicht diese Phase überspringen solange du noch zusatzarmeen besitzt",
-                        "Error", JOptionPane.ERROR_MESSAGE);
+                Exceptions.showErrorDialog("Du kannst nicht diese Phase überspringen solange du noch zusatzarmeen besitzt");
                 break;
             case VERTEILEN:
-                hatEinheitskarteBekommen = false;
                 if (risiko.getZusatzArmee() != 0) {
-                    JOptionPane.showMessageDialog(null,
-                            "Du kannst nicht diese Phase überspringen solange du noch zusatzarmeen besitzt",
-                            "Error", JOptionPane.ERROR_MESSAGE);
+                    Exceptions.showErrorDialog("Du kannst nicht diese Phase überspringen solange du noch zusatzarmeen besitzt");
                 } else {
                     JOptionPane.showMessageDialog(null,
                             "Du wirst an die Angreifephase weitergeleitet",
@@ -914,12 +886,12 @@ public class MainGame extends JFrame {
                     updatePhase();
                     updateTables(currentSpieler);
                     clearHighlightedCountry(layeredPane);
-
                 }
+
                 break;
             case ANGREIFFEN:
                 result = JOptionPane.showConfirmDialog(null,
-                        "Hallo " + currentSpieler.getSpielerName() + "\nWillst du die Angreifephase überspringen?",
+                        "Willst du die Angreifephase überspringen?",
                         "Frage", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 
                 if (result == JOptionPane.YES_OPTION) {
@@ -929,20 +901,25 @@ public class MainGame extends JFrame {
                     updatePhase();
                     updateTables(currentSpieler);
                     clearHighlightedCountry(layeredPane);
-
                 }
+
                 break;
             case VERSCHIEBEN:
                 hatEinheitskarteBekommen = false;
                 result = JOptionPane.showConfirmDialog(null,
-                        "Hallo " + currentSpieler.getSpielerName()
-                                + "\nWillst du die Verschiebephase überspringen?",
+                        "Willst du die Verschiebephase überspringen?",
                         "Frage", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 
                 if (result == JOptionPane.YES_OPTION) {
                     // risiko updated auf den naechsten spieler selbst nach der Verschiebephase.
                     clearHighlightedCountry(layeredPane);
                     risiko.nextPhase();
+                    do{
+                        if(risiko.getSpielerLaenderAnzahl() != 0){
+                            break;
+                        }
+                        risiko.nextPlayer();
+                    }while(true);
                     updateCurrentPlayer();
                     updatePhase();
                     einheitenkartenAustauschen();
@@ -957,9 +934,7 @@ public class MainGame extends JFrame {
         }
     }
 
-    // Methode für Info Button um die richtige Info für die richtige Phase
-    // auszugeben?
-
+    // Methode für das Einlösen von Einheitskarten
     private void einheitenkartenAustauschen() {
 
         JFrame frame = new JFrame("Einheitenkarten Tauschen");
@@ -972,7 +947,7 @@ public class MainGame extends JFrame {
         JButton button3 = new JButton("3 ARTILLERIE");
         JButton button4 = new JButton("3 unterschidliche");
 
-        // Add action listeners to the buttons
+        // Funktion für die Buttons
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -1034,16 +1009,17 @@ public class MainGame extends JFrame {
             }
         });
 
-        // Add the buttons to the frame
+        // Die Buttons zum Frame hinzufügen
         frame.add(button1);
         frame.add(button2);
         frame.add(button3);
         frame.add(button4);
 
-        // Display the frame
+        // Frame anzeigen
         frame.setVisible(true);
     }
 
+    // Methode für Info Button um die richtige Info für die richtige Phase auszugeben
     private void showPhaseInformation() {
         currentPhase = risiko.getPhase();
         switch (currentPhase) {
@@ -1057,12 +1033,15 @@ public class MainGame extends JFrame {
                 break;
             case ANGREIFFEN:
                 JOptionPane.showMessageDialog(null,
-                        "In der Angriffsphase musst du durch Klicken des Angriff-Buttons\n"
+                        "In der Angriffsphase musst du durch Klicken des Actoin-Buttons\n"
                                 + "das vorher selektierte Land als Angriffsland festlegen. Dann das gleiche für ein gegnerisches Land,\n"
                                 + "danach die Anzahl der zum Angreifen benötigten Truppen. Der Angriff ist danach abgeschlossen.");
                 break;
             case VERSCHIEBEN:
-                JOptionPane.showMessageDialog(null, "In der Verschiebephase bla bla bla.");
+                JOptionPane.showMessageDialog(null,
+                        "Du musst als erstes eines deiner Länder auswählen.\n"
+                                + "Dann Werden dir Nachbarländer die dir gehören in türkis angzeigt.\n"
+                                + "Wähle das Land aus und gibt die Anzahl der Truppen die das Land übertragen soll, an.");
                 break;
             default:
                 JOptionPane.showMessageDialog(null, "Unbekannte Phase.");
@@ -1092,7 +1071,7 @@ public class MainGame extends JFrame {
                             input = JOptionPane.showInputDialog(this,
                                     "Gib die Anzahl der Einheiten ein, die du plazieren möchtest \n Du Hast noch "
                                             + currentSpieler.getZusatzArmee() + " Einheiten!",
-                                    "Distribute Troops", JOptionPane.PLAIN_MESSAGE);
+                                    "Truppen verteilen", JOptionPane.PLAIN_MESSAGE);
 
                             // Check if the input dialog was closed or canceled
                             if (input == null || input.isEmpty()) {
@@ -1110,20 +1089,20 @@ public class MainGame extends JFrame {
                                 updateTables(currentSpieler);
                             } catch (NumberFormatException ex) {
                                 // Handle invalid input that cannot be parsed to an integer
-                                Exceptions.showErrorDialog("Invalid input. Please enter a valid number.");
+                                Exceptions.showErrorDialog("Ungültige Eingabe. Bitte eine gültige Zahl eingeben.");
                             } catch (IllegalArgumentException ex) {
                                 // Display error for invalid number range
-                                Exceptions.showErrorDialog("Invalid input. " + ex.getMessage());
+                                Exceptions.showErrorDialog("Ungültige Eingabe. Bitte wählen Sie eine Zahl im gültigen Zahlenbereich." + ex.getMessage());
                             } catch (Exception ex) {
                                 // Handle any other unexpected exceptions
-                                Exceptions.showErrorDialog("An unexpected error occurred: " + ex.getMessage());
+                                Exceptions.showErrorDialog("Unerwarteter Fehler: " + ex.getMessage());
                             }
 
                         }
 
                         if (risiko.getZusatzArmee() == 0) {
                             JOptionPane.showMessageDialog(null,
-                                    "Du hast keine Zusatzarmee mehr. Es wird auf den Naechsten Spieler Geaendert");
+                                    "Du hast keine Zusatzarmee mehr. Der nächste Spieler ist dran.");
                             i += 1;
                             nextPlayer();
                             clearHighlightedCountry(layeredPane);
@@ -1135,9 +1114,10 @@ public class MainGame extends JFrame {
                             if (i == risiko.getAnzahlSpieler()) {
 
                                 JOptionPane.showConfirmDialog(null,
-                                        "Alle Spieler haben ihre zusatzarmee verteilt! Der Erste Spieler wird in die Angreifephase weitergeleitet.",
+                                        "Alle Spieler haben ihre Zusatzarmee verteilt!\n"
+                                        + "Der Erste Spieler wird in die Angriffsphase weitergeleitet.",
                                         "Info",
-                                        JOptionPane.INFORMATION_MESSAGE);
+                                        JOptionPane.PLAIN_MESSAGE);
                                 risiko.nextPhase();
                                 updatePhase();
                                 updateTables(currentSpieler);
@@ -1148,7 +1128,6 @@ public class MainGame extends JFrame {
                 break;
 
             case VERTEILEN:
-                // risiko.save(risiko);
                 updateCurrentPlayer();
                 updateTables(currentSpieler);
                 clearHighlightedCountry(layeredPane);
@@ -1163,32 +1142,31 @@ public class MainGame extends JFrame {
                 } else {
 
                     input = JOptionPane.showInputDialog(this,
-                            "Enter the number of troops to distribute: \n You have "
-                                    + currentSpieler.getZusatzArmee() + " spare Armies!",
-                            "Distribute Troops", JOptionPane.PLAIN_MESSAGE);
+                            "Wähle die Anzahl an Truppen die du Verteilen möchtest: \n Du hast "
+                                    + currentSpieler.getZusatzArmee() + " Truppen zu verfügung!",
+                            "Truppen verteilen", JOptionPane.PLAIN_MESSAGE);
 
-                    // Check if the input dialog was closed or canceled
-                    if (input == null || input.isEmpty()) { // eine error message die sagt was man nicht tuhen soll
-                        // Handle cancel or close window action as valid input (no action needed)
-                        break; // Exit the loop if canceled or closed window
+                    // Wenn das Eingabefenster geschlossen wurde
+                    if (input == null || input.isEmpty()) {
+                        break; // Aus dem Loop raus
                     }
 
                     try {
-                        // Validate and parse the input as an integer
+                        // Entnehme die Zahl vom Input
                         int armeeAnzahl = Exceptions.readInt(input, 1, currentSpieler.getZusatzArmee());
 
-                        // If valid, distribute the troops
+                        // Wenn alles okay ist, werden die Truppen auf das Land verteilt
                         risiko.verteilen(ausgewaehltesLand, armeeAnzahl);
                         updateTables(currentSpieler);
                     } catch (NumberFormatException ex) {
-                        // Handle invalid input that cannot be parsed to an integer
-                        Exceptions.showErrorDialog("Invalid input. Please enter a valid number.");
+                        // Wenn die Eingabe keine Zahl ist
+                        Exceptions.showErrorDialog("Ungültige Eingabe. Bitte eine gültige Zahl eingeben.");
                     } catch (IllegalArgumentException ex) {
-                        // Display error for invalid number range
-                        Exceptions.showErrorDialog("Invalid input. " + ex.getMessage());
+                        // Wenn die Eingabe nicht im gültigen Zahlenbereich liegt
+                        Exceptions.showErrorDialog("Ungültige Eingabe. Bitte wählen Sie eine Zahl im gültigen Zahlenbereich." + ex.getMessage());
                     } catch (Exception ex) {
-                        // Handle any other unexpected exceptions
-                        Exceptions.showErrorDialog("An unexpected error occurred: " + ex.getMessage());
+                        // Sonstige Fehler
+                        Exceptions.showErrorDialog("Unerwareter Fehler: " + ex.getMessage());
                     }
                 }
                 break;
@@ -1197,10 +1175,9 @@ public class MainGame extends JFrame {
                 updateTables(currentSpieler);
                 displayPlayerCountries(layeredPane);
 
-                // Falls keine Angriffsbereeite Laender, dann naechste phase
+                // Falls keine angriffsbereite Länder vorhanden sind
                 if (risiko.getAngreiffeBereiteLaender().length == 0) {
-                    JOptionPane.showMessageDialog(null,
-                            "Du Hast keine Angriffsbereite Laender, wechselung zur Verschiebephase");
+                    Exceptions.showErrorDialog("Du Hast keine Angriffsbereite Länder, wechsle zur Verschiebephase");                            
                     risiko.nextPhase();
                     updatePhase();
                     break;
@@ -1208,13 +1185,13 @@ public class MainGame extends JFrame {
                     isSelectingAttackingCountry = true;
                 }
                 // ABLAUF::
-                // Wenn man die Angreifephase NICHT überspringt, dann wird
+                // Wenn man die Angriffsphase NICHT überspringt, dann wird
                 // isSelectingAttackingCountry = true gesetzt,
-                // nach dem man auf ein seine Laender klickt, muss mann auf dem Angreifen button
+                // nach dem man auf einer seine Länder klickt, muss mann auf den Action-Button
                 // klicken, dann wird man gefragt ob das
-                // Ausgewaehlte land als Angreifeland festgelegt werden soll.
+                // Ausgewählte Land als angreiffendes Land festgelegt werden soll.
 
-                // Selektierung des Angrifflandes
+                // Selektierung des Angriffsland
                 if (isSelectingAttackingCountry && !isSelectingDefendingCountry) {
                     try { // try catch fur falsche Auswahl von Land
 
@@ -1222,69 +1199,57 @@ public class MainGame extends JFrame {
                                 && risiko.getLandArmee(ausgewaehltesLand) > 1
                                 && risiko.getAngriffGegnerLaender(ausgewaehltesLand).length != 0) {
 
-                            int result = JOptionPane.showConfirmDialog(null, // Bestaetigung des Angiffslandes
+                            int result = JOptionPane.showConfirmDialog(null, // Bestätigung des Angiffsland
                                     "Du Möchtest von " + risiko.getLandName(ausgewaehltesLand) + " Angreifen?",
                                     "Frage", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 
                             if (result == JOptionPane.YES_OPTION) {
                                 attackingCountry = ausgewaehltesLand;
                                 isSelectingDefendingCountry = true; // Angriffsland Wurde selektiert
-                                JOptionPane.showMessageDialog(this, "Choose a target country to attack.");
+                                JOptionPane.showMessageDialog(this, "Wähle ein Land aus, welches du angreifen möchtest.");
                             }
 
                         } else {
-                            JOptionPane.showMessageDialog(this, "Please select a valid attacking country.", "Error",
-                                    JOptionPane.ERROR_MESSAGE);
+                            Exceptions.showErrorDialog("Ungültige Eingabe. Bitte wähle ein gültiges Land aus.");
                         }
-                    } catch (Exception ex) {
-                        // Handle any other unexpected exceptions
-                        Exceptions.showErrorDialog("An unexpected error occurred: " + ex.getMessage());
+                    } catch (Exception ex) {     
+                        Exceptions.showErrorDialog("Unerwarteter Fehler: " + ex.getMessage());
                     }
 
                 }
-                // Auswahl des Verteidigungslandes
-                else if (isSelectingDefendingCountry) { // Diese bedingungen könnte man eventuell als eigene exceptions
-                                                        // catchen
-                    // Wenn das selektierte Land dein ist, break
+                // Auswahl des Verteidigungsland
+                else if (isSelectingDefendingCountry) {
+
+                    // Wenn das selektierte Land dein ist, abbruch
                     if (risiko.istDeinLand(ausgewaehltesLand)) {
-                        JOptionPane.showMessageDialog(null,
-                                "Du kannst dein eigenes Land nicht angreifen.",
-                                "Fehler", JOptionPane.ERROR_MESSAGE);
+                        Exceptions.showErrorDialog("Du kannst dein eigenes Land nicht angreifen.");
                         break;
                     }
                     // Wenn das selektierte Land kein nachbar vom angreifenden Land ist
                     else if (risiko.sindNachbar(attackingCountry, ausgewaehltesLand) == false) {
-                        JOptionPane.showMessageDialog(null,
-                                risiko.getLandName(ausgewaehltesLand) + " ist  kein Nachbar von "
-                                        + risiko.getLandName(attackingCountry),
-                                "Fehler", JOptionPane.ERROR_MESSAGE);
+                        Exceptions.showErrorDialog(risiko.getLandName(ausgewaehltesLand) + " ist  kein Nachbar von "
+                            + risiko.getLandName(attackingCountry));
                         break;
-                    }
-
-                    // Wenn alles gut, weiter gehts
-                    else {
+                    } else {
 
                         int result = JOptionPane.showConfirmDialog(null,
                                 "Du Möchtest das Land " + risiko.getLandName(ausgewaehltesLand) + " Angreifen?",
                                 "Frage", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 
-                        // Wenn verteidigungsLand bestaetigt wurde, dann weiter gehts
+                        // Wenn Verteidigungsland bestätigt wurde, dann weiter
                         if (result == JOptionPane.YES_OPTION) {
 
                             defendingCountry = ausgewaehltesLand;
 
                             input = JOptionPane.showInputDialog(this,
-                                    "Gib die Anzahl der Einheiten ein, mit dem du Angreiffen möchtest \n Du hast  "
-                                            + risiko.getLandArmee(attackingCountry)
-                                            + " Einheiten! Du kannst mit bis zu "
-                                            + risiko.getMaxAttackNumber(attackingCountry) + " Angreiffen",
-                                    "Attack number", JOptionPane.PLAIN_MESSAGE);
-
+                                    "Wähle die Anzahl an Truppen mit denen du Angreifen möchtest: \n Du hast "
+                                        + risiko.getLandArmee(attackingCountry)
+                                        + " Armeen. Du darfst mit maximal "
+                                        + risiko.getMaxAttackNumber(attackingCountry)
+                                        + " Truppen angreifen",
+                                "Angriffstruppen wählen", JOptionPane.PLAIN_MESSAGE);
                             if (input == null || risiko.getLandArmee(attackingCountry) - Integer.parseInt(input) < 1) {
-                                JOptionPane.showMessageDialog(null,
-                                        "Ungültige Eingabe, bitte nochmal versuchen",
-                                        "Invalid Input",
-                                        JOptionPane.ERROR_MESSAGE);
+                                Exceptions.showErrorDialog("Ungültige Eingabe, bitte nochmal versuchen");
                                 break;
                             } else {
                                 // Eingabe von
@@ -1292,7 +1257,7 @@ public class MainGame extends JFrame {
                                     Exceptions.readIntAngreifen(input, 1,risiko.getMaxAttackNumber(attackingCountry)); // Eingabe prüffen
                                     int armeeAnzahl = Integer.parseInt(input);
                                     // Angriffsergebniss
-                                    JOptionPane.showMessageDialog(null, "Attack passiert, Resultat: \n"
+                                    JOptionPane.showMessageDialog(null, "ANGRIFFSERGEBNIS \n"                                                                                 
                                             + risiko.angreifen(attackingCountry, defendingCountry,
                                                     armeeAnzahl));
 
@@ -1300,33 +1265,29 @@ public class MainGame extends JFrame {
                                     while (!risiko.landHatKeineArmee(defendingCountry)
                                             || risiko.getLandArmee(attackingCountry) <= 1) {
                                         result = JOptionPane.showConfirmDialog(null,
-                                                "Moechtest du nochmal Eingreifen?", "Frage",
+                                                "Möchtest du nochmal Eingreifen?", "Frage",
                                                 JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-                                        if (result == JOptionPane.NO_OPTION) {
+                                        if (result == JOptionPane.NO_OPTION || result == JOptionPane.CLOSED_OPTION) { // Wenn nicht dann überspringen
                                             break;
-                                        } else {
+                                        }  else {
                                             input = JOptionPane.showInputDialog(this,
-                                                    "Enter the number of troops to attack: \n You have "
+                                                    "Wähle die Anzahl an Truppen mit denen du Angreifen möchtest: \n Du hast "
                                                             + risiko.getLandArmee(attackingCountry)
-                                                            + " Armies! You can use up to "
+                                                            + " Armeen. Du darfst mit maximal "
                                                             + risiko.getMaxAttackNumber(attackingCountry)
-                                                            + " at a time",
-                                                    "Attack number", JOptionPane.PLAIN_MESSAGE);
+                                                            + " Truppen angreifen",
+                                                    "Angriffstruppen wählen", JOptionPane.PLAIN_MESSAGE);
                                             if (input == null || risiko.getLandArmee(attackingCountry)
                                                     - Integer.parseInt(input) < 1) {
-                                                JOptionPane.showMessageDialog(null,
-                                                        "Ungültige Eingabe, bitte nochmal versuchen",
-                                                        "Invalid Input",
-                                                        JOptionPane.ERROR_MESSAGE);
+                                                    Exceptions.showErrorDialog("Ungültige Eingabe, bitte nochmal versuchen");
                                                 break;
                                             }
 
                                             Exceptions.readIntAngreifen(input, 1,risiko.getMaxAttackNumber(attackingCountry)); // Eingabe prüffen
                                             armeeAnzahl = Integer.parseInt(input);
-                                            JOptionPane.showMessageDialog(null, "Attack happened \n" + risiko
+                                            JOptionPane.showMessageDialog(null, "ANGRIFFSERGEBNIS \n" + risiko
                                                     .angreifen(attackingCountry, defendingCountry, armeeAnzahl));
-                                            updateTables(currentSpieler); // Update die Tabellen nach dem
-                                                                          // Angriff
+                                            updateTables(currentSpieler); // Update die Tabellen nach dem Angriff
                                         }
                                     }
                                     isSelectingDefendingCountry = false;
@@ -1340,12 +1301,12 @@ public class MainGame extends JFrame {
                                             updateTables(currentSpieler);
                                             hatEinheitskarteBekommen = true;
                                         }
+
                                         if (risiko.getSpielerLaenderAnzahl() == 42) {
                                             // spieler hat alle laender erobert
                                         }
 
                                         // code fur gewonen, land besitzer saetzen usw
-
                                         risiko.neuerBesitzerSetzen(defendingCountry);
                                         risiko.einruecken(attackingCountry, defendingCountry);
 
@@ -1355,29 +1316,29 @@ public class MainGame extends JFrame {
 
                                         // Uberprufung der Mission
                                         if (risiko.checkIfMissionErfuelt()) {
-                                            JOptionPane.showMessageDialog(null, "Mission erfüllt, spieler +"
-                                                    + currentSpieler.getSpielerName() + " Gewonnen");
+                                            JOptionPane.showMessageDialog(null, "MISSION ERFÜLLT,\n Spieler "
+                                                    + currentSpieler.getSpielerName() + " hat Gewonnen");
                                             System.exit(0);
 
                                         }
                                         // Nachricht über die erfolgreiche Eroberung
                                         JOptionPane.showMessageDialog(null,
-                                                "YOU WON YEEEEEEEEEEEEEE\n Du Hast das Land "
+                                                "GEWONNEN\n Du Hast das Land "
                                                         + risiko.getLandName(defendingCountry) + " erobert");
-                                        result = JOptionPane.showConfirmDialog(null, "Moechtest du einruechen?",
+                                        result = JOptionPane.showConfirmDialog(null, "Moechtest du einrücken?",
                                                 "Frage", JOptionPane.YES_NO_OPTION,
                                                 JOptionPane.QUESTION_MESSAGE); // Möchte der Spieler Einrücken?
 
-                                        if (result == JOptionPane.NO_OPTION) { // Wenn nicht dann überspringen
+                                        if (result == JOptionPane.NO_OPTION || result == JOptionPane.CLOSED_OPTION) { // Wenn nicht dann überspringen
                                             break;
                                         } else {
-                                            // code furs einruecken
+                                            // code fürs einruecken
                                             input = JOptionPane.showInputDialog(null, "Du kannst von "
                                                     + risiko.getLandName(attackingCountry) + " bis zu "
                                                     + (risiko.getLandArmee(attackingCountry) - 1)
                                                     + " Armeen auf "
                                                     + risiko.getLandName(defendingCountry) + " einruecken lassen.",
-                                                    "Distribute Troops", JOptionPane.PLAIN_MESSAGE);
+                                                    "Truppen einrücken", JOptionPane.PLAIN_MESSAGE);
                                             int anzahl = Exceptions.readInt(input, 0,
                                                     (risiko.getLandArmee(attackingCountry) - 1));
                                             risiko.verschieben(attackingCountry, defendingCountry, anzahl);
@@ -1387,16 +1348,13 @@ public class MainGame extends JFrame {
                                         }
                                     }
                                 } catch (NumberFormatException ex) {
-                                    JOptionPane.showMessageDialog(null,
-                                            "Invalid input. Please enter a valid number.", "Invalid Input",
-                                            JOptionPane.ERROR_MESSAGE);
+                                    Exceptions.showErrorDialog("Ungültige Eingabe. Bitte eine gültige Zahl eingeben." + ex.getMessage());
                                 } catch (IllegalArgumentException ex) {
                                     // Display error for invalid number range
-                                    Exceptions.showErrorDialog("Invalid input. " + ex.getMessage());
+                                    Exceptions.showErrorDialog("Ungültige Eingabe. Bitte wählen Sie eine Zahl im gültigen Zahlenbereich." + ex.getMessage());
                                 } catch (Exception ex) {
                                     // Handle any other unexpected exceptions
-                                    Exceptions.showErrorDialog(
-                                            "An unexpected error occurred: " + ex.getMessage());
+                                    Exceptions.showErrorDialog("Unerwarteter Fehler: " + ex.getMessage());
                                 }
                             }
                         }
@@ -1410,11 +1368,12 @@ public class MainGame extends JFrame {
                 // naechster Spieler
                 if (risiko.getVerschiebebereiteLaender().length == 0) {
                     JOptionPane.showMessageDialog(null,
-                            "Du Hast keine Verschiebereite Laender. Wechselung zum naechsten Spieler und die Verteilephase");
+                            "Du Hast keine Verschiebereite Laender. Die Verschiebephase wird übersprungen");
                     clearHighlightedCountry(layeredPane);
                     risiko.nextPhase();
                     updatePhase();
                     updateCurrentPlayer();
+                    einheitenkartenAustauschen();
                     risiko.addBonusArmee();// Addieren der Bonusarmee zu dem naechsten Spieler
                     updateTables(currentSpieler);
                 }
@@ -1446,29 +1405,24 @@ public class MainGame extends JFrame {
                             }
 
                         } else {
-                            JOptionPane.showMessageDialog(null, "Please select a valid country.", "Error",
-                                    JOptionPane.ERROR_MESSAGE);
+                            Exceptions.showErrorDialog("Bitte wähle ein gültiges Land.");
                         }
                     } catch (Exception ex) {
                         // Handle any other unexpected exceptions
-                        Exceptions.showErrorDialog("An unexpected error occurred: " + ex.getMessage());
+                        Exceptions.showErrorDialog("Unerwarteter Fehler: " + ex.getMessage());
                     }
 
                     // Auswahl VerschiebeNachCountry
                 } else if (isSelectingVerschiebeNachCountry) {
                     // Falls man ein generisches Land auswählt nach welchem man verschieben möchte
                     if (!risiko.istDeinLand(ausgewaehltesLand)) {
-                        JOptionPane.showMessageDialog(null,
-                                "Du kannst keine Armeen auf ein generisches Land Verschieben.",
-                                "Fehler", JOptionPane.ERROR_MESSAGE);
+                        Exceptions.showErrorDialog("Du kannst keine Armeen auf ein generisches Land Verschieben.");
                         break;
                     }
                     // Wenn das selektierte Land kein nachbar vom verschiebebereitem Land ist
                     else if (risiko.sindNachbar(attackingCountry, ausgewaehltesLand) == false) {
-                        JOptionPane.showMessageDialog(null,
-                                risiko.getLandName(ausgewaehltesLand) + " ist  kein Nachbar von "
-                                        + risiko.getLandName(attackingCountry),
-                                "Fehler", JOptionPane.ERROR_MESSAGE);
+                        Exceptions.showErrorDialog(risiko.getLandName(ausgewaehltesLand) + " ist kein Nachbar von "
+                                    + risiko.getLandName(attackingCountry));
                         break;
                     } else {
                         int result = JOptionPane.showConfirmDialog(null,
@@ -1481,11 +1435,11 @@ public class MainGame extends JFrame {
                             defendingCountry = ausgewaehltesLand;
 
                             input = JOptionPane.showInputDialog(this,
-                                    "Gib die Anzal der zu Verschiebenen Armeen\n, du hast: "
+                                    "Gib die Anzal der zu Verschiebenen Armeen,\n du hast: "
                                             + risiko.getLandArmee(attackingCountry)
                                             + " Einheiten, du kannst bis zu "
-                                            + (risiko.getLandArmee(attackingCountry) - 1) + " rüberbringen.",
-                                    "Attack number", JOptionPane.PLAIN_MESSAGE);
+                                            + (risiko.getLandArmee(attackingCountry) - 1) + " Einheiten rüberbringen.",
+                                    "Verschieben", JOptionPane.PLAIN_MESSAGE);
 
                             if (input != null) {
 
@@ -1504,15 +1458,13 @@ public class MainGame extends JFrame {
                                     updateTables(currentSpieler);
 
                                 } catch (NumberFormatException ex) {
-                                    JOptionPane.showMessageDialog(null,
-                                            "Invalid input. Please enter a valid number.", "Invalid Input",
-                                            JOptionPane.ERROR_MESSAGE);
+                                    Exceptions.showErrorDialog("Ungültige Eingabe. Bitte eine gültige Zahl eingeben. " + ex.getMessage());
                                 } catch (IllegalArgumentException ex) {
                                     // Display error for invalid number range
-                                    Exceptions.showErrorDialog("Invalid input. " + ex.getMessage());
+                                    Exceptions.showErrorDialog("Ungültige Eingabe. Bitte wählen Sie eine Zahl im gültigen Zahlenbereich." + ex.getMessage());
                                 } catch (Exception ex) {
                                     // Handle any other unexpected exceptions
-                                    Exceptions.showErrorDialog("An unexpected error occurred: " + ex.getMessage());
+                                    Exceptions.showErrorDialog("Ein unerwateter Fehler ist aufgetreten: " + ex.getMessage());
                                 }
                             }
 
