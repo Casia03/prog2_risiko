@@ -16,7 +16,7 @@ public class SaveLoadManager {
             outputStream.writeObject(gameData);
             System.out.println("Game saved successfully.");
         } catch (IOException e) {
-            // Exceptions.showErrorDialog("die spiel daten konnten nicht gespeichert werden");
+            //Exceptions.showErrorDialog("die spiel daten konnten nicht gespeichert werden");
             System.err.println("die spiel daten konnten nicht gespeichert werden: " + e);
         }
     }
@@ -41,8 +41,8 @@ public class SaveLoadManager {
             // System.out.println("Game loaded successfully.");
             return risiko;
 
-        } catch (IOException | ClassNotFoundException e) {
-            // Exceptions.showErrorDialog("die spiel daten konnten nicht geladen werden");
+        } catch (IOException | ClassNotFoundException e ) {
+            //Exceptions.showErrorDialog("die spiel daten konnten nicht geladen werden");
             System.err.println("die spiel daten konnten nicht geladen werden: " + e);
             return null;
         }
