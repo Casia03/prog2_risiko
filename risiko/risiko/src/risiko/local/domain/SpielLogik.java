@@ -1,7 +1,5 @@
 package risiko.local.domain;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 import risiko.local.entities.Land;
 import risiko.local.entities.Spieler;
@@ -31,25 +29,21 @@ public class SpielLogik {
     
     public String angreifen(Land vonLand, Land nachLand, int attackArmeeNumber){  // ist für das anfreifen zuständig
         StringBuilder resultatBuilder = new StringBuilder();
-        //String[] resultat = new String[2];
         int defendArmeeNumber = 1;
         if(nachLand.getArmee() >= 2){
             defendArmeeNumber = 2;
         }else if (nachLand.getArmee() == 1){
             defendArmeeNumber = 1;
         }
-        //System.out.println(defendArmeeNumber + " VERTEIDIGER WURFEL ANZAHL");
         if (angriffMoeglich(vonLand, nachLand) || adj.sindNachbar(vonLand.getTrueIndex(), nachLand.getTrueIndex())){ // prüfft Kommt wahrscheinlich weg, hmm gucken wir mal, ich mein die "kann man das uberhaupt auswaehlen" bedingungen werden meistens durch die adj matrix, weltverwaltung und dann auch von risiko verabeitet. Ich denke es wird fur die GUI spaeter notig haha, also bleibt es erstmal hier, stort doch bestimmt niemanden, hoffentlich
             if(!attackNumberStimmt(vonLand,attackArmeeNumber) && !defendNumberStimmt(nachLand,defendArmeeNumber)){
                 throw new UnsupportedOperationException("Unimplemented method "); //Exception, neue Auswahl von Angaben, also !!nicht!! return 
             }else{
                 int[] wurfelResultat = wurfel(attackArmeeNumber, defendArmeeNumber);
+                
                 //wurfel Anzeigen
-                //angriffAuswertung(wurfelResultat);
                 Arrays.sort(wurfelResultat,0,3);
                 Arrays.sort(wurfelResultat,3,5);
-
-                //System.out.println("WURFEL RESULTAT: " + wurfelResultat[0] + " " + wurfelResultat[1] + " " + wurfelResultat[2] + " " + wurfelResultat[3] + " " + wurfelResultat[4] + " " );
 
                 int highestAttack = wurfelResultat[2];
                 int secondHighestAttack = wurfelResultat[1];
@@ -63,13 +57,11 @@ public class SpielLogik {
                     // AttackArmee - 1
                     vonLand.setArmee(vonLand.getArmee() - 1);
                     resultatBuilder.append(attackerLostOne);
-                    //System.out.println("ANGREIFER VELOREN 1 PRINT AUS SPILLOGIK + vonlandarmee : " + vonLand.getArmee() );
 
                 }else{ //gewinnt  Angreifer
                     // Defend Armee - 1
                     nachLand.setArmee(nachLand.getArmee() - 1);
                     resultatBuilder.append(defenderLostOne);
-                    //System.out.println("VERTEIDIGER VELOREN 1 PRINT AUS SPILLOGIK + vonlandarmee : " + nachLand.getArmee() );
 
                 }
                 if(secondHighestDefence != 0 && secondHighestAttack != 0){
@@ -78,16 +70,12 @@ public class SpielLogik {
                         vonLand.setArmee(vonLand.getArmee() - 1);
                         // HIER STRING FOR ATTACKER LOST ONE
                         resultatBuilder.append(attackerLostOne);
-                        //resultat[1] = attackerLostOne;
-                        //System.out.println("ANGREIFER VELOREN 2 PRINT AUS SPILLOGIK + vonlandarmee : " + vonLand.getArmee() );
 
                     }else{ //gewinnt  Angreifer
                     // Defend Armee - 1
                         nachLand.setArmee(nachLand.getArmee() - 1);
                         // HIER STRING FOR DEFENDER LOST ONE
-                        //resultat[1] = defenderLostOne;
                         resultatBuilder.append(defenderLostOne);
-                        //System.out.println("VERTEIDIGER VELOREN 2 PRINT AUS SPILLOGIK + vonlandarmee : " + nachLand.getArmee() );
                     }
                 }
                 
@@ -200,22 +188,6 @@ public class SpielLogik {
         }else{
             return false; //throw eigenes land
         }  
-    }
-    
-    private boolean istAngreifer(Land angreiferLand, Spieler spieler){ //schaut nach ober der spieler der angreifer ist
-        boolean istAngreifer = false;
-        if(angreiferLand.getEingenommenVon() == spieler.getSpielerID()){
-            istAngreifer = true;
-        }
-        return istAngreifer;
-    }
-    
-    private boolean istVerteidiger(Land verteidigerLand, Spieler spieler){//schaut nach ober der spieler der verteidiger ist
-        boolean istVerteidiger = false;
-        if(verteidigerLand.getEingenommenVon() == spieler.getSpielerID()){
-            istVerteidiger = true;
-        }
-        return istVerteidiger;
     }
 
     public int getMaxAttackNumber(int armeeAnzahl) { //Methode zur Berechnung der maximalen Angriffsarmeenummer

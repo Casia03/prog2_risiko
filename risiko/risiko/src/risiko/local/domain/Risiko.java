@@ -1,6 +1,5 @@
 package risiko.local.domain;
 
-import java.security.cert.TrustAnchor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -9,7 +8,6 @@ import risiko.local.entities.AdjazenzMatrix;
 import risiko.local.entities.Kontinent;
 import risiko.local.entities.Land;
 import risiko.local.entities.Mission;
-import risiko.local.entities.Mission.EinheitsKarten;
 import risiko.local.entities.Spieler;
 import risiko.local.persistance.SaveLoadManager;
 import risiko.local.persistance.Exceptions;

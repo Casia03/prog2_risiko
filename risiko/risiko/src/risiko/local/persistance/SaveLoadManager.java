@@ -1,15 +1,8 @@
 package risiko.local.persistance;
 
 import java.io.*;
-import java.util.List;
 
 import risiko.local.domain.Risiko;
-import risiko.local.entities.Kontinent;
-import risiko.local.entities.Land;
-import risiko.local.entities.Mission;
-import risiko.local.entities.Spieler;
-import risiko.local.entities.Turn;
-import risiko.local.persistance.Exceptions;
 
 public class SaveLoadManager {
 
@@ -55,24 +48,9 @@ public class SaveLoadManager {
         }
     }
 
-    public void printSavedGame() { // gibt gespeicherte Spieldaten aus
+    public void printSavedGame() { // gibt gespeicherte Spieldaten aus (fürs überprüfen)
         try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(SAVE_FILE_PATH))) {
             GameData gameData = (GameData) inputStream.readObject();
-/*            System.out.println("Spielerliste:");
-            for (Spieler spieler : gameData.getSpielerListe()) {
-                System.out.println(spieler);
-            }
-
-            System.out.println("Länder:");
-            for (Land land : gameData.getLandList()) {
-                System.out.println(land);
-            }
-
-            System.out.println("Turn:");
-            System.out.println(gameData.getTurn());
-
-            System.out.println("Phase:");
-            System.out.println(gameData.getPhase());*/ 
 
             System.out.println("Eingetauschte Einheitenkarten:");
             System.out.println(gameData.getEingetauschteKarten());

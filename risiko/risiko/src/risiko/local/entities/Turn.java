@@ -1,7 +1,5 @@
 package risiko.local.entities;
 
-import java.util.List;
-
 public class Turn {
 
     // Verteilen nach dem erhalt der Zusatzarmeen, 

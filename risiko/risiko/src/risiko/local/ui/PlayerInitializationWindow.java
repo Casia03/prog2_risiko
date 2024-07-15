@@ -18,7 +18,6 @@ public class PlayerInitializationWindow extends JFrame {
     private List<String> playerNames;
     private JTable playerTable;
     private DefaultTableModel tableModel;
-    private boolean gameLoaded;
     Exceptions Exceptions = new Exceptions();
     public PlayerInitializationWindow() {
         playerNames = new ArrayList<>();
