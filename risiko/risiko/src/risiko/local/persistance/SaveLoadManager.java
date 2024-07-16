@@ -6,7 +6,7 @@ import risiko.local.domain.Risiko;
 
 public class SaveLoadManager {
 
-    private static final String SAVE_FILE_PATH = "risiko/risiko/src/risiko/local/saveFiles/game.dat";
+    private static final String SAVE_FILE_PATH = "saveFiles/game.dat";
     Exceptions Exceptions = new Exceptions();
 
     public void saveGame(Risiko risiko) { // speichert Spieldaten in eine Datei
