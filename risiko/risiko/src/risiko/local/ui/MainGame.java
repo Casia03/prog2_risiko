@@ -350,7 +350,7 @@ public class MainGame extends JFrame {
 
             for (int landId : laender) {
                 if (landId != 0) {
-                    String imagePath = String.format("risiko\\risiko\\src\\risiko\\local\\bilder\\42\\%d.png", landId);
+                    String imagePath = String.format("risiko\\risiko\\bin\\risiko\\local\\bilder\\42\\%d.png", landId);
                     File imageFile = new File(imagePath);
 
                     if (!imageFile.exists()) {
@@ -402,7 +402,7 @@ public class MainGame extends JFrame {
                 for (int i = 0; i < nachbarLaender.length; i++) {
                     if (nachbarLaender[i] == 0) {}
                     else{
-                        String imagePath = String.format("risiko\\risiko\\src\\risiko\\local\\bilder\\42\\%d.png",
+                        String imagePath = String.format("risiko\\risiko\\bin\\risiko\\local\\bilder\\42\\%d.png",
                                 nachbarLaender[i]);
                         File imageFile = new File(imagePath);
 
