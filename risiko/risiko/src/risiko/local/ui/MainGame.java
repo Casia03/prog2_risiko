@@ -180,9 +180,9 @@ public class MainGame extends JFrame {
     }
 
     private JLayeredPane loadAndInitializeImages(JLayeredPane layeredPane) throws IOException {
-        BufferedImage colorImage = ImageIO.read(new File("risiko\\risiko\\bin\\risiko\\local\\bilder\\Color_Map.png"));
+        BufferedImage colorImage = ImageIO.read(new File("Color_Map.png"));
         BufferedImage image = ImageIO
-                .read(new File("risiko\\risiko\\bin\\risiko\\local\\bilder\\Risiko_Karte_1920x10803.png"));
+                .read(new File("Risiko_Karte_1920x10803.png"));
 
         // Scale the images to the desired dimensions
         BufferedImage scaledColorImage = scaleImage(colorImage, scaleWidth, scaleHeight);
@@ -270,7 +270,7 @@ public class MainGame extends JFrame {
                 }
             }
 
-            String imagePath = String.format("risiko\\risiko\\bin\\risiko\\local\\bilder\\42\\%d.png",
+            String imagePath = String.format("42\\%d.png",
                     ausgewaehltesLand);
             BufferedImage selectedImage = ImageIO.read(new File(imagePath));
             // Scale the image if necessary
@@ -350,7 +350,7 @@ public class MainGame extends JFrame {
 
             for (int landId : laender) {
                 if (landId != 0) {
-                    String imagePath = String.format("risiko\\risiko\\bin\\risiko\\local\\bilder\\42\\%d.png", landId);
+                    String imagePath = String.format("42\\%d.png", landId);
                     File imageFile = new File(imagePath);
 
                     if (!imageFile.exists()) {
@@ -402,7 +402,7 @@ public class MainGame extends JFrame {
                 for (int i = 0; i < nachbarLaender.length; i++) {
                     if (nachbarLaender[i] == 0) {}
                     else{
-                        String imagePath = String.format("risiko\\risiko\\bin\\risiko\\local\\bilder\\42\\%d.png",
+                        String imagePath = String.format("42\\%d.png",
                                 nachbarLaender[i]);
                         File imageFile = new File(imagePath);
 
